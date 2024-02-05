@@ -1,0 +1,15 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Redireciona qualquer tentativa de acessar um diretório (exceto a raiz) para 'forbidden.php'
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteCond %{REQUEST_URI} !^/$
+    RewriteRule ^(.*)$ templates/error/403 [L]
+
+    RewriteEngine on
+    RewriteCond %{SCRIPT_FILENAME} !-f
+    RewriteCond %{SCRIPT_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php?url=$1
+
+</IfModule>
