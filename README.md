@@ -51,10 +51,10 @@ Antes de iniciar o desenvolvimento com o MOB, é crucial garantir que sua máqui
 
    ```bash
    # Verifique se o Node.js está instalado
-   node -version
+   node --version
 
    # Verifique se o npm está instalado
-   npm -version
+   npm --version
    ```
 
 4. **Banco de Dados (MySQL ou PostgreSQL)**: Se você estiver utilizando um banco de dados, certifique-se de ter o MySQL ou o PostgreSQL instalado e configurado corretamente em sua máquina. Faça o download do MySQL em [mysql.com](https://www.mysql.com/) ou do PostgreSQL em [postgresql.org](https://www.postgresql.org/).
