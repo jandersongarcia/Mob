@@ -9,7 +9,6 @@
             "email": "jganjos.info@gmail.com"
         }
     ],
-    "homepage": "https://github.com/jandersongarcia/mob",
     "autoload": {
         "classmap": [
             "core/Class"
@@ -24,15 +23,15 @@
         "phpmailer/phpmailer": "^6.9"
     },
     "scripts": {
-        "mob-create-page": "php core/Php/Composer/create-page.php",
-        "mob-delete-page": "php core/Php/Composer/delete-page.php",
-        "mob-create-component": "php core/Php/Composer/create-component.php",
-        "mob-delete-component": "php core/Php/Composer/delete-component.php",
-        "mob-create-module": "php core/Php/Composer/create-module.php",
-        "mob-delete-module": "php core/Php/Composer/delete-module.php",
-        "mob-list-routes": "php core/Php/Composer/routes-list.php",
-        "mob-rename-route": "php core/Php/Composer/routes-rename.php",
-        "mob-theme-install": "php core/Php/Composer/create-theme-install.php"
+        "mob-create-page": "php core/Php/Composer/CreatePage.php",
+        "mob-delete-page": "php core/Php/Composer/DeletePage.php",
+        "mob-create-component": "php core/Php/Composer/CreateComponent.php",
+        "mob-delete-component": "php core/Php/Composer/DeleteComponent.php",
+        "mob-create-module": "php core/Php/Composer/CreateModule.php",
+        "mob-delete-module": "php core/Php/Composer/DeleteModule.php",
+        "mob-list-routes": "php core/Php/Composer/RouteList.php",
+        "mob-rename-route": "php core/Php/Composer/RouteRename.php",
+        "mob-theme-install": "php core/Php/Composer/CreateTheme.php"
     },
     "minimum-stability": "stable",
     "prefer-stable": true

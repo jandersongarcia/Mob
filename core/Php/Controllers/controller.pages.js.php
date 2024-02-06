@@ -67,7 +67,7 @@ if ($app->checkHeader() || APP['mode'] == 0) {
                 $$pageName = new $pageName;
             } else {
                 $errorMessage = "[error] '$pageName' page class not declared.\n";
-                $mobi->error($errorMessage);
+                $mob->error($errorMessage);
             }
 
             // Verifica se a página tem componentes
@@ -92,7 +92,7 @@ if ($app->checkHeader() || APP['mode'] == 0) {
             echo "} $nameF();";
         } else {
             $errorMessage = "$page' page not found in routes file.\n";
-            $mobi->error($errorMessage);
+            $mob->error($errorMessage);
         }
 
     }

@@ -46,9 +46,11 @@ if (mkdir("app/modules/$nomeComponent", 0777, true)) {
 }
 
 // Cria o Controller
-file_put_contents("app/modules/$nomeComponent/$nomeComponent.controller.php", "<?php\n\n// Modal $nomeComponent\n// O objeto representando a classe deste módulo é ".'$'."$nomeComponent");
+file_put_contents("app/modules/$nomeComponent/{$nomeComponent}Modal.php", "<?php\n\n// Modal $nomeComponent\n\nnamespace App\Modules;\n\nclass $nomeComponent{\n\n\n}");
 echo "Controller do módulo $nomeComponent: " . colorizar("[OK]", 32) . "\n";
 
-// Cria o Modal
-file_put_contents("app/modules/$nomeComponent/$nomeComponent.modal.php", "<?php\n\nclass $nomeComponent {\n\n\n}");
+$nameClass = strtolower($nomeComponent);
+
+file_put_contents("app/modules/$nomeComponent/{$nomeComponent}Controller.php", "<?php\n\nuse App\Modules\\$nomeComponent;\n\n $$nameClass = new $nomeComponent();\n\n");
+
 echo "Modal do módulo $nomeComponent: " . colorizar("[OK]", 32) . "\n";

@@ -4,12 +4,12 @@
 require_once 'vendor/autoload.php';
 
 // Importa os aliases necessários do namespace 'Mobi\Root'
-use Mobi\Root as RootAlias;
-use Mobi\Routes;
-use Mobi\Application;
-use Mobi\Mobi;
+use Mob\Root as RootAlias;
+use Mob\Application;
+use Mob\Mob;
 use languages\Language;
-use Sql\MySQL;
+use Database\MySql;
+use Database\Postgre;
 
 /*
 |----------------------------------------------------------------
@@ -31,15 +31,6 @@ $app = new Application;
 
 /*
 |----------------------------------------------------------------
-| Define a variável para a classe responsável pelas rotas
-|----------------------------------------------------------------
-*/
-
-// Cria uma instância da classe 'Routes' para gerenciar as rotas da aplicação
-$routes = new Routes;
-
-/*
-|----------------------------------------------------------------
 | Define a variável de linguagem
 |----------------------------------------------------------------
 */
@@ -54,20 +45,20 @@ $lang = new Language;
 */
 
 // Cria uma instância da classe 'Mobi' para utilizar suas funções
-$mobi = new Mobi;
+$mob = new Mob;
 
 $data = CONN;
 
 // Cria a instancia do banco de dados
 switch (@$data['driver']) {
     case 'mysql':
-        require_once "./core/database/{$data['driver']}.php";
-        $sql = new Sql\MySQL;
+        require_once "./core/DataBase/{$data['driver']}.php";
+        $sql = new Database\MySql\MySQL;
         break;
 
     case 'pgsql':
-        require_once "./core/database/{$data['driver']}.php";
-        $sql = new Sql\PostgreSQL;
+        require_once "./core/DataBase/{$data['driver']}.php";
+        $sql = new Database\Postgre\PostgreSQL;
         break;
         // Adicione casos adicionais conforme necessário para outros drivers
 
@@ -91,10 +82,10 @@ $appFilePath = 'app/app.php';
 if ($app->path(0) == 'ctrl') {
     // Página controladora
     $root->get();
-    require_once('core/php/controller/controller.ini.php');
+    require_once('core/Php/Controllers/Controller.ini.php');
 } else if (file_exists($appFilePath)) {
     // Carrega a página prestart
-    require_once("config/prestart.php");
+    require_once("config/Startup.php");
     // Carrega a página principal da aplicação
     require_once($appFilePath);
 } else {

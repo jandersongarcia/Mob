@@ -3,7 +3,7 @@
 require_once('core\class\mobi.php');
 use Mobi\Mobi;
 
-$mobi = new Mobi;
+$mob = new Mobi;
 
 // Função para adicionar cor ao texto
 function colorizar($texto, $codigoCor)
@@ -83,7 +83,7 @@ if ($config['app_data_type'] === 'mysql') {
     echo " Teste de conexão com o MySQL " . colorizar("[OK]", 'green') . "\n";
 
     // Script SQL a ser executado
-    $pass = $mobi->createHash('Admin!123@');
+    $pass = $mob->createHash('Admin!123@');
 
     $scriptSql = "
     /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;

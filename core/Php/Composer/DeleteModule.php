@@ -20,7 +20,7 @@ if (empty($argv[1])) {
 $nomeComponent = ucfirst(strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $argv[1])));
 
 // Verificar se o componente existe
-$caminhoDiretorio = "app/modules/$nomeComponent";
+$caminhoDiretorio = "app/Modules/$nomeComponent";
 
 if (!file_exists($caminhoDiretorio)) {
     $mensagem = colorizar("Atenção: ", 31) . "O módulo " . colorizar("'$nomeComponent'", 32) . " não existe em app/modules\n Operação cancelada.\n\n";
@@ -32,8 +32,8 @@ echo "$separadorLinha\nIniciando o processo de exclusão para o módulo '$nomeCo
 
 // Excluir arquivos associados
 $caminhosArquivosExcluir = [
-    "$caminhoDiretorio/$nomeComponent.controller.php",
-    "$caminhoDiretorio/$nomeComponent.modal.php"
+    "$caminhoDiretorio/{$nomeComponent}Controller.php",
+    "$caminhoDiretorio/{$nomeComponent}Modal.php"
 ];
 
 foreach ($caminhosArquivosExcluir as $caminhoArquivo) {

@@ -1,12 +1,11 @@
 <?php
 
-namespace Sql;
+namespace Database\MySql;
 
 use PDO;
 use PDOException;
-use Mobi\Root;
 
-class MySQL extends Root
+class MySQL
 {
 
     // Propriedades para armazenar detalhes da conexão e instância do PDO.

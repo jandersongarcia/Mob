@@ -34,7 +34,7 @@ class Root
     private function defineConnection()
     {
         // Caminho do arquivo de configuração do banco de dados
-        $dbConfigPath = 'config/database.php';
+        $dbConfigPath = 'config/DataBase.php';
 
         // Verifica se o arquivo de configuração do banco de dados existe
         if (file_exists($dbConfigPath)) {
@@ -56,7 +56,7 @@ class Root
                     $conn = ['data' => 'ERROR'];
                     if ($e[1] != 'ctrl') {
                         $error = "O tipo de banco declarado em <strong class='text-danger'>app_data_type</strong> no arquivo <strong class='text-danger'>/config/database.php</strong> está incorreto. <br>Certifique-se de preencher esta variável com <strong class='text-danger'>'mysql'</strong> para MySQL ou <strong class='text-danger'>'pgsql'</strong> para utilizar o banco PostgreSQL.";
-                        require_once('./core/php/error.php');
+                        require_once('./core/Php/Error.php');
                         exit;
                     }
                 }
@@ -102,7 +102,7 @@ class Root
     */
     private function defineApp()
     {
-        $appConfigPath = 'config/app.php';
+        $appConfigPath = 'config/App.php';
 
         // Verifica se o arquivo de configuração da aplicação existe
         if (file_exists($appConfigPath)) {
@@ -121,7 +121,7 @@ class Root
     */
     private function defineMailer()
     {
-        $appConfigPath = 'config/phpmailer.php';
+        $appConfigPath = 'config/Phpmailer.php';
 
         // Verifica se o arquivo de configuração da aplicação existe
         if (file_exists($appConfigPath)) {

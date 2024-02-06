@@ -80,3 +80,45 @@
 .
 [2024-02-05 16:46:25] [error] [/ctrl/pages/] [2024-02-05 16:46:25] [127.0.0.1] [error] Controller not found.
 .
+[2024-02-05 20:10:35] [error] [/ctrl/mobi.min.js?t=1707174404] [2024-02-05 20:10:35] [127.0.0.1] [error] Controller not found.
+.
+[2024-02-05 20:15:33] [error] [/ctrl/mob.min.js] [2024-02-05 20:15:33] [127.0.0.1] [error] Controller not found.
+.
+[2024-02-05 20:26:46] [error] [/ctrl/pages/] [error] '/' page not found in routes file.
+.
+[2024-02-05 20:26:48] [error] [/ctrl/mobi.min.js?t=1707175608] [2024-02-05 20:26:48] [127.0.0.1] [error] Controller not found.
+.
+[2024-02-05 20:27:05] [error] [/ctrl/] [2024-02-05 20:27:05] [127.0.0.1] [error] The '' controller does not exist..
+.
+[2024-02-05 20:28:35] [error] [/ctrl/test] [2024-02-05 20:28:35] [127.0.0.1] [error] The 'Test' class does not exist..
+.
+[2024-02-05 20:29:20] [error] [/ctrl/test] [2024-02-05 20:29:20] [127.0.0.1] [error] The 'Test' class does not exist..
+.
+[2024-02-05 20:29:21] [error] [/ctrl/test] [2024-02-05 20:29:21] [127.0.0.1] [error] The 'Test' class does not exist..
+.
+[2024-02-05 20:30:48] [error] [/ctrl/test] [2024-02-05 20:30:48] [127.0.0.1] [error] The 'Test' class does not exist..
+.
+[2024-02-05 20:30:49] [error] [/ctrl/test] [2024-02-05 20:30:49] [127.0.0.1] [error] The 'Test' class does not exist..
+.
+[2024-02-05 20:32:12] [error] [/ctrl/test] [2024-02-05 20:32:12] [127.0.0.1] [error] The 'Test' class does not exist in (app/Modules/)..
+.
+[2024-02-05 20:38:30] [error] [/ctrl/mobi.min.js?t=1707176310] [2024-02-05 20:38:30] [127.0.0.1] [error] Controller not found.
+.
+[2024-02-05 20:38:33] [error] [/ctrl/test] [2024-02-05 20:38:33] [127.0.0.1] [error] The 'Test' class does not exist..
+.
+[2024-02-05 20:38:42] [error] [/ctrl/test] [2024-02-05 20:38:42] [127.0.0.1] [error] The 'Test' class does not exist..
+.
+[2024-02-05 20:39:27] [error] [/ctrl/teste] [2024-02-05 20:39:27] [127.0.0.1] [error] Controller not found.
+.
+[2024-02-05 20:39:57] [error] [/ctrl/test] [2024-02-05 20:39:57] [127.0.0.1] [error] An error was encountered when trying to load the Test module..
+.
+[2024-02-05 20:41:41] [error] [/ctrl/mobi.min.js?t=1707176501] [2024-02-05 20:41:41] [127.0.0.1] [error] Controller not found.
+.
+[2024-02-05 20:41:42] [error] [/ctrl/mobi.min.js?t=1707176502] [2024-02-05 20:41:42] [127.0.0.1] [error] Controller not found.
+.
+[2024-02-05 22:02:37] [error] [/ctrl/test] [2024-02-05 22:02:37] [127.0.0.1] [error] Controller not found.
+.
+[2024-02-05 22:28:00] [error] [/ctrl/test] [2024-02-05 22:28:00] [127.0.0.1] [error] Controller not found.
+.
+[2024-02-05 22:28:02] [error] [/ctrl/test] [2024-02-05 22:28:02] [127.0.0.1] [error] Controller not found.
+.

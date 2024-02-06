@@ -6,7 +6,7 @@ use Languages\Language;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-class Mobi
+class Mob
 {
 
     private function path($n = 1)
@@ -43,7 +43,7 @@ class Mobi
                     if (file_exists($cmpt))
                         require_once($cmpt);
                     $lang = new Language;
-                    $mobi = new Mobi;
+                    $mob = new Mobi;
                     // Inclui o arquivo do componente
                     echo "<div mb-component='$cmp'>";
                     require_once($path);
