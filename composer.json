@@ -14,6 +14,10 @@
             "core/Class"
         ]
     },
+    "dependencies": {
+        "jquery": "^3.6.0",
+        "navigo": "^7.1.0"
+    },
     "version": "1.0.0",
     "require": {
         "php": ">=7.0",
@@ -23,6 +27,9 @@
         "phpmailer/phpmailer": "^6.9"
     },
     "scripts": {
+        "post-install-cmd": [
+            "npm install"
+        ],
         "mob-create-page": "php core/Php/Composer/CreatePage.php",
         "mob-delete-page": "php core/Php/Composer/DeletePage.php",
         "mob-create-component": "php core/Php/Composer/CreateComponent.php",

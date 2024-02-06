@@ -1,7 +1,7 @@
 <?php
 
 // Obtém o nome do arquivo de controller com base no caminho do aplicativo
-$page = "controller.{$app->path(1)}.php";
+$page = "Controller".ucfirst($app->path(1)).".php";
 $ctrl = ucfirst($app->path(1));
 $type = false;
 $message = '';

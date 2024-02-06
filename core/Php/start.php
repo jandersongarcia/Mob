@@ -8,8 +8,6 @@ use Mob\Root as RootAlias;
 use Mob\Application;
 use Mob\Mob;
 use languages\Language;
-use Database\MySql;
-use Database\Postgre;
 
 /*
 |----------------------------------------------------------------
@@ -76,13 +74,13 @@ switch (@$data['driver']) {
 */
 
 // Caminho do arquivo inicial da aplicação
-$appFilePath = 'app/app.php';
+$appFilePath = 'app/App.php';
 
 // Verifica se o caminho da aplicação é 'ctrl' para carregar o arquivo de configuração do controlador
 if ($app->path(0) == 'ctrl') {
     // Página controladora
     $root->get();
-    require_once('core/Php/Controllers/Controller.ini.php');
+    require_once('core/Php/Controllers/Controller.init.php');
 } else if (file_exists($appFilePath)) {
     // Carrega a página prestart
     require_once("config/Startup.php");
@@ -90,5 +88,7 @@ if ($app->path(0) == 'ctrl') {
     require_once($appFilePath);
 } else {
     // Erro na aplicação se o arquivo inicial não for encontrado
-    die('Error: The application file was not found.');
+    //die('Error: The application file was not found.');
+    $app->msgError("File '$appFilePath' was not found.");
+    exit();
 }

@@ -31,13 +31,13 @@ if ($app->checkHeader() || APP['mode'] == 0) {
             $e = explode("/",$controllerName);
 
             if(isset($e[1])){
-                $controllerName = $e[1];
-                $controllerPath = "{$e[0]}/{$e[1]}";
+                $controllerName = ucfirst($e[1]);
+                $controllerPath = ucfirst("{$e[0]}/{$e[1]}");
             }
 
-            $path = "app/pages/$controllerPath/$controllerName.view.php";
-            $cssPath = "app/pages/$controllerPath/$controllerName.css";
-            $ctrlPath = "app/pages/$controllerPath/$controllerName.controller.php";
+            $path = "app/Pages/$controllerPath/$controllerName.view.php";
+            $cssPath = "app/Pages/$controllerPath/$controllerName.css";
+            $ctrlPath = "app/Pages/$controllerPath/$controllerName.controller.php";
 
             // Verifica se o arquivo da página existe e se a rota corresponde à página atual
             if (file_exists($path) && $route['path'] == $page) {
@@ -49,6 +49,8 @@ if ($app->checkHeader() || APP['mode'] == 0) {
                 break;
             }
         }
+
+        print_r($exist);
 
         if ($exist) {
             // Define o nome da página a ser carregada
@@ -113,7 +115,9 @@ if ($app->checkHeader() || APP['mode'] == 0) {
             }
 
         } else {
-            $errorMessage = "[error] '$page' page not found in routes file.\n";
+            echo "nop";
+            $errorMessage = "'$page' page not found in routes file.\n";
+            $app->msgError($errorMessage);
             $mob->error($errorMessage);
         }
 

@@ -189,10 +189,10 @@ class Mob
     | Carrega o estilo CSS personalizado
     |--------------------------------------------------------------------------
     */
-    public function loadMobicss()
+    public function loadMobcss()
     {
         $time = (APP['mode'] == 0) ? "?t=" . time() : '';
-        echo "<link rel='stylesheet' href='/public/css/styleRoot.css$time'>";
+        echo "<link rel='stylesheet' href='/public/css/MainStyle.css$time'>";
     }
 
     /*
@@ -293,10 +293,10 @@ class Mob
     | Adiciona o script do Mobi
     |--------------------------------------------------------------------------
     */
-    public function loadMobijs()
+    public function loadMobjs()
     {
         $time = (APP['mode'] == 0) ? "?t=" . time() : '';
-        echo "<script src='/ctrl/mobi.min.js$time'></script>";
+        echo "<script src='/ctrl/mob.min.js$time'></script>";
     }
 
     /*
