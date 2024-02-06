@@ -37,24 +37,24 @@ Antes de iniciar o desenvolvimento com o MOB, é crucial garantir que sua máqui
 
    ```bash
    # Verifique se o PHP está instalado
-   php -v
+   php --version
    ```
 
 2. **Composer**: O Composer é uma ferramenta essencial para gerenciar as dependências do MOB. Certifique-se de ter o Composer instalado em sua máquina. Você pode baixar o Composer em [getcomposer.org](https://getcomposer.org/).
 
    ```bash
    # Verifique se o Composer está instalado
-   composer -v
+   composer --version
    ```
 
 3. **Node.js e npm**: O MOB utiliza dependências JavaScript gerenciadas pelo Node.js e npm. Certifique-se de ter o Node.js e o npm instalados em sua máquina. Você pode baixar o Node.js em [nodejs.org](https://nodejs.org/).
 
    ```bash
    # Verifique se o Node.js está instalado
-   node -v
+   node -version
 
    # Verifique se o npm está instalado
-   npm -v
+   npm -version
    ```
 
 4. **Banco de Dados (MySQL ou PostgreSQL)**: Se você estiver utilizando um banco de dados, certifique-se de ter o MySQL ou o PostgreSQL instalado e configurado corretamente em sua máquina. Faça o download do MySQL em [mysql.com](https://www.mysql.com/) ou do PostgreSQL em [postgresql.org](https://www.postgresql.org/).
