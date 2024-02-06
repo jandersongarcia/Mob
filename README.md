@@ -29,19 +29,39 @@ Esta documentação fornece informações cruciais para começar o desenvolvimen
   - [Contribuição](#contribuição)
   - [Licença](#licença)
 
-## Pré-requisitos
+## Pré-requisitos de Ambiente
 
-Antes de começar, certifique-se de que sua máquina atenda aos seguintes pré-requisitos:
+Antes de iniciar o desenvolvimento com o MOB, é crucial garantir que sua máquina atenda aos seguintes pré-requisitos de ambiente, listados em ordem de importância:
 
-1. **PHP**: O MOB é baseado em PHP; portanto, é necessário ter o PHP instalado, recomendando-se a versão 7.2 ou superior. [Baixe o PHP](https://www.php.net/).
+1. **PHP**: O MOB é baseado em PHP; portanto, certifique-se de ter o PHP instalado em sua máquina. Recomendamos a versão 7.2 ou superior. Você pode baixar o PHP em [php.net](https://www.php.net/).
 
-2. **Banco de Dados**:
+   ```bash
+   # Verifique se o PHP está instalado
+   php -v
+   ```
 
-   - Para MySQL, certifique-se de ter um servidor MySQL instalado e configurado. [Baixe o MySQL](https://www.mysql.com/).
+2. **Composer**: O Composer é uma ferramenta essencial para gerenciar as dependências do MOB. Certifique-se de ter o Composer instalado em sua máquina. Você pode baixar o Composer em [getcomposer.org](https://getcomposer.org/).
 
-   - Se preferir o PostgreSQL, instale e configure um servidor PostgreSQL. [Baixe o PostgreSQL](https://www.postgresql.org/).
+   ```bash
+   # Verifique se o Composer está instalado
+   composer -v
+   ```
 
-3. **Composer**: O Composer é uma ferramenta essencial para gerenciar as dependências do MOB. [Baixe o Composer](https://getcomposer.org/).
+3. **Node.js e npm**: O MOB utiliza dependências JavaScript gerenciadas pelo Node.js e npm. Certifique-se de ter o Node.js e o npm instalados em sua máquina. Você pode baixar o Node.js em [nodejs.org](https://nodejs.org/).
+
+   ```bash
+   # Verifique se o Node.js está instalado
+   node -v
+
+   # Verifique se o npm está instalado
+   npm -v
+   ```
+
+4. **Banco de Dados (MySQL ou PostgreSQL)**: Se você estiver utilizando um banco de dados, certifique-se de ter o MySQL ou o PostgreSQL instalado e configurado corretamente em sua máquina. Faça o download do MySQL em [mysql.com](https://www.mysql.com/) ou do PostgreSQL em [postgresql.org](https://www.postgresql.org/).
+
+5. **Configuração do Banco de Dados**: Após a instalação do banco de dados, certifique-se de configurar corretamente as informações de conexão no arquivo `config/database.php`.
+
+Esses pré-requisitos são essenciais para garantir um ambiente de desenvolvimento adequado e suave ao trabalhar com o MOB. Certifique-se de seguir essas etapas na ordem apresentada para uma configuração eficiente.
 
 ## Estrutura de Pastas
 
