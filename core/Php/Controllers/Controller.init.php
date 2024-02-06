@@ -77,7 +77,7 @@ if (file_exists("$path$ctrl")) {
 // Se houver um tipo de erro definido, registra o erro e retorna a mensagem como JSON
 if ($type !== false) {
     $ip = $_SERVER['REMOTE_ADDR'];
-    $errorMessage = "[" . date('Y-m-d H:i:s') . "] [$ip] [$type] $message.\n";
+    $errorMessage = "$message";
     $mob->error($errorMessage);
 
     $msg = [

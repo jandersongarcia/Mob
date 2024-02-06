@@ -62,8 +62,6 @@ if(isset($subpasta)){
     }
 }
 
-
-exit;
 // Verificar se $nomePagina ou $nomeRota está vazio após o tratamento
 if (empty($nomePagina) || empty($nomeRota)) {
     $mensagemErro = colorizar("Erro: ", 31) . "Nome da página e/ou rota inválidos\n";
@@ -142,11 +140,17 @@ echo "Adicionando a rota " . colorizar("'/$nomeRota'", 36) . " à lista: " . col
 // Criar arquivos dentro da pasta recém-criada
 
 // Página View
-file_put_contents("app/pages/$nomePagina/$nomePagina.view.php", "<div class='w-100 vh-100 bg-dark text-light d-flex flex-column justify-content-center align-items-center'>\n    <h1>MobiPHP</h1>\n    <p>Página $nomePagina</p>\n</div>");
+file_put_contents("app/pages/$nomePagina/{$nomePagina}View.php", "<div class='w-100 vh-100 bg-dark text-light d-flex flex-column justify-content-center align-items-center'>\n    <h1>MobiPHP</h1>\n    <p>Página $nomePagina</p>\n</div>");
 echo "Visualização da página $nomePagina: " . colorizar("[OK]", 32) . "\n";
 
+// Página Main
+file_put_contents("app/pages/$nomePagina/{$nomePagina}Modal.php", "<?php\n\nnamespace app\Pages;\n\nclass $nomePagina {\n\n    public ".'$title'." = '$nomePagina';\n\n    // Declarar os componentes que serão usados na página.\n    public ".'$components'." = [];\n\n}");
+echo "Modal da página $nomePagina: " . colorizar("[OK]", 32) . "\n";
+
+$arrayName = strtolower($nomePagina);
+
 // Página Controller
-file_put_contents("app/pages/$nomePagina/$nomePagina.controller.php", "<?php\n\n // Controlador para Pg$nomePagina \n\nclass $nomePagina {\n\n    public ".'$title'." = '$nomePagina';\n\n    // Declarar os componentes que serão usados na página.\n    public ".'$components'." = [];\n\n}");
+file_put_contents("app/pages/$nomePagina/{$nomePagina}Controller.php", "<?php\n\nuse app\Pages\\$nomePagina;\n\n$$arrayName = new $nomePagina();\n\n");
 echo "Controlador da página $nomePagina: " . colorizar("[OK]", 32) . "\n";
 
 // Folha de estilos CSS

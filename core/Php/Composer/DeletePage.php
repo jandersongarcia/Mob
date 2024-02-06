@@ -43,10 +43,11 @@ echo "$separadorLinha\nIniciando o processo de exclusão para a página '$nomePa
 
 // Excluir arquivos associados
 $caminhosArquivosExcluir = [
-    "$caminhoDiretorio/$nomePagina.controller.php",
+    "$caminhoDiretorio/{$nomePagina}Controller.php",
+    "$caminhoDiretorio/{$nomePagina}Modal.php",
     "$caminhoDiretorio/$nomePagina.css",
     "$caminhoDiretorio/$nomePagina.js",
-    "$caminhoDiretorio/$nomePagina.view.php"
+    "$caminhoDiretorio/{$nomePagina}View.php"
 ];
 
 foreach ($caminhosArquivosExcluir as $caminhoArquivo) {

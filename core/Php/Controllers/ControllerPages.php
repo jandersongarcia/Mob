@@ -115,8 +115,7 @@ if ($app->checkHeader() || APP['mode'] == 0) {
             }
 
         } else {
-            echo "nop";
-            $errorMessage = "'$page' page not found in routes file.\n";
+            $errorMessage = "Page not found in routes file.";
             $app->msgError($errorMessage);
             $mob->error($errorMessage);
         }

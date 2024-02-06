@@ -1,34 +1,3 @@
 {
-    "routes": [
-        {
-            "path": "\/",
-            "controller": "Main",
-            "method": "ALL"
-        },
-        {
-            "path": "\/login",
-            "controller": "panelAdmin\/MbLogin",
-            "method": "ALL"
-        },
-        {
-            "path": "\/login\/createaccount",
-            "controller": "panelAdmin\/MbCreateaccount",
-            "method": "ALL"
-        },
-        {
-            "path": "\/login\/forgotpass",
-            "controller": "panelAdmin\/MbForgotPass",
-            "method": "ALL"
-        },
-        {
-            "path": "\/admin",
-            "controller": "panelAdmin\/MbPanelAdmin",
-            "method": "ALL"
-        },
-        {
-            "path": "\/admin\/profile",
-            "controller": "panelAdmin\/MbProfile",
-            "method": "ALL"
-        }
-    ]
+    "routes": []
 }

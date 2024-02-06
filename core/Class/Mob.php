@@ -43,7 +43,7 @@ class Mob
                     if (file_exists($cmpt))
                         require_once($cmpt);
                     $lang = new Language;
-                    $mob = new Mobi;
+                    $mob = new Mob;
                     // Inclui o arquivo do componente
                     echo "<div mb-component='$cmp'>";
                     require_once($path);
@@ -290,7 +290,7 @@ class Mob
 
     /*
     |--------------------------------------------------------------------------
-    | Adiciona o script do Mobi
+    | Adiciona o script do Mob
     |--------------------------------------------------------------------------
     */
     public function loadMobjs()
@@ -306,8 +306,10 @@ class Mob
     */
     public function error($message)
     {
-        $errorMessage = "[" . date('Y-m-d H:i:s') . "] [error] [{$_SERVER['REQUEST_URI']}] $message.\n";
-        error_log($errorMessage, 3, 'var/logs/mobi.log');
+        $ipAddress = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '0.0.0.0';
+        $uri = filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
+        $errorMessage = date('Y-m-d H:i:s') . ";error;{$ipAddress};{$uri};$message\n";
+        error_log($errorMessage, 3, 'var/logs/mob.log');
     }
 
     /**

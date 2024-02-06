@@ -91,7 +91,7 @@ if ($app->checkHeader() || APP['mode'] == 0) {
             echo $minifier->minify();
             echo "} $nameF();";
         } else {
-            $errorMessage = "$page' page not found in routes file.\n";
+            $errorMessage = "$page' page not found in routes file.";
             $mob->error($errorMessage);
         }
 
