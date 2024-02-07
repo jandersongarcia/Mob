@@ -116,5 +116,13 @@ function printCss($array){
             }
         }
     }
+
+    // Remove quebras de linha e excesso de espaços
+    $css = preg_replace('/\s+/', ' ', $css);
+    $css = str_replace(["\r\n", "\r", "\n", "\t"], '', $css);
+
+    // Remove #PreloaderMBComponent se o próximo caractere for um número ou @
+    $css = preg_replace('/#PreloaderMBComponent (?=[0-9@])/', '', $css);
+
     return $css;
 }

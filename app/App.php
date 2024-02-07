@@ -15,15 +15,15 @@
 </head>
 
 <body>
-    <div id="app"></div>
+    <div id="app" onload="myPreloderFunction()"></div>
     <?php
     $mob->loadBootstrap(['js']);
     $mob->loadMobjs();
     $mob->loadJquery();
     ?>
 
- <script src="https://cdn.datatables.net/v/dt/dt-1.13.8/datatables.min.js"></script>
- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.datatables.net/v/dt/dt-1.13.8/datatables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </body>
 
