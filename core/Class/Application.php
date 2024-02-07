@@ -54,7 +54,7 @@ class Application
             // Exibe mensagem de erro se $components não for um array
             echo "<div class='alert alert-danger mx-3' role='alert'>{$message['erro1']}</div>";
         }
-    }   
+    }
 
     /*
     |--------------------------------------------------------------------------
@@ -106,7 +106,7 @@ class Application
     */
     public function listRoutes()
     {
-        $routesFilePath = 'core/json/routes.json';
+        $routesFilePath = 'core/Json/Routes.json';
 
         try {
             // Verifica a existência e leitura do arquivo de rotas
@@ -176,14 +176,15 @@ class Application
     | $app->checkHeader();
     */
 
-    public function checkHeader(){
+    public function checkHeader()
+    {
         if (isset($_SERVER['HTTP_REFERER'])) {
             // Extrai o host do cabeçalho Referer
             $refererHost = parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST);
-        
+
             // Extrai o host do servidor
             $serverHost = $_SERVER['HTTP_HOST'];
-        
+
             // Verifica se os hosts são iguais
             if ($refererHost === $serverHost) {
                 return true;
@@ -195,16 +196,36 @@ class Application
         }
     }
 
-    public function msgError($message){
+    public function msgError($message, $type = 404)
+    {
 
-        $file404 = "templates/Error/404.php";
+        $html = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Erro</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"><style>body,html{height:100%;margin:0}.error-container{display:flex;align-items:center;justify-content:center;height:100vh}</style></head><body><div class="error-container"><div class="alert alert-danger text-center" role="alert"><h4 class="alert-heading border-bottom border-danger pb-2">Erro!</h4><p>' . $message . '</p></div></div><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script></body></html>';
 
-        if(file_exists($file404)){
-            require_once($file404);
+        if ($type == 404) {
+            $file404 = "templates/Error/404.php";
+            if (file_exists($file404)) {
+                require_once($file404);
+            } else {
+                echo $html;
+            }
         } else {
-            echo '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Erro</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"><style>body,html{height:100%;margin:0}.error-container{display:flex;align-items:center;justify-content:center;height:100vh}</style></head><body><div class="error-container"><div class="alert alert-danger text-center" role="alert"><h4 class="alert-heading border-bottom border-danger pb-2">Erro!</h4><p>'.$message.'</p></div></div><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script></body></html>';
+            echo $html;
         }
-        
+
+    }
+
+    public function fileExists($array)
+    {
+        if (is_array($array)) {
+            foreach ($array as $key => $value) {
+                if (!file_exists($value) && $key != 'css') {
+                    return false;
+                }
+            }
+        } else {
+            return false;
+        }
+        return true;
     }
 
 }

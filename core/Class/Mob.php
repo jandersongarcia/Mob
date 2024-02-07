@@ -18,44 +18,45 @@ class Mob
         return isset($slicePath[$n]) ? $slicePath[$n] : '';
     }
 
+    private function ErrorMini($message)
+    {
+        return "<div class='alert alert-danger mx-3' role='alert'>$message</div>";
+    }
+
     public function components($components)
     {
-        // Mensagens de erro possíveis
-        $message = [
-            "erro1" => "<strong>Erro:</strong> Os componentes devem ser declarados dentro de arrays:<br>Exemplo: <em>app->components(['componente1','componente2'])</em>",
-            "erro2" => "<strong>Erro:</strong> O componente não foi localizado",
-            "erro3" => "Mensagem de erro específica para Erro 3",
-        ];
-
         // Verifica se $components é um array
         if (is_array($components)) {
             // Itera sobre os componentes fornecidos
             foreach ($components as $component) {
                 $cmp = $component;
 
-                $cmpt = "app/components/$cmp/$cmp.controller.php";
-                $path = "app/components/$cmp/$cmp.view.php";
+                $pathComponents = [
+                    'modal' => "app/Components/$cmp/{$cmp}Modal.php",
+                    'component' => "app/Components/$cmp/{$cmp}Controller.php",
+                    'view' => "app/Components/$cmp/{$cmp}View.php"
+                ];
 
-                echo $path;
-
-                // Verifica se o arquivo do componente existe
-                if (file_exists($path)) {
-                    if (file_exists($cmpt))
-                        require_once($cmpt);
-                    $lang = new Language;
-                    $mob = new Mob;
-                    // Inclui o arquivo do componente
-                    echo "<div mb-component='$cmp'>";
-                    require_once($path);
-                    echo "</div>";
-                } else {
-                    // Exibe mensagem de erro se o componente não for encontrado
-                    echo "<div class='alert alert-danger mx-3' role='alert'><strong>Erro:</strong> O componente $component não foi encontrado em <em>./app/components/$component</em></div>";
+                foreach ($pathComponents as $name => $path) {
+                    if (!file_exists($path)) {
+                        $msg = "There is an inconsistency in the MVC structure of the '$cmp' component.";
+                        echo $this->ErrorMini($msg);
+                        $this->error($msg);
+                        exit();
+                    }
                 }
+
+                echo "<div mb-component='$cmp' id='{$cmp}Component'>";
+                require_once($pathComponents['modal']);
+                require_once($pathComponents['component']);
+                require_once($pathComponents['view']);
+                echo "</div>";
             }
         } else {
             // Exibe mensagem de erro se $components não for um array
-            echo "<div class='alert alert-danger mx-3' role='alert'>{$message['erro1']}</div>";
+            $msg = "The components on this page have not been declared in an ['array'].";
+            echo $this->ErrorMini($msg);
+            $this->error($msg);
         }
     }
 

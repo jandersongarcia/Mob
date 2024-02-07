@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Função para executar scripts dinamicamente
     function executarScripts(src, name) {
-        var scriptPath = '/ctrl/pages.js' + src;
+        var scriptPath = '/ctrl/pagesjs' + src;
         let id = `el${nameId}`;
         // Supondo que você tenha um script com um ID específico
         var scriptParaRemover = document.getElementById(id);

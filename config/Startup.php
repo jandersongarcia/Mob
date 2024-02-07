@@ -12,6 +12,6 @@
 
     /* VERIFICA SE O USUÁRIO ESTÁ CONECTADO */
     if (empty($_SESSION['stateUser']) && basename($_SERVER['REQUEST_URI']) != "login") {
-        header("Location: /login");
-        exit;
+        #header("Location: /login");
+        #exit;
     }

@@ -1,0 +1,13 @@
+/* Estilos CSS para Test */
+.timer {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 2rem;
+}
+
+h2 {
+    color: chocolate;
+}
+
+#timer {
+    font-weight: bolder;
+}

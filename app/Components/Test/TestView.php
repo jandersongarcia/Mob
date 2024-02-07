@@ -1,0 +1,1 @@
+<h2 class='timer' id="timeNow"> View do componente Test</h2>

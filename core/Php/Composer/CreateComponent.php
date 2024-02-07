@@ -67,15 +67,23 @@ if (mkdir("app/components/$nomeComponent", 0777, true)) {
 
 // Criar arquivos dentro da pasta recém-criada
 // Página View
-file_put_contents("app/components/$nomeComponent/$nomeComponent.view.php", "<h2> View do componente $nomeComponent</h2>");
+file_put_contents("app/Components/$nomeComponent/{$nomeComponent}View.php", "<h2> View do componente $nomeComponent</h2>");
 echo "Página View do componente $nomeComponent: " . colorizar("[OK]", 32) . "\n";
-// Folha de estilos CSS
-file_put_contents("app/components/$nomeComponent/$nomeComponent.css", "/* Estilos CSS para $nomeComponent */");
-echo "Arquivo CSS para $nomeComponent: " . colorizar("[OK]", 32) . "\n";
-// JS
-file_put_contents("app/components/$nomeComponent/$nomeComponent.js", "// Scripts JavaScript para $nomeComponent");
-echo "Arquivo JavaScript para $nomeComponent: " . colorizar("[OK]", 32) . "\n";
+
+// Página Modal
+file_put_contents("app/Components/$nomeComponent/{$nomeComponent}Modal.php", "<?php\n\nnamespace app\Components;\n\nclass $nomeComponent {\n\n    public ".'$title'." = '$nomeComponent';\n\n    // Declarar os componentes que serão usados na página.\n    public ".'$components'." = [];\n\n}");
+echo "Modal da página $nomeComponent: " . colorizar("[OK]", 32) . "\n";
+
+$arrayName = strtolower($nomeComponent);
+
 // Página Controller
-file_put_contents("app/components/$nomeComponent/$nomeComponent.controller.php", "<?php\n\n// Controlador do componente $nomeComponent\n\nclass Cmp$nomeComponent {\n\n}");
-echo "Controlador do componente $nomeComponent: " . colorizar("[OK]", 32) . "\n";
-echo colorizar("Componente '$nomeComponent' criado e configurado com sucesso em ", 33) . colorizar("./app/components\n\n", 94);
+file_put_contents("app/Components/$nomeComponent/{$nomeComponent}Controller.php", "<?php\n\nuse app\Components\\$nomeComponent;\n\n$$arrayName = new $nomeComponent();\n\n");
+echo "Controlador da página $nomeComponent: " . colorizar("[OK]", 32) . "\n";
+
+// Folha de estilos CSS
+file_put_contents("app/Components/$nomeComponent/$nomeComponent.css", "/* Estilos CSS para $nomeComponent */");
+echo "Arquivo CSS para $nomeComponent: " . colorizar("[OK]", 32) . "\n";
+
+// JS
+file_put_contents("app/Components/$nomeComponent/$nomeComponent.js", "// Scripts JavaScript para $nomeComponent");
+echo "Arquivo JavaScript para $nomeComponent: " . colorizar("[OK]", 32) . "\n";

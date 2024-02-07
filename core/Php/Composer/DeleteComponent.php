@@ -52,10 +52,11 @@ echo "$separadorLinha\nIniciando o processo de exclusão para o componente '$nom
 
 // Excluir arquivos associados
 $caminhosArquivosExcluir = [
-    "$caminhoDiretorio/$nomeComponent.controller.php",
+    "$caminhoDiretorio/{$nomeComponent}Controller.php",
     "$caminhoDiretorio/$nomeComponent.css",
     "$caminhoDiretorio/$nomeComponent.js",
-    "$caminhoDiretorio/$nomeComponent.view.php"
+    "$caminhoDiretorio/{$nomeComponent}View.php",
+    "$caminhoDiretorio/{$nomeComponent}Modal.php"
 ];
 
 foreach ($caminhosArquivosExcluir as $caminhoArquivo) {

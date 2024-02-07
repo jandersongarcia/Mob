@@ -2,14 +2,16 @@
 
 use MatthiasMullie\Minify;
 
+
 // Obtém a lista de rotas do aplicativo
 $routes = $app->listRoutes();
 
 // Obtém o caminho da página atual a partir da URL
-$query = explode('pages.js/',$_SERVER['QUERY_STRING']);
-$page = (substr($query[1],-1) == "/") ? "/".substr($query[1],0,-1) : "/".$query[1];
+$page = "/" . strtolower($app->path(2));
 
-$nameF = 'mbF'.ucfirst(strtolower($app->path(2)));
+$query = explode('pagesjs/', $_SERVER['QUERY_STRING']);
+
+$page = (substr($query[1], -1) == "/") ? "/" . substr($query[1], 0, -1) : "/" . $query[1];
 
 // Verifica se o cabeçalho está presente ou se o modo do aplicativo é 0
 if ($app->checkHeader() || APP['mode'] == 0) {
@@ -20,7 +22,6 @@ if ($app->checkHeader() || APP['mode'] == 0) {
     } else {
 
         $exist = false;
-        $allStyles = "";
 
         // Itera sobre as rotas definidas
         foreach ($routes['data']['routes'] as $route) {
@@ -28,23 +29,21 @@ if ($app->checkHeader() || APP['mode'] == 0) {
             $controllerName = $route['controller'];
             $controllerPath = $controllerName;
 
-            $e = explode("/",$controllerName);
+            $e = explode("/", $controllerName);
 
-            if(isset($e[1])){
-                $controllerName = $e[1];
-                $controllerPath = "{$e[0]}/{$e[1]}";
+            if (isset($e[1])) {
+                $controllerName = ucfirst($e[1]);
+                $controllerPath = ucfirst("{$e[0]}/{$e[1]}");
             }
 
-            $path = "app/pages/$controllerPath/$controllerName.js";
-            $ctrlPath = "app/pages/$controllerPath/$controllerName.controller.php";
+            $js = "app/Pages/$controllerPath/$controllerName.js";
+            $modal = "app/Pages/$controllerPath/{$controllerName}Modal.php";
+            $controller = "app/Pages/$controllerPath/{$controllerName}Controller.php";
 
             // Verifica se o arquivo da página existe e se a rota corresponde à página atual
-            if (file_exists($path) && $route['path'] == strtolower($page)) {
-                
+            if (file_exists($js) && $route['path'] == strtolower($page)) {
                 // REALIZA O TRATAMENTO DOS COMPONENTES
-                if (file_exists($path)) {
-                    $exist = $controllerName;
-                }
+                $exist = $controllerName;
                 break;
             }
         }
@@ -53,43 +52,29 @@ if ($app->checkHeader() || APP['mode'] == 0) {
             // Define o nome da página a ser carregada
             $pageName = $exist;
 
-            // Classe de idiomas
-            $lang = new Languages\Language;
-            
             // Carrega o css da página
-            $allStyles .= (file_exists($path)) ? file_get_contents($path) . PHP_EOL : '';
+            $scriptJs = (file_exists($js)) ? file_get_contents($js) . PHP_EOL : '';
 
-            // Carrega o controller da página
-            if(file_exists($ctrlPath)) require_once($ctrlPath);
+            // Verifica se existem componentes com scripts
+            if(file_exists($modal) && file_exists($controller)){
 
-            // Verifica se existe uma classe na controladora e vincula em uma string
-            if (class_exists("$pageName")){
-                $$pageName = new $pageName;
-            } else {
-                $errorMessage = "[error] '$pageName' page class not declared.\n";
-                $mob->error($errorMessage);
-            }
+                require_once($modal);
+                require_once($controller);
 
-            // Verifica se a página tem componentes
-            $components = $$pageName->components;
-
-            foreach($components as $component){
-                // Trata o nome do componente
-                $component = ucfirst(strtolower($component));
-                $caminho = "app/components/$component/$component";
-
-                // Verifica e carrega o arquivo css
-                if(file_exists("$caminho.js")){
-                    $allStyles .= file_get_contents("$caminho.js") . PHP_EOL;
+                // Carrega os componentes declarados no modal
+                $var = strtolower($controllerName);
+                if(isset($$var->components)){
+                    $scriptJs .=(printJS($$var->components));
                 }
+
             }
 
-            echo "function $nameF(){";
+            echo "function $controllerName(){";
             // Utiliza o Minify\CSS para compactar os estilos
             $minifier = new Minify\JS();
-            $minifier->add($allStyles);
+            $minifier->add($scriptJs);
             echo $minifier->minify();
-            echo "} $nameF();";
+            echo "} $controllerName();";
         } else {
             $errorMessage = "$page' page not found in routes file.";
             $mob->error($errorMessage);
@@ -100,4 +85,23 @@ if ($app->checkHeader() || APP['mode'] == 0) {
     // Retorna uma mensagem de acesso negado caso o cabeçalho não esteja presente ou o modo seja diferente de 0
     $return = ['type' => '403', "message" => "Acesso negado!"];
     echo json_encode($return);
+}
+
+function printJS($array){
+    $jsContent = '';
+
+    if(is_array($array) && !empty($array)){
+        header('Content-Type: text/javascript');
+
+        foreach($array as $key){
+            $key = ucfirst($key);
+            $file = "app/Components/$key/$key.js";
+
+            if(file_exists($file)){
+                $jsContent .= file_get_contents($file);
+            }
+        }
+    }
+
+    return $jsContent;
 }

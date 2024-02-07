@@ -143,7 +143,7 @@ echo "Adicionando a rota " . colorizar("'/$nomeRota'", 36) . " à lista: " . col
 file_put_contents("app/pages/$nomePagina/{$nomePagina}View.php", "<div class='w-100 vh-100 bg-dark text-light d-flex flex-column justify-content-center align-items-center'>\n    <h1>MobiPHP</h1>\n    <p>Página $nomePagina</p>\n</div>");
 echo "Visualização da página $nomePagina: " . colorizar("[OK]", 32) . "\n";
 
-// Página Main
+// Página Modal
 file_put_contents("app/pages/$nomePagina/{$nomePagina}Modal.php", "<?php\n\nnamespace app\Pages;\n\nclass $nomePagina {\n\n    public ".'$title'." = '$nomePagina';\n\n    // Declarar os componentes que serão usados na página.\n    public ".'$components'." = [];\n\n}");
 echo "Modal da página $nomePagina: " . colorizar("[OK]", 32) . "\n";
 

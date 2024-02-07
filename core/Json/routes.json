@@ -1,3 +1,19 @@
 {
-    "routes": []
+    "routes": [
+        {
+            "path": "\/",
+            "controller": "Main",
+            "method": "ALL"
+        },
+        {
+            "path": "\/teste",
+            "controller": "Teste",
+            "method": "ALL"
+        },
+        {
+            "path": "\/teste\/admin",
+            "controller": "TesteAdmin",
+            "method": "ALL"
+        }
+    ]
 }

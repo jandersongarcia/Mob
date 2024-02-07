@@ -10,6 +10,7 @@ $routes = $app->listRoutes();
 $page = "/" . strtolower($app->path(2));
 
 $query = explode('pages/', $_SERVER['QUERY_STRING']);
+
 $page = (substr($query[1], -1) == "/") ? "/" . substr($query[1], 0, -1) : "/" . $query[1];
 
 // Verifica se o cabeçalho está presente ou se o modo do aplicativo é 0
@@ -28,101 +29,92 @@ if ($app->checkHeader() || APP['mode'] == 0) {
             $controllerName = $route['controller'];
             $controllerPath = $controllerName;
 
-            $e = explode("/",$controllerName);
+            $e = explode("/", $controllerName);
 
-            if(isset($e[1])){
+            if (isset($e[1])) {
                 $controllerName = ucfirst($e[1]);
                 $controllerPath = ucfirst("{$e[0]}/{$e[1]}");
             }
 
-            $path = "app/Pages/$controllerPath/$controllerName.view.php";
-            $cssPath = "app/Pages/$controllerPath/$controllerName.css";
-            $ctrlPath = "app/Pages/$controllerPath/$controllerName.controller.php";
+            $files = [
+                'modal' => "app/Pages/$controllerPath/{$controllerName}Modal.php",
+                'controller' => "app/Pages/$controllerPath/{$controllerName}Controller.php",
+                'view' => "app/Pages/$controllerPath/{$controllerName}View.php",
+                'css' => "app/Pages/$controllerPath/$controllerName.css",
+            ];
 
-            // Verifica se o arquivo da página existe e se a rota corresponde à página atual
-            if (file_exists($path) && $route['path'] == $page) {
+            if ($route['path'] == $page){
 
-                // REALIZA O TRATAMENTO DOS COMPONENTES
-                if (file_exists($ctrlPath)) {
-                    $exist = $controllerName;
+                if($app->fileExists($files)){
+                    $exist = $files;
+                } else {
+                    $msg = "We have identified an inconsistency in the MVC structure of this page.";
+                    $app->msgError($msg,0);
+                    $mob->error($msg);
                 }
+
                 break;
             }
         }
 
-        print_r($exist);
-
         if ($exist) {
             // Define o nome da página a ser carregada
-            $pageName = $exist;
+            $files = $exist;
 
             // Classe de idiomas
             $lang = new Languages\Language;
 
             // Carrega o css da página
-            $allStyles = (file_exists($cssPath)) ? file_get_contents($cssPath) : '';
-
-            // Carrega o controller da página
-            if (file_exists($ctrlPath))
-                require_once($ctrlPath);
-
-            // Verifica se existe uma classe na controladora e vincula em uma string
-            if (class_exists("$pageName")) {
-                $$pageName = new $pageName;
-            } else {
-                $errorMessage = "'$pageName' page class not declared.\n";
-                $mob->error($errorMessage);
-            }
-
-            // Verifica se a página tem componentes
-            $components = $$pageName->components;
-
-            foreach ($components as $component) {
-                // Trata o nome do componente
-                $component = ucfirst(strtolower($component));
-                $caminho = "app/components/$component/$component";
-
-                // Verifica e carrega o arquivo css
-                if (file_exists("$caminho.css")) {
-                    $allStyles .= file_get_contents("$caminho.css");
-                }
-
-                // Verifica e carrega o controller
-                if (file_exists("$caminho.controller.php")) {
-                    require_once("$caminho.controller.php");
-                    // Verifica se existe uma classe na controladora e vincula em uma string
-                    if (class_exists("$component")) {
-                        $$component = new $component;
-                    } else {
-                        $errorMessage = "[error] '$component' component class not declared.\n";
-                        $mob->error($errorMessage);
-                    }
-                }
-            }
+            $allStyles = (file_exists($files['css'])) ? file_get_contents($files['css']) : '';
 
             // Carrega o css
             // Utiliza o Minify\CSS para compactar os estilos
             $minifier = new Minify\CSS();
             $minifier->add($allStyles);
-            echo "<style>{$minifier->minify()}</style>";
+            
 
             try {
                 $lang = new Language();
-                require_once($path);
+                require_once($files['modal']);
+                require_once($files['controller']);
+
+                // Carrega os componentes declarados no modal
+                $var = strtolower($controllerName);
+                if(isset($$var->components)){
+                    $minifier->add(printCss($$var->components));
+                }
+
+                echo "<style>{$minifier->minify()}</style>";
+                require_once($files['view']);
+                //require_once($path);
             } catch (\Exception $e) {
                 // Log or print the error
                 echo 'Caught exception: ', $e->getMessage(), "\n";
             }
 
-        } else {
-            $errorMessage = "Page not found in routes file.";
-            $app->msgError($errorMessage);
-            $mob->error($errorMessage);
-        }
-
+        } 
     }
 } else {
     // Retorna uma mensagem de acesso negado caso o cabeçalho não esteja presente ou o modo seja diferente de 0
     $return = ['type' => '403', "message" => "Acesso negado!"];
     echo json_encode($return);
+}
+
+function printCss($array){
+    $css = '';
+    if(is_array($array) && !empty($array)){
+        header('Content-Type: text/css');
+
+        foreach($array as $key){
+            $key = ucfirst($key);
+            $file = "app/Components/$key/$key.css";
+
+            if(file_exists($file)){
+                $cssContent = file_get_contents($file);
+                $cssContent = preg_replace('/(^|\})([^\{\}]+)\{/m', '$1#'.$key.'Component $2{', $cssContent);
+                $css .= $cssContent;
+            }
+        }
+    }
+    return $css;
 }
