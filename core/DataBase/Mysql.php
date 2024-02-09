@@ -1,11 +1,12 @@
 <?php
 
-namespace Database\MySql;
+namespace Database\MySQL;
 
 use PDO;
 use PDOException;
+use Mob\Root;
 
-class MySQL
+class MySQL extends Root
 {
 
     // Propriedades para armazenar detalhes da conexão e instância do PDO.
@@ -131,30 +132,6 @@ class MySQL
         }
     }
 
-    /**
-     * Obtém um registro por um campo específico de uma tabela e retorna um JSON.
-     *
-     * @param string $table O nome da tabela.
-     * @param string $field O nome do campo a ser verificado.
-     * @param mixed $value O valor do campo a ser comparado.
-     * @return string JSON contendo o registro ou false em caso de erro.
-     */
-    public function getByField($table, $field, $value)
-    {
-        $sql = "SELECT * FROM $table WHERE $field = ?";
-
-        try {
-            $statement = $this->pdo->prepare($sql);
-            $statement->execute([$value]);
-
-            // Retorna um array associativo com todos os dados do registro
-            return json_encode($statement->fetch(PDO::FETCH_ASSOC));
-        } catch (PDOException $e) {
-            // Lidar com erros de consulta
-            return json_encode(['error' => $e->getMessage()]);
-        }
-    }
-
     // Método para obter um registro por ID de uma tabela.
     /**
      * Obtém um registro por ID de uma tabela e retorna um JSON.
@@ -186,13 +163,13 @@ class MySQL
      * @param int $id O ID do registro a ser atualizado.
      * @return string JSON indicando sucesso ou falha na atualização.
      */
-    public function update($table, $data, $id)
+    public function update($table, $data, $columnName, $columnValue)
     {
         $setClause = implode('=?, ', array_keys($data)) . '=?';
-        $sql = "UPDATE $table SET $setClause WHERE SEQ_ID = ?";
+        $sql = "UPDATE $table SET $setClause WHERE $columnName = ?";
 
         try {
-            $values = array_merge(array_values($data), [$id]);
+            $values = array_merge(array_values($data), [$columnValue]);
             $statement = $this->pdo->prepare($sql);
             $statement->execute($values);
             return json_encode(['success' => true]);
@@ -201,6 +178,7 @@ class MySQL
             return json_encode(['success' => false, 'error' => $e->getMessage()]);
         }
     }
+
 
     // Método para excluir um registro de uma tabela.
     /**

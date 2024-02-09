@@ -51,7 +51,7 @@ $data = CONN;
 switch (@$data['driver']) {
     case 'mysql':
         require_once "./core/DataBase/{$data['driver']}.php";
-        $sql = new Database\MySql\MySQL;
+        $sql = new Database\MySQL\MySQL;
         break;
 
     case 'pgsql':

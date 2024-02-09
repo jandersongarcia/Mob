@@ -313,6 +313,14 @@ class Mob
         error_log($errorMessage, 3, 'var/logs/mob.log');
     }
 
+    public function log($type = 'error',$message)
+    {
+        $ipAddress = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '0.0.0.0';
+        $uri = filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
+        $errorMessage = date('Y-m-d H:i:s') . ";$type;{$ipAddress};{$uri};$message\n";
+        error_log($errorMessage, 3, 'var/logs/mob.log');
+    }
+
     /**
      * Envia um e-mail usando PHPMailer
      *

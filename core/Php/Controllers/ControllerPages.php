@@ -110,19 +110,34 @@ function printCss($array){
             $file = "app/Components/$key/$key.css";
 
             if(file_exists($file)){
-                $cssContent = file_get_contents($file);
-                $cssContent = preg_replace('/(^|\})([^\{\}]+)\{/m', '$1#'.$key.'Component $2{', $cssContent);
-                $css .= $cssContent;
+                $idName = "#{$key}Component";
+                $lines = file($file);
+                foreach ($lines as $line) {
+                    $var = htmlspecialchars(trim($line));
+                    $procura = array('.', '#', 'h1', 'h2', 'h3', 'h4');
+                
+                    $primeiroCaractere = substr($var, 0, 1);
+                
+                    // Verificar se o primeiro caractere está na lista de busca
+                    if (in_array($primeiroCaractere, $procura)) {
+                        $css .= "$idName $var\n";
+                    } else {
+                        $css .= "$var\n";
+                    }
+
+                    //$css = str_replace("$idName $idName","$idName",$css);
+                }
             }
         }
     }
 
     // Remove quebras de linha e excesso de espaços
-    $css = preg_replace('/\s+/', ' ', $css);
-    $css = str_replace(["\r\n", "\r", "\n", "\t"], '', $css);
+    //$css = preg_replace('/\s+/', ' ', $css);
+    //$css = str_replace(["\r\n", "\r", "\n", "\t"], '', $css);
+    //$css = str_replace('#'.$key.'MBComponent to','to',$css);
 
     // Remove #PreloaderMBComponent se o próximo caractere for um número ou @
-    $css = preg_replace('/#PreloaderMBComponent (?=[0-9@])/', '', $css);
+    //$css = preg_replace('/#'.$key.'Component (?=[0-9@])/', '', $css);
 
     return $css;
 }
