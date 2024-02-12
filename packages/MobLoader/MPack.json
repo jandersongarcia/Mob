@@ -1,0 +1,10 @@
+{
+    "package-name": "mobLoader",
+    "type": "preloader",
+    "files": {
+        "css": "mobLoader.css",
+        "js": "mobloader.js",
+        "php": "mobLoader.php"
+    },
+    "required": {}
+}

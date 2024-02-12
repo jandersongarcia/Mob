@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     let nameId;
-    let router;  // Tornar router global
+    let router;
 
     // Função para carregar scripts de forma assíncrona
     function carregarScript(url, callback) {

@@ -1,5 +1,6 @@
 <?php
 
+// Importa namespaces necessários
 use Languages\Language;
 use MatthiasMullie\Minify;
 
@@ -9,8 +10,8 @@ $routes = $app->listRoutes();
 // Obtém o caminho da página atual a partir da URL
 $page = "/" . strtolower($app->path(2));
 
+// Analisa a URL para extrair o caminho da página
 $query = explode('pages/', $_SERVER['QUERY_STRING']);
-
 $page = (substr($query[1], -1) == "/") ? "/" . substr($query[1], 0, -1) : "/" . $query[1];
 
 // Verifica se o cabeçalho está presente ou se o modo do aplicativo é 0
@@ -29,6 +30,7 @@ if ($app->checkHeader() || APP['mode'] == 0) {
             $controllerName = $route['controller'];
             $controllerPath = $controllerName;
 
+            // Analisa o nome do controlador para determinar o caminho
             $e = explode("/", $controllerName);
 
             if (isset($e[1])) {
@@ -36,6 +38,7 @@ if ($app->checkHeader() || APP['mode'] == 0) {
                 $controllerPath = ucfirst("{$e[0]}/{$e[1]}");
             }
 
+            // Define os arquivos relacionados ao controlador
             $files = [
                 'modal' => "app/Pages/$controllerPath/{$controllerName}Modal.php",
                 'controller' => "app/Pages/$controllerPath/{$controllerName}Controller.php",
@@ -43,8 +46,10 @@ if ($app->checkHeader() || APP['mode'] == 0) {
                 'css' => "app/Pages/$controllerPath/$controllerName.css",
             ];
 
+            // Verifica se a rota corresponde à página atual
             if ($route['path'] == $page){
 
+                // Verifica a existência dos arquivos relacionados ao controlador
                 if($app->fileExists($files)){
                     $exist = $files;
                 } else {
@@ -57,23 +62,44 @@ if ($app->checkHeader() || APP['mode'] == 0) {
             }
         }
 
+        // Procura pelo pacote preloader
+        $packages = "core/Json/Packages.json";
+        if(file_exists($packages)){
+            $packages = json_decode(file_get_contents($packages),true);
+            $preloader = $packages['packges']['preloader'];
+            $preName = $preloader['name'];
+            $load = isset($preloader['load']) ? $preloader['load'] : false;
+            if(isset($preloader['dependency']) && $load === true){
+                $local = "packages/$preName/{$preloader['dependency']['css']}";
+                if(file_exists($local)){
+                    $prePackagesCss =  file_get_contents($local) . PHP_EOL;
+                }
+                $local = "packages/$preName/{$preloader['dependency']['file']}";
+                if(file_exists($local)){
+                    $prePackagesPage =  file_get_contents($local) . PHP_EOL;
+                }
+            }
+        }
+
         if ($exist) {
             // Define o nome da página a ser carregada
             $files = $exist;
 
-            // Classe de idiomas
+            // Instancia a classe de idiomas
             $lang = new Languages\Language;
 
-            // Carrega o css da página
+            // Carrega o CSS da página
             $allStyles = (file_exists($files['css'])) ? file_get_contents($files['css']) : '';
 
-            // Carrega o css
+            // Adiciona o CSS do pacote preloader, se existir
+            $allStyles = @$prePackagesCss;
+
             // Utiliza o Minify\CSS para compactar os estilos
             $minifier = new Minify\CSS();
             $minifier->add($allStyles);
-            
 
             try {
+                // Instancia a classe de idiomas novamente
                 $lang = new Language();
                 require_once($files['modal']);
                 require_once($files['controller']);
@@ -84,11 +110,12 @@ if ($app->checkHeader() || APP['mode'] == 0) {
                     $minifier->add(printCss($$var->components));
                 }
 
+                // Imprime o estilo minificado
                 echo "<style>{$minifier->minify()}</style>";
+                if(isset($prePackagesPage)) echo $prePackagesPage;
                 require_once($files['view']);
-                //require_once($path);
             } catch (\Exception $e) {
-                // Log or print the error
+                // Loga ou imprime o erro
                 echo 'Caught exception: ', $e->getMessage(), "\n";
             }
 
@@ -100,6 +127,7 @@ if ($app->checkHeader() || APP['mode'] == 0) {
     echo json_encode($return);
 }
 
+// Função para imprimir o CSS de componentes
 function printCss($array){
     $css = '';
     if(is_array($array) && !empty($array)){
@@ -118,26 +146,16 @@ function printCss($array){
                 
                     $primeiroCaractere = substr($var, 0, 1);
                 
-                    // Verificar se o primeiro caractere está na lista de busca
+                    // Verifica se o primeiro caractere está na lista de busca
                     if (in_array($primeiroCaractere, $procura)) {
                         $css .= "$idName $var\n";
                     } else {
                         $css .= "$var\n";
                     }
-
-                    //$css = str_replace("$idName $idName","$idName",$css);
                 }
             }
         }
     }
-
-    // Remove quebras de linha e excesso de espaços
-    //$css = preg_replace('/\s+/', ' ', $css);
-    //$css = str_replace(["\r\n", "\r", "\n", "\t"], '', $css);
-    //$css = str_replace('#'.$key.'MBComponent to','to',$css);
-
-    // Remove #PreloaderMBComponent se o próximo caractere for um número ou @
-    //$css = preg_replace('/#'.$key.'Component (?=[0-9@])/', '', $css);
 
     return $css;
 }

@@ -48,12 +48,29 @@ if ($app->checkHeader() || APP['mode'] == 0) {
             }
         }
 
+        //Procura pelo pacote preloader
+        $packages = "core/Json/Packages.json";
+        if(file_exists($packages)){
+            $packages = json_decode(file_get_contents($packages),true);
+            $preloader = $packages['packges']['preloader'];
+            $preName = $preloader['name'];
+            $load = isset($preloader['load']) ? $preloader['load'] : false;
+            if(isset($preloader['dependency']) && $load === true){
+                $local = "packages/$preName/{$preloader['dependency']['js']}";
+                if(file_exists($local)){
+                    $prePackages =  file_get_contents($local) . PHP_EOL;
+                }
+            }
+        }
+
         if ($exist) {
             // Define o nome da página a ser carregada
             $pageName = $exist;
 
             // Carrega o css da página
             $scriptJs = (file_exists($js)) ? file_get_contents($js) . PHP_EOL : '';
+
+            $scriptJs .= @$prePackages;
 
             // Verifica se existem componentes com scripts
             if(file_exists($modal) && file_exists($controller)){

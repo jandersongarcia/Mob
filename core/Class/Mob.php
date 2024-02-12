@@ -1,10 +1,12 @@
 <?php
 
-namespace Mob;
+#namespace Mob;
+namespace Core\MClass;
 
 use Languages\Language;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use Core\Languages; // IDIOMA DA APLICAÇÃO
 
 class Mob
 {
@@ -18,9 +20,22 @@ class Mob
         return isset($slicePath[$n]) ? $slicePath[$n] : '';
     }
 
-    private function ErrorMini($message)
+    private function ErrorMini($error,$msg)
     {
-        return "<div class='alert alert-danger mx-3' role='alert'>$message</div>";
+        $file = "templates/Error/MobError.php";
+        if(!file_exists($file)){
+            return "<div class='alert alert-danger mx-3' role='alert'>$msg</div>";
+        } else {
+            $lang = new \Core\Languages\Language;
+            $erro = $lang->$error;
+
+            $value = (preg_match("/'(.*?)'/", $msg, $matches)) ? $matches[1] : '';
+
+            require_once($file);
+
+            $this->log('error', strip_tags("{$erro['title']} {$erro['message']} $value"));
+        }
+        
     }
 
     public function components($components)
@@ -39,9 +54,8 @@ class Mob
 
                 foreach ($pathComponents as $name => $path) {
                     if (!file_exists($path)) {
-                        $msg = "There is an inconsistency in the MVC structure of the '$cmp' component.";
-                        echo $this->ErrorMini($msg);
-                        $this->error($msg);
+                        $msg = "There was an error trying to load the '$cmp' component.";
+                        echo $this->ErrorMini('err3001',$msg);
                         exit();
                     }
                 }
@@ -54,9 +68,8 @@ class Mob
             }
         } else {
             // Exibe mensagem de erro se $components não for um array
-            $msg = "The components on this page have not been declared in an ['array'].";
-            echo $this->ErrorMini($msg);
-            $this->error($msg);
+            $msg = "Components must be declared within an [`array`].";
+            echo $this->ErrorMini('err3000',"Erro 3000: $msg");
         }
     }
 

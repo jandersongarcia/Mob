@@ -1,11 +1,19 @@
 <?php
 
-namespace Mob;
+namespace Core\MClass;
+
+use Core\MClass\Mob;
 
 class Root
 {
+
+    private $mob;
+
     public function __construct()
     {
+
+        $this->mob = new Mob;
+
         // Define os dados da aplicação como constante APP
         $this->defineApp();
 
@@ -21,8 +29,10 @@ class Root
         // Define o pacote de idioma
         $this->defineLanguage();
 
-        // Define os dados do MobAdmin caso esteja configurado
-        $this->defineMobiAdmin();
+        // Define o pacote de idiomas do MOB
+        $this->defineMobLanguage();
+
+
     }
 
     /*
@@ -55,8 +65,8 @@ class Root
                     // Se não existir, define um array com a mensagem de erro
                     $conn = ['data' => 'ERROR'];
                     if ($e[1] != 'ctrl') {
-                        $error = "O tipo de banco declarado em <strong class='text-danger'>app_data_type</strong> no arquivo <strong class='text-danger'>/config/database.php</strong> está incorreto. <br>Certifique-se de preencher esta variável com <strong class='text-danger'>'mysql'</strong> para MySQL ou <strong class='text-danger'>'pgsql'</strong> para utilizar o banco PostgreSQL.";
-                        require_once('./core/Php/Error.php');
+                        $msg = "The database type declared in <strong class='text-danger'>app_data_type</strong> in the file <strong class='text-danger'>/config/database.php</strong> is incorrect. <br>Make sure to fill this variable with <strong class='text-danger'>'mysql'</strong> for MySQL or <strong class='text-danger'>'pgsql'</strong> to use the PostgreSQL database.";
+                        $this->mob->ErrorMini("err3010",$msg);
                         exit;
                     }
                 }
@@ -69,8 +79,9 @@ class Root
             define('CONN', $conn);
 
         } else {
-            // Se o arquivo de configuração do banco de dados não for encontrado, emite um erro
-            trigger_error('Arquivo de configuração do banco de dados não encontrado.', E_USER_ERROR);
+            $msg = 'Database configuration file not found.';
+            $this->mob->ErrorMini("err3002",$msg);
+            exit;
         }
     }
 
@@ -109,7 +120,8 @@ class Root
             $appData = require $appConfigPath;
             define('APP', $appData);
         } else {
-            trigger_error('Arquivo de configuração da aplicação não encontrado.', E_USER_ERROR);
+            $this->mob->ErrorMini("err3003","Application configuration file not found.");
+            exit;
         }
     }
 
@@ -128,7 +140,8 @@ class Root
             $appData = require $appConfigPath;
             define('MAIL', $appData);
         } else {
-            trigger_error('Arquivo de configuração da aplicação não encontrado.', E_USER_ERROR);
+            $this->mob->ErrorMini("err3004","Mail sending configuration file not found in 'config/PhpMailer.php'");
+            exit;
         }
     }
 
@@ -144,7 +157,9 @@ class Root
         if (isset($appData['timezone'])) {
             date_default_timezone_set($appData['timezone']);
         } else {
-            trigger_error('Fuso horário não definido na configuração da aplicação.', E_USER_WARNING);
+            trigger_error('Item `timezone` was not found or defined in `config/App.php`', E_USER_WARNING);
+            $this->mob->ErrorMini("err3005","Item `timezone` was not found or defined in `config/App.php`");
+            exit;
         }
     }
 
@@ -162,26 +177,35 @@ class Root
             if (file_exists($languageFile)) {
                 require_once $languageFile;
             } else {
-                trigger_error('Arquivo de idioma não encontrado.', E_USER_WARNING);
+                $msg = "Language file not found in `languages` directory.";
+                $this->mob->ErrorMini("err3006",$msg);
+                trigger_error($msg, E_USER_WARNING);
+                exit;
             }
         } else {
-            trigger_error('Idioma não definido na configuração da aplicação.', E_USER_WARNING);
+            $msg = "Language not defined in application configuration.";
+            $this->mob->ErrorMini("err3007",$msg);
+            trigger_error($msg, E_USER_WARNING);
+            exit;
         }
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Define os dados de configurações especiais do MobiAdmin
-    |--------------------------------------------------------------------------
-    | Exemplo de uso: $appMailer = MADMIN['action'];
-    */
-    private function defineMobiAdmin(){
-        $file = 'config/mobiadmin.php';
-        if(file_exists($file)){
-            $appData = require $file;
-            define('MADMIN', $appData);
-        } else {
-            define('MADMIN', []);
+    private function defineMobLanguage()
+    {
+        $appData = APP;
+
+        if (isset($appData['language'])) {
+            $languageFile = "core/languages/{$appData['language']}.php";
+            if (file_exists($languageFile)) {
+                require_once $languageFile;
+            } else {
+                $languageFile = "core/languages/pt-br.php";
+                if (file_exists($languageFile)) {
+                    require_once $languageFile;
+                } else {
+                    trigger_error('Arquivo de idioma da aplicação não foi encontrado.', E_USER_WARNING);
+                }
+            }
         }
     }
 }

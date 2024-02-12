@@ -10,8 +10,10 @@
         }
     ],
     "autoload": {
-        "classmap": [
-            "core/Class"
+        "files": [
+            "core/Class/Application.php",
+            "core/Class/Mob.php",
+            "core/Class/Root.php"
         ]
     },
     "dependencies": {

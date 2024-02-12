@@ -1,4 +1,4 @@
-<div id="loader">
+<div id="loadeEasy">
 	<div class="loader">
 		<div></div>
 		<div></div>

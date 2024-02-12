@@ -25,7 +25,7 @@ return [
     | importantes para o envio de e-mails pela aplicação. 
     |
     */
-    'from_email' => 'noreply@mobiphp.net', // Endereço de e-mail padrão do remetente
+    'from_email' => 'noreply@mob.net', // Endereço de e-mail padrão do remetente
     'from_name' => 'MobiPHP', // Nome padrão do remetente
 
     /*

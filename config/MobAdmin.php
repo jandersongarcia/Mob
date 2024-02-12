@@ -36,5 +36,5 @@ return [
     | allowed_email_domains = ['meuprojet.com', 'projetoraiz.com']
     |
     */
-    'allowed_email_domains' => ['codext.com.br']
+    'allowed_email_domains' => ['']
 ];

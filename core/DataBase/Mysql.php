@@ -4,7 +4,8 @@ namespace Database\MySQL;
 
 use PDO;
 use PDOException;
-use Mob\Root;
+use Core\MClass\Root;
+use Core\MClass\Mob;
 
 class MySQL extends Root
 {
@@ -16,14 +17,15 @@ class MySQL extends Root
     private $database;
     private $port;
     private $driver;
-
     private $pdo;
+    private $mob;
 
     // Construtor da classe, que configura e inicia a conexão automaticamente.
     function __construct()
     {
         $this->configureConnection(CONN); // Supõe-se que a constante CONN seja definida em algum lugar.
         $this->connect();
+        $this->mob = new Mob;
     }
 
     // Método privado para configurar detalhes da conexão com o banco de dados.
@@ -55,6 +57,7 @@ class MySQL extends Root
     // Método privado para lidar com erros de conexão.
     private function handleConnectionError(PDOException $e)
     {
+        //$this->mob->ErrorMini();
         $error = "Não foi possível conectar ao banco de dados <strong>{$this->driver}</strong>.<br><strong>Erro: </strong><span>{$e->getMessage()}</span>";
         require_once("./core/php/error.php"); // Supõe-se que o arquivo error.php esteja no caminho especificado.
         exit();

@@ -1,6 +1,7 @@
 <?php
 
-namespace Mob;
+//namespace Mob;
+namespace Core\MClass;
 
 class Application
 {

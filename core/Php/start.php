@@ -4,9 +4,9 @@
 require_once 'vendor/autoload.php';
 
 // Importa os aliases necessários do namespace 'Mobi\Root'
-use Mob\Root as RootAlias;
-use Mob\Application;
-use Mob\Mob;
+use Core\MClass\Root as RootAlias;
+use Core\MClass\Application;
+use Core\MClass\Mob;
 use languages\Language;
 
 /*
@@ -38,11 +38,11 @@ $lang = new Language;
 
 /*
 |----------------------------------------------------------------
-| Define as funções da classe 'Mobi'
+| Define as funções da classe 'Mob'
 |----------------------------------------------------------------
 */
 
-// Cria uma instância da classe 'Mobi' para utilizar suas funções
+// Cria uma instância da classe 'Mob' para utilizar suas funções
 $mob = new Mob;
 
 $data = CONN;
@@ -58,13 +58,7 @@ switch (@$data['driver']) {
         require_once "./core/DataBase/{$data['driver']}.php";
         $sql = new Database\Postgre\PostgreSQL;
         break;
-        // Adicione casos adicionais conforme necessário para outros drivers
-
     default:
-        // Adicione um tratamento padrão ou uma mensagem de erro, se necessário
-        //$error = "Erro desconhecido ao tentar carregar os arquivos do banco de dados;";
-        //require_once('./core/php/error.php');
-        //exit;
 }
 
 /*
