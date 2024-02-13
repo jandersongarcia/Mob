@@ -30,7 +30,7 @@ $packages = json_decode(file_get_contents($path), true);
 $action = @$argv[1];
 $package = @$argv[2];
 
-$actions = ['install', 'delete', 'update', 'enabled', 'disabled', 'list'];
+$actions = ['install', 'remove', 'update', 'enabled', 'disabled', 'list', 'status'];
 
 if ($action == 'list') {
     echo $separadorLinha;
@@ -54,7 +54,7 @@ if (!in_array($action, $actions)) {
     echo " Lista de " . colorizar("actions \n", 33);
     echo $separadorLinha;
     echo exibirTabela('install ' . colorizar("package-name", 33), 'Instala o pacote no projeto');
-    echo exibirTabela('delete ' . colorizar("package-name", 33), 'Exclui um pacote do projeto');
+    echo exibirTabela('remove ' . colorizar("package-name", 33), 'Exclui um pacote do projeto');
     echo exibirTabela('update ' . colorizar("package-name", 33), 'Atualiza um pacote no projeto');
     echo exibirTabela('enabled ' . colorizar("package-name", 33), 'Ativa um pacote no projeto');
     echo exibirTabela('disabled ' . colorizar("package-name", 33), 'Desativa um pacote no projeto');
@@ -115,6 +115,31 @@ function atualizarPackagesJson($destinationDir)
 
 }
 
+function apagarPacote($caminho)
+{
+    if (!is_dir($caminho)) {
+        // Se o caminho não for um diretório, retornar false
+        return false;
+    }
+
+    $itens = new RecursiveIteratorIterator(
+        new RecursiveDirectoryIterator($caminho, RecursiveDirectoryIterator::SKIP_DOTS),
+        RecursiveIteratorIterator::CHILD_FIRST
+    );
+
+    foreach ($itens as $item) {
+        if ($item->isDir()) {
+            rmdir($item->getRealPath());
+        } else {
+            unlink($item->getRealPath());
+        }
+    }
+
+    rmdir($caminho);
+
+    return true;
+}
+
 if ($action == 'install') {
     if (isset($packages[$package])) {
         $gitUrl = $packages[$package]['url'];
@@ -158,4 +183,31 @@ if ($action == 'install') {
         exit;
     }
 }
+
+if ($action == 'remove') {
+    $jsonSave = json_decode(file_get_contents("core/Json/Packages.json"), true);
+
+    if (isset($packages[$package])) {
+        $category = $packages[$package]['category'];
+        if($category == 'preloader'){
+            // Ajuste para acessar os elementos corretamente
+            $jsonSave['packages']['preloader']['name'] = '';
+            $jsonSave['packages']['preloader']['enabled'] = null;
+            $jsonSave['packages']['preloader']['files']['css'] = '';
+            $jsonSave['packages']['preloader']['files']['php'] = '';
+            $jsonSave['packages']['preloader']['files']['js'] = '';
+
+            file_put_contents('core/Json/Packages.json', json_encode($jsonSave, JSON_PRETTY_PRINT));
+
+            apagarPacote("packages/{$package}");
+
+            echo colorizar("Desinstalação do pacote concluída.", 32) . "\n";
+            exit;
+        }
+    }
+
+    echo "\n$separadorLinha";
+    echo colorizar("Erro: ", 31) . "Falha ao tentar desinstalar pacote '{$package}'\n\n";
+}
+
 
