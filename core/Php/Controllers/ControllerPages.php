@@ -66,15 +66,15 @@ if ($app->checkHeader() || APP['mode'] == 0) {
         $packages = "core/Json/Packages.json";
         if(file_exists($packages)){
             $packages = json_decode(file_get_contents($packages),true);
-            $preloader = $packages['packges']['preloader'];
+            $preloader = $packages['packages']['preloader'];
             $preName = $preloader['name'];
-            $load = isset($preloader['load']) ? $preloader['load'] : false;
-            if(isset($preloader['dependency']) && $load === true){
-                $local = "packages/$preName/{$preloader['dependency']['css']}";
+            $load = isset($preloader['enabled']) ? $preloader['enabled'] : false;
+            if(isset($preloader['files']) && $load === true){
+                $local = "packages/$preName/{$preloader['files']['css']}";
                 if(file_exists($local)){
                     $prePackagesCss =  file_get_contents($local) . PHP_EOL;
                 }
-                $local = "packages/$preName/{$preloader['dependency']['file']}";
+                $local = "packages/$preName/{$preloader['files']['php']}";
                 if(file_exists($local)){
                     $prePackagesPage =  file_get_contents($local) . PHP_EOL;
                 }

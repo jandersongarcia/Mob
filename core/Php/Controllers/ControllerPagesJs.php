@@ -52,11 +52,11 @@ if ($app->checkHeader() || APP['mode'] == 0) {
         $packages = "core/Json/Packages.json";
         if(file_exists($packages)){
             $packages = json_decode(file_get_contents($packages),true);
-            $preloader = $packages['packges']['preloader'];
-            $preName = $preloader['name'];
-            $load = isset($preloader['load']) ? $preloader['load'] : false;
-            if(isset($preloader['dependency']) && $load === true){
-                $local = "packages/$preName/{$preloader['dependency']['js']}";
+            $preloader = $packages['packages']['preloader'];
+            $preName = ucfirst($preloader['name']);
+            $load = isset($preloader['enabled']) ? $preloader['enabled'] : false;
+            if(isset($preloader['files']) && $load === true){
+                $local = "packages/$preName/{$preloader['files']['js']}";
                 if(file_exists($local)){
                     $prePackages =  file_get_contents($local) . PHP_EOL;
                 }

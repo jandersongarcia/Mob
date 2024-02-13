@@ -1,12 +1,12 @@
 {
-    "packges": {
+    "packages": {
         "preloader": {
-            "name": "mobLoader",
-            "load": true,
-            "dependency": {
-                "css": "mobLoader.css",
-                "js": "mobLoader.js",
-                "file": "mobLoader.php"
+            "name": "",
+            "enabled": null,
+            "files": {
+                "css": "",
+                "js": "",
+                "php": ""
             }
         }
     }
