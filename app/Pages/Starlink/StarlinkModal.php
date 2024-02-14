@@ -2,11 +2,11 @@
 
 namespace app\Pages;
 
-class Teste {
+class Starlink {
 
-    public $title = 'Teste';
+    public $title = 'Starlink';
 
     // Declarar os componentes que serão usados na página.
-    public $components = [];
+    public $components = ['PanelAdmin'];
 
 }

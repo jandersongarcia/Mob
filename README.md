@@ -167,7 +167,7 @@ composer create-project --stability=dev jandersongarcia/mobi-php nome-do-projeto
 O MOB simplifica a criação de páginas automaticamente através do Composer.
 
 ```bash
-composer mobi-create-page nome-da-pagina nome-da-rota
+composer pages create nome-da-pagina nome-da-rota
 ```
 
 - Isso criará a pasta da página e configurará a rota em core/json/routes.json.
@@ -185,7 +185,7 @@ composer mobi-create-page nome-da-pagina nome-da-rota
 - Para **excluir uma página**, utilize o comando.
 
 ```bash
-composer mobi-delete-page nome-da-pagina
+composer pages remove nome-da-pagina
 ```
 
 ## Trabalhando com Rotas
@@ -204,7 +204,7 @@ composer mobi-delete-page nome-da-pagina
 - **Por exemplo**: Se precisar de uma subrota _empresa/cadastro_, o comando seria
 
 ```bash
-composer mobi-create-page nome-da-pagina empresa/cadastro
+composer pages nome-da-pagina empresa/cadastro
 ```
 
 ### Listar Rotas
@@ -212,7 +212,7 @@ composer mobi-create-page nome-da-pagina empresa/cadastro
 - Caso precise listar as rotas da sua aplicação, poderá utilizar o comando **composer mobi-list-routes** ou acessá-las diretamente no arquivo json que fica em _core/json/routes.json_.
 
 ```bash
-composer mobi-list-routes
+composer list-routes
 ```
 
 ### Renomear rota
@@ -221,7 +221,7 @@ composer mobi-list-routes
 - Por exemplo: Supondo que precise alterar a rota _product_ para _register_, o comando ficaria o seguinte: **composer mobi-rename-route product register**
 
 ```bash
-composer mobi-rename-route rota-antiga nova-rota
+composer rename-route rota-antiga nova-rota
 ```
 
 ## Criação de Componentes
@@ -230,7 +230,7 @@ A utilização de componentes oferece uma maneira simples e eficiente de reutili
 - Utilize o comando:
 
 ```bash
-composer mobi-create-component nome-do-componente
+composer component create nome-do-componente
 ```
 
 - Isso criará o componente automaticamente dentro da pasta **components**.
@@ -244,6 +244,11 @@ composer mobi-create-component nome-do-componente
         - **Novocomponente.js**: arquivo JavaScript do componente
         - **Novocomponente.view.php**: página de visualização do componente
 
+- Para excluir um componente, podemos usar o comando remove.
+```bash
+composer component remove nome-do-componente
+```
+
 ## Criação de Módulos
 
 - Os módulos são úteis para interação com o backend via requisição.
@@ -251,7 +256,7 @@ composer mobi-create-component nome-do-componente
 - Utilize o comando:
 
 ```bash
-composer mobi-create-module nome-do-módulo
+composer module create nome-do-módulo
 ```
 
 ### Estrutura do Módulo Criado

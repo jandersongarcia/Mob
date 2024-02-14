@@ -50,15 +50,15 @@ if ($app->checkHeader() || APP['mode'] == 0) {
 
         //Procura pelo pacote preloader
         $packages = "core/Json/Packages.json";
-        if(file_exists($packages)){
-            $packages = json_decode(file_get_contents($packages),true);
+        if (file_exists($packages)) {
+            $packages = json_decode(file_get_contents($packages), true);
             $preloader = $packages['packages']['preloader'];
             $preName = ucfirst($preloader['name']);
             $load = isset($preloader['enabled']) ? $preloader['enabled'] : false;
-            if(isset($preloader['files']) && $load === true){
+            if (isset($preloader['files']) && $load === true) {
                 $local = "packages/$preName/{$preloader['files']['js']}";
-                if(file_exists($local)){
-                    $prePackages =  file_get_contents($local) . PHP_EOL;
+                if (file_exists($local)) {
+                    $prePackages = file_get_contents($local) . PHP_EOL;
                 }
             }
         }
@@ -73,15 +73,15 @@ if ($app->checkHeader() || APP['mode'] == 0) {
             $scriptJs .= @$prePackages;
 
             // Verifica se existem componentes com scripts
-            if(file_exists($modal) && file_exists($controller)){
+            if (file_exists($modal) && file_exists($controller)) {
 
                 require_once($modal);
                 require_once($controller);
 
                 // Carrega os componentes declarados no modal
                 $var = strtolower($controllerName);
-                if(isset($$var->components)){
-                    $scriptJs .=(printJS($$var->components));
+                if (isset($$var->components)) {
+                    $scriptJs .= (printJS($$var->components));
                 }
 
             }
@@ -104,18 +104,38 @@ if ($app->checkHeader() || APP['mode'] == 0) {
     echo json_encode($return);
 }
 
-function printJS($array){
+function printJS($array)
+{
     $jsContent = '';
 
-    if(is_array($array) && !empty($array)){
+    if (is_array($array) && !empty($array)) {
         header('Content-Type: text/javascript');
-
-        foreach($array as $key){
+        foreach ($array as $key) {
             $key = ucfirst($key);
             $file = "app/Components/$key/$key.js";
-
-            if(file_exists($file)){
+            if (file_exists($file)) {
                 $jsContent .= file_get_contents($file);
+            }
+        }
+
+        // Baixa a lista de pacotes
+        $pack = "core/Json/Packages.json";
+        if (file_exists($pack)) {
+            $json = json_decode(file_get_contents($pack), true);
+            if (isset($json['packages']['components'])) {
+                $packages = $json['packages']['components'];
+            }
+        }
+
+        foreach ($array as $key) {
+            $file = "packages/$key/$key.js";
+            if (isset($packages[$key])) {
+                $package = $packages[$key];
+                if ($package['enabled'] == 1) {
+                    if (file_exists($file)) {
+                        $jsContent .= file_get_contents($file);
+                    }
+                }
             }
         }
     }

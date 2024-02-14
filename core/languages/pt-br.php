@@ -49,6 +49,11 @@ class Language{
         "message" => "Não foi possível conectar ao banco de dados.<br>"
     ];
 
+    public $err3009 = [
+        "title" => "Error: 3009",
+        "message" => "Problema ao tentar carregar o MC do Components"
+    ];
+
     public $err3010 = [
         "title" => "Error: 3010",
         "message" => "O tipo de banco de dados declarado em <strong class='text-danger'>app_data_type</strong> no arquivo <strong class='text-danger'>/config/database.php</strong> está incorreto. <br>Certifique-se de preencher esta variável com <strong class='text-danger'>'mysql'</strong> para MySQL ou <strong class='text-danger'>'pgsql'</strong> para usar o Banco de dados PostgreSQL."

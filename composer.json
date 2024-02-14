@@ -1,7 +1,7 @@
 {
     "name": "jandersongarcia/mob",
     "description": "Modular Object Builder",
-    "type": "library",
+    "type": "project",
     "license": "MIT",
     "authors": [
         {
@@ -39,10 +39,13 @@
         "mob-delete-component": "php core/Php/Composer/DeleteComponent.php",
         "mob-create-module": "php core/Php/Composer/CreateModule.php",
         "mob-delete-module": "php core/Php/Composer/DeleteModule.php",
-        "mob-list-routes": "php core/Php/Composer/RouteList.php",
-        "mob-rename-route": "php core/Php/Composer/RouteRename.php",
         "mob-theme-install": "php core/Php/Composer/CreateTheme.php",
-        "mob-generator": "php core/Php/Composer/MobGenerator.php"
+        "list-routes": "php core/Php/Composer/RouteList.php",
+        "rename-route": "php core/Php/Composer/RouteRename.php",
+        "maestro": "php core/Php/Composer/MobGenerator.php",
+        "component": "php core/Php/Composer/MobComponent.php",
+        "module": "php core/Php/Composer/MobModules.php",
+        "pages": "php core/Php/Composer/MobPages.php"
     },
     "minimum-stability": "stable",
     "prefer-stable": true

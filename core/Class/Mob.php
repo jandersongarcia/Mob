@@ -20,10 +20,10 @@ class Mob
         return isset($slicePath[$n]) ? $slicePath[$n] : '';
     }
 
-    private function ErrorMini($error,$msg)
+    public function ErrorMini($error, $msg, $page = true)
     {
         $file = "templates/Error/MobError.php";
-        if(!file_exists($file)){
+        if (!file_exists($file)) {
             return "<div class='alert alert-danger mx-3' role='alert'>$msg</div>";
         } else {
             $lang = new \Core\Languages\Language;
@@ -31,21 +31,33 @@ class Mob
 
             $value = (preg_match("/'(.*?)'/", $msg, $matches)) ? $matches[1] : '';
 
-            require_once($file);
+            if ($page) {
+                require_once($file);
+            } else {
+                $array = [
+                    "error" => [
+                        "number" => "$error",
+                        "message" => "$msg"
+                    ]
+                ];
+                echo json_encode($array,JSON_UNESCAPED_UNICODE);
+            }
 
             $this->log('error', strip_tags("{$erro['title']} {$erro['message']} $value"));
         }
-        
+
     }
 
     public function components($components)
     {
+        $error = false;
         // Verifica se $components é um array
         if (is_array($components)) {
             // Itera sobre os componentes fornecidos
             foreach ($components as $component) {
                 $cmp = $component;
 
+                // PESQUISA PARTE 1
                 $pathComponents = [
                     'modal' => "app/Components/$cmp/{$cmp}Modal.php",
                     'component' => "app/Components/$cmp/{$cmp}Controller.php",
@@ -54,9 +66,26 @@ class Mob
 
                 foreach ($pathComponents as $name => $path) {
                     if (!file_exists($path)) {
-                        $msg = "There was an error trying to load the '$cmp' component.";
-                        echo $this->ErrorMini('err3001',$msg);
-                        exit();
+                        $error = true;
+                        break;
+                    }
+                }
+
+                //PESQUISA PARTE 2
+                if($error){
+                    $pathComponents = [
+                        'modal' => "packages/$cmp/{$cmp}Modal.php",
+                        'component' => "packages/$cmp/{$cmp}Controller.php",
+                        'view' => "packages/$cmp/{$cmp}View.php"
+                    ];
+    
+                    foreach ($pathComponents as $name => $path) {
+                        if (!file_exists($path)) {
+                            $error = true;
+                            $msg = "There was an error trying to load the '$cmp' component.";
+                            echo $this->ErrorMini('err3001', $msg);
+                            exit();
+                        }
                     }
                 }
 
@@ -69,7 +98,7 @@ class Mob
         } else {
             // Exibe mensagem de erro se $components não for um array
             $msg = "Components must be declared within an [`array`].";
-            echo $this->ErrorMini('err3000',"Erro 3000: $msg");
+            echo $this->ErrorMini('err3000', "Erro 3000: $msg");
         }
     }
 
@@ -326,7 +355,7 @@ class Mob
         error_log($errorMessage, 3, 'var/logs/mob.log');
     }
 
-    public function log($type = 'error',$message)
+    public function log($type = 'error', $message)
     {
         $ipAddress = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '0.0.0.0';
         $uri = filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);

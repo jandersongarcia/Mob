@@ -1,0 +1,60 @@
+:root {
+    --bg-default-light: #777BB3;
+    --bg-page-light: #F9FAFD;
+    --bg-hover-light: #DDD;
+    --text-color-light: #333;
+  }
+  
+  .dark-mode {
+    --bg-default: #333;
+    --bg-page: #121212;
+    --bg-hover: #666;
+    --text-color-dark: #F9FAFD;
+  }
+  
+  body {
+    background-color: var(--bg-page-light);
+    color: var(--text-color-light);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  body.dark-theme {
+    background-color: var(--bg-page);
+    color: var(--text-color-dark);
+  }
+  
+  .navbar-brand img {
+    max-height: 40px !important;
+  }
+  
+  .menuDrop,
+  .btnMenu {
+    cursor: pointer;
+  }
+  
+  .btnMenu {
+    padding: 5px;
+    font-size: 1.5em;
+  }
+  
+  .btnMenu:hover {
+    color: var(--bg-hover-light);
+  }
+  
+  #lateralMenu {
+    position: fixed;
+    left: -250px;
+    top: 0;
+    width: 250px;
+    height: 100vh;
+    background-color: var(--bg-default-light);
+    box-sizing: border-box;
+    transition: left 0.3s ease;
+    padding-top: 65px;
+  }
+
+  #lateralMenu .accordion-item, #lateralMenu .accordion-button{
+    background: none !important;
+    border:none;
+  }
+  

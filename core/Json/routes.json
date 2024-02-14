@@ -6,13 +6,8 @@
             "method": "ALL"
         },
         {
-            "path": "\/teste",
-            "controller": "Teste",
-            "method": "ALL"
-        },
-        {
-            "path": "\/teste\/admin",
-            "controller": "TesteAdmin",
+            "path": "\/starlink",
+            "controller": "Starlink",
             "method": "ALL"
         }
     ]

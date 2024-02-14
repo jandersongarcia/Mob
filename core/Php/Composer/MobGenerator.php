@@ -50,7 +50,7 @@ if ($action == 'list') {
 if (!in_array($action, $actions)) {
     echo "\n$separadorLinha";
     echo colorizar("Erro: ", 31) . "Linha de comando não reconhecida ou incompleta\n\n";
-    echo "USO: " . colorizar("composer", 33) . " mob-generator " . colorizar("action packages", 33) . "\n\n";
+    echo "USO: " . colorizar("composer", 33) . " maestro " . colorizar("action packages", 33) . "\n\n";
     echo " Lista de " . colorizar("actions \n", 33);
     echo $separadorLinha;
     echo exibirTabela('install ' . colorizar("package-name", 33), 'Instala o pacote no projeto');
