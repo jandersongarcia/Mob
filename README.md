@@ -1,7 +1,6 @@
 # MOB: Modular Object Builder
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/jandersongarcia/Mob/core/Assets/Images/mob.png" alt="MOB">
   <img src="https://raw.githubusercontent.com/jandersongarcia/Mob/main/core/Assets/Images/mob.png" alt="MOB">
 </p>
 
