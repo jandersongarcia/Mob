@@ -1,8 +1,8 @@
 # MOB: Modular Object Builder
 
 <p align="center">
-  ![MOB](https://raw.githubusercontent.com/jandersongarcia/Mob/core/Assets/Images/mob.png)
   <img src="https://raw.githubusercontent.com/jandersongarcia/Mob/core/Assets/Images/mob.png" alt="MOB">
+  <img src="https://raw.githubusercontent.com/jandersongarcia/MobiPHP/main/public/assets/images/mobi-logo.png" alt="MOB">
 </p>
 
 O MOB é um framework em PHP com JavaScript, conhecido como MOB: Modular Object Builder. Projetado para simplificar a rápida construção de aplicações web completas ou atuar como backend, o MOB destaca-se pela abordagem modular do seu construtor de objetos.
@@ -12,19 +12,33 @@ Esta documentação fornece informações cruciais para começar o desenvolvimen
 ## Sumário
 
 - [MOB: Modular Object Builder](#mob-modular-object-builder)
-  - [Pré-requisitos](#pré-requisitos)
+  - [Sumário](#sumário)
+  - [Pré-requisitos de Ambiente](#pré-requisitos-de-ambiente)
   - [Estrutura de Pastas](#estrutura-de-pastas)
   - [Dependências e Bibliotecas](#dependências-e-bibliotecas)
   - [Instalação](#instalação)
   - [Criação de Páginas](#criação-de-páginas)
+    - [Estrutura da Página Criada](#estrutura-da-página-criada)
   - [Trabalhando com Rotas](#trabalhando-com-rotas)
+    - [Criação de subrotas](#criação-de-subrotas)
+    - [Listar Rotas](#listar-rotas)
+    - [Renomear rota](#renomear-rota)
   - [Criação de Componentes](#criação-de-componentes)
+    - [Estrutura do Componente Criado](#estrutura-do-componente-criado)
   - [Criação de Módulos](#criação-de-módulos)
+    - [Estrutura do Módulo Criado](#estrutura-do-módulo-criado)
   - [Módulo de CRUD](#módulo-de-crud)
     - [Configuração do Banco de Dados](#configuração-do-banco-de-dados)
-    - [Exemplo de Uso](#exemplo-de-uso)
+  - [Exemplo de Uso](#exemplo-de-uso)
     - [Exemplo de Uso com Consulta SQL Personalizada](#exemplo-de-uso-com-consulta-sql-personalizada)
-    - [Métodos Disponíveis](#métodos-disponíveis)
+    - [Consultas SQL Mais Complexas](#consultas-sql-mais-complexas)
+  - [Métodos Disponíveis](#métodos-disponíveis)
+    - [`insert($table, $data)`](#inserttable-data)
+    - [`getAll($table)`](#getalltable)
+    - [`getById($table, $primaryKey, $id)`](#getbyidtable-primarykey-id)
+    - [`update($table, $data, $id)`](#updatetable-data-id)
+    - [`delete($table, $id)`](#deletetable-id)
+    - [`query($sql, $params)`](#querysql-params)
   - [Temas Prontos](#temas-prontos)
   - [Requisições com JavaScript](#requisições-com-javascript)
   - [Contribuição](#contribuição)
