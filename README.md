@@ -1,7 +1,7 @@
 # MOB: Modular Object Builder
 
 <p align="center">
-https://github.com/jandersongarcia/Mob/blob/core/Assets/Images/mob.png
+  ![MOB](https://raw.githubusercontent.com/jandersongarcia/Mob/core/Assets/Images/mob.png)
   <img src="https://raw.githubusercontent.com/jandersongarcia/Mob/core/Assets/Images/mob.png" alt="MOB">
 </p>
 
