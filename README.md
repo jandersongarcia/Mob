@@ -2,7 +2,7 @@
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/jandersongarcia/Mob/core/Assets/Images/mob.png" alt="MOB">
-  ![MOB](core/Assets/Images/mob.png)
+  <img src="https://raw.githubusercontent.com/jandersongarcia/Mob/main/core/Assets/Images/mob.png" alt="MOB">
 </p>
 
 O MOB é um framework em PHP com JavaScript, conhecido como MOB: Modular Object Builder. Projetado para simplificar a rápida construção de aplicações web completas ou atuar como backend, o MOB destaca-se pela abordagem modular do seu construtor de objetos.
