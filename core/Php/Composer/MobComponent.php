@@ -14,8 +14,7 @@ function exibirTabela($comando, $descricao)
 
 $separadorLinha = "---------------------------------------------------------------\n";
 
-$action = @$argv[1];
-$component = @$argv[2];
+$component = @$argv[1];
 
 $actions = ['create', 'remove'];
 

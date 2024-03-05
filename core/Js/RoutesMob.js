@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Carregar o script do Navigo dinamicamente
     carregarScript('/node_modules/navigo/lib/navigo.js', function () {
-        let caminho = '/core/json/routes.json?t=' + new Date().getTime();
+        let caminho = '/core/Json/Routes.json?t=' + new Date().getTime();
 
         // Carregar as rotas do arquivo JSON
         fetch(caminho)

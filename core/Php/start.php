@@ -7,6 +7,7 @@ require_once 'vendor/autoload.php';
 use Core\MClass\Root as RootAlias;
 use Core\MClass\Application;
 use Core\MClass\Mob;
+use MatthiasMullie\Minify;
 use languages\Language;
 
 /*
@@ -67,6 +68,9 @@ switch (@$data['driver']) {
 |----------------------------------------------------------------
 */
 
+// Conteúdo da página PHP
+ob_start();
+
 // Caminho do arquivo inicial da aplicação
 $appFilePath = 'app/App.php';
 
@@ -74,7 +78,7 @@ $appFilePath = 'app/App.php';
 if ($app->path(0) == 'ctrl') {
     // Página controladora
     $root->get();
-    require_once('core/Php/Controllers/Controller.init.php');
+    require_once(ROOT . '/core/Php/Controllers/Controller.init.php');
 } else if (file_exists($appFilePath)) {
     // Carrega a página prestart
     require_once("config/Startup.php");
@@ -86,3 +90,11 @@ if ($app->path(0) == 'ctrl') {
     $app->msgError("File '$appFilePath' was not found.");
     exit();
 }
+
+$output = ob_get_clean();
+
+if (APP['minify']) {
+    $output = preg_replace('/\s+/', ' ', $output);
+}
+
+echo $output;

@@ -4,11 +4,6 @@
             "path": "\/",
             "controller": "Main",
             "method": "ALL"
-        },
-        {
-            "path": "\/starlink",
-            "controller": "Starlink",
-            "method": "ALL"
         }
     ]
 }

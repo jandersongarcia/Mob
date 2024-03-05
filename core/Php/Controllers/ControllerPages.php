@@ -12,7 +12,12 @@ $page = "/" . strtolower($app->path(2));
 
 // Analisa a URL para extrair o caminho da página
 $query = explode('pages/', $_SERVER['QUERY_STRING']);
-$page = (substr($query[1], -1) == "/") ? "/" . substr($query[1], 0, -1) : "/" . $query[1];
+
+if(isset($query[1])){
+    $page = (substr($query[1], -1) == "/") ? "/" . substr($query[1], 0, -1) : "/" . $query[1];
+} else {
+    $page = "/";
+}
 
 // Verifica se o cabeçalho está presente ou se o modo do aplicativo é 0
 if ($app->checkHeader() || APP['mode'] == 0) {
@@ -40,10 +45,10 @@ if ($app->checkHeader() || APP['mode'] == 0) {
 
             // Define os arquivos relacionados ao controlador
             $files = [
-                'modal' => "app/Pages/$controllerPath/{$controllerName}Modal.php",
-                'controller' => "app/Pages/$controllerPath/{$controllerName}Controller.php",
-                'view' => "app/Pages/$controllerPath/{$controllerName}View.php",
-                'css' => "app/Pages/$controllerPath/$controllerName.css",
+                'modal' => ROOT."/app/Pages/$controllerPath/{$controllerName}Modal.php",
+                'controller' => ROOT."/app/Pages/$controllerPath/{$controllerName}Controller.php",
+                'view' => ROOT."/app/Pages/$controllerPath/{$controllerName}View.php",
+                'css' => ROOT."/app/Pages/$controllerPath/$controllerName.css",
             ];
 
             // Verifica se a rota corresponde à página atual
@@ -63,7 +68,7 @@ if ($app->checkHeader() || APP['mode'] == 0) {
         }
 
         // Procura pelo pacote preloader
-        $packages = "core/Json/Packages.json";
+        $packages = ROOT."/core/Json/Packages.json";
         if (file_exists($packages)) {
 
             $packages = json_decode(file_get_contents($packages), true);
@@ -71,7 +76,7 @@ if ($app->checkHeader() || APP['mode'] == 0) {
             $preName = $preloader['name'];
             $load = isset($preloader['enabled']) ? $preloader['enabled'] : false;
             if (isset($preloader['files']) && $load === true) {
-                $local = "packages/$preName/{$preloader['files']['css']}";
+                $local = ROOT."/packages/$preName/{$preloader['files']['css']}";
                 if (file_exists($local)) {
                     $prePackagesCss = file_get_contents($local) . PHP_EOL;
                 }
@@ -94,7 +99,7 @@ if ($app->checkHeader() || APP['mode'] == 0) {
             $allStyles = (file_exists($files['css'])) ? file_get_contents($files['css']) : '';
 
             // Adiciona o CSS do pacote preloader, se existir
-            $allStyles = @$prePackagesCss;
+            $allStyles .= @$prePackagesCss;
 
             // Utiliza o Minify\CSS para compactar os estilos
             $minifier = new Minify\CSS();

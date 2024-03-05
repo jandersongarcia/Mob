@@ -14,9 +14,8 @@ function exibirTabela($comando, $descricao)
 
 $separadorLinha = "---------------------------------------------------------------\n";
 
-$action = @$argv[1];
-$component = @$argv[2];
-$route = @$argv[3];
+$component = @$argv[1];
+$route = @$argv[2];
 $route = ($action == 'remove') ? true : $route;
 
 $actions = ['create', 'remove'];
@@ -169,7 +168,12 @@ if ($action == 'create') {
     // Criar arquivos dentro da pasta recém-criada
 
     // Página View
-    file_put_contents("app/pages/$nomePagina/{$nomePagina}View.php", "<div class='w-100 vh-100 bg-dark text-light d-flex flex-column justify-content-center align-items-center'>\n    <h1>MobiPHP</h1>\n    <p>Página $nomePagina</p>\n</div>");
+
+    $langTitle = '<?= $lang->mob["title"]; ?>';
+    $langView = '<?= $lang->mob["subtitle"]; ?>';
+    $img = '';
+
+    file_put_contents("app/pages/$nomePagina/{$nomePagina}View.php", "<div class='w-100 vh-100 bg-dark text-light d-flex flex-column justify-content-center align-items-center'>\n    <div class='mb-3'><img src='/core/Assets/Images/mob.png' alt='$langTitle'></div>\n    <p class='fs-5'>$langView $nomePagina</p>\n</div>");
     echo "Visualização da página $nomePagina: " . colorizar("[OK]", 32) . "\n";
 
     // Página Modal

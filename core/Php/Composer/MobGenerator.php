@@ -98,7 +98,7 @@ function atualizarPackagesJson($destinationDir)
     $jsonRead = json_decode(file_get_contents("{$destinationDir}\MPack.json"), true);
 
     // JSON gravação
-    $jsonSave = json_decode(file_get_contents('core/Json/Packages.json'), true);
+    $jsonSave = json_decode(file_get_contents(ROOT.'/core/Json/Packages.json'), true);
 
     $type = @$jsonRead['type'];
 
@@ -110,7 +110,7 @@ function atualizarPackagesJson($destinationDir)
         $jsonSave['packages'][$type]['files']['php'] = $jsonRead['files']['php'];
 
         // Salva as alterações no arquivo 'Packages.json'
-        file_put_contents('core/Json/Packages.json', json_encode($jsonSave, JSON_PRETTY_PRINT));
+        file_put_contents(ROOT.'/core/Json/Packages.json', json_encode($jsonSave, JSON_PRETTY_PRINT));
     }
 
 }
@@ -197,7 +197,7 @@ if ($action == 'remove') {
             $jsonSave['packages']['preloader']['files']['php'] = '';
             $jsonSave['packages']['preloader']['files']['js'] = '';
 
-            file_put_contents('core/Json/Packages.json', json_encode($jsonSave, JSON_PRETTY_PRINT));
+            file_put_contents(ROOT.'/core/Json/Packages.json', json_encode($jsonSave, JSON_PRETTY_PRINT));
 
             apagarPacote("packages/{$package}");
 

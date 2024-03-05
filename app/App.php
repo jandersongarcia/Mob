@@ -6,8 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php
-    $mob->loadBootstrap(['css', 'icon']);
-    $mob->loadMobcss();
+    $mob->loadMob('css');
+    $mob->lib('css', ['bs', 'bs-icon']);
     ?>
     <title>
         <?= $app->title(); ?>
@@ -15,15 +15,13 @@
 </head>
 
 <body>
-    <div id="app" onload="myPreloderFunction()"></div>
-    <?php
-    $mob->loadBootstrap(['js']);
-    $mob->loadMobjs();
-    $mob->loadJquery();
-    ?>
 
-    <script src="https://cdn.datatables.net/v/dt/dt-1.13.8/datatables.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <div id="app"></div>
+
+    <?php
+    $mob->lib('js', ['bs', 'jquery']);
+    $mob->loadMob('js');
+    ?>
 
 </body>
 

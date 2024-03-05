@@ -54,11 +54,12 @@ if ($app->checkHeader() || APP['mode'] == 0) {
             $packages = json_decode(file_get_contents($packages), true);
             $preloader = $packages['packages']['preloader'];
             $preName = ucfirst($preloader['name']);
+            $prePackages = "";
             $load = isset($preloader['enabled']) ? $preloader['enabled'] : false;
             if (isset($preloader['files']) && $load === true) {
                 $local = "packages/$preName/{$preloader['files']['js']}";
                 if (file_exists($local)) {
-                    $prePackages = file_get_contents($local) . PHP_EOL;
+                    $prePackages = file_get_contents($local);
                 }
             }
         }
@@ -133,7 +134,7 @@ function printJS($array)
                 $package = $packages[$key];
                 if ($package['enabled'] == 1) {
                     if (file_exists($file)) {
-                        $jsContent .= file_get_contents($file);
+                        $jsContent .= "\n".trim(file_get_contents($file));
                     }
                 }
             }

@@ -1,23 +1,11 @@
 {
     "packages": {
         "preloader": {
-            "name": "mobLoader",
-            "enabled": true,
-            "files": {
-                "css": "mobLoader.css",
-                "js": "mobloader.js",
-                "php": "mobLoader.php"
-            }
+            "name":"",
+            "enabled": false
         },
         "components": {
-            "PanelAdmin": {
-                "enabled": true,
-                "files": {
-                    "css": "PanelAdmin.css",
-                    "php": "PanelAdmin.php",
-                    "js": "PanelAdmin.js"
-                }
-            }
+            
         }
     }
 }

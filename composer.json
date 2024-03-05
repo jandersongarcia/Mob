@@ -15,7 +15,7 @@
             "core/Class/Mob.php",
             "core/Class/Root.php"
         ]
-    },
+    }, 
     "dependencies": {
         "jquery": "^3.6.0",
         "navigo": "^7.1.0"
@@ -26,27 +26,24 @@
         "matthiasmullie/minify": "^1.3",
         "twbs/bootstrap": "5.3.2",
         "twbs/bootstrap-icons": "^1.10",
-        "phpmailer/phpmailer": "^6.9"
+        "phpmailer/phpmailer": "^6.9",
+        "guzzlehttp/guzzle": "^7.8"
     },
     "scripts": {
         "post-install-cmd": [
             "npm install",
             "App\\ScriptHandler::movePackage"
         ],
-        "mob-create-page": "php core/Php/Composer/CreatePage.php",
-        "mob-delete-page": "php core/Php/Composer/DeletePage.php",
-        "mob-create-component": "php core/Php/Composer/CreateComponent.php",
-        "mob-delete-component": "php core/Php/Composer/DeleteComponent.php",
-        "mob-create-module": "php core/Php/Composer/CreateModule.php",
-        "mob-delete-module": "php core/Php/Composer/DeleteModule.php",
-        "mob-theme-install": "php core/Php/Composer/CreateTheme.php",
-        "list-routes": "php core/Php/Composer/RouteList.php",
-        "rename-route": "php core/Php/Composer/RouteRename.php",
-        "maestro": "php core/Php/Composer/MobGenerator.php",
-        "component": "php core/Php/Composer/MobComponent.php",
-        "module": "php core/Php/Composer/MobModules.php",
-        "pages": "php core/Php/Composer/MobPages.php"
+        "mob-create-component": "php core/Php/Composer/Componente.Create.php",
+        "mob-remove-component": "php core/Php/Composer/Componente.Remove.php",
+        "mob-create-module": "php core/Php/Composer/Module.Create.php",
+        "mob-remove-module": "php core/Php/Composer/Module.Remove.php",
+        "mob-create-page": "php core/Php/Composer/Page.Create.php",
+        "mob-remove-page": "php core/Php/Composer/Page.Remove.php",        
+        "mob-route-list": "php core/Php/Composer/RouteList.php",
+        "mob-route-rename": "php core/Php/Composer/RouteRename.php",
+        "maestro": "php core/Php/Composer/MobGenerator.php"
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true
 }

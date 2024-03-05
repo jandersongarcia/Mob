@@ -7,7 +7,7 @@ function colorizar($texto, $codigoCor)
 
 function listRoutes()
 {
-    $routesJson = file_get_contents('core/json/routes.json');
+    $routesJson = file_get_contents(ROOT.'/core/json/routes.json');
     $routesData = json_decode($routesJson, true);
 
     if ($routesData && isset($routesData['routes']) && is_array($routesData['routes'])) {

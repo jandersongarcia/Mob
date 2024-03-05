@@ -21,5 +21,6 @@ session_start();
 | Neste arquivo está contido as configurações, autoloaders e outras inicializações.
 |
 */
+DEFINE('ROOT',__DIR__);
 
 require_once('core/php/start.php');

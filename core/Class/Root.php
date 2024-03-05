@@ -32,6 +32,8 @@ class Root
         // Define o pacote de idiomas do MOB
         $this->defineMobLanguage();
 
+        $this->defineLib();
+
 
     }
 
@@ -66,7 +68,7 @@ class Root
                     $conn = ['data' => 'ERROR'];
                     if ($e[1] != 'ctrl') {
                         $msg = "The database type declared in <strong class='text-danger'>app_data_type</strong> in the file <strong class='text-danger'>/config/database.php</strong> is incorrect. <br>Make sure to fill this variable with <strong class='text-danger'>'mysql'</strong> for MySQL or <strong class='text-danger'>'pgsql'</strong> to use the PostgreSQL database.";
-                        $this->mob->ErrorMini("err3010",$msg);
+                        $this->mob->ErrorMini("err3010", $msg);
                         exit;
                     }
                 }
@@ -80,7 +82,7 @@ class Root
 
         } else {
             $msg = 'Database configuration file not found.';
-            $this->mob->ErrorMini("err3002",$msg);
+            $this->mob->ErrorMini("err3002", $msg);
             exit;
         }
     }
@@ -120,7 +122,22 @@ class Root
             $appData = require $appConfigPath;
             define('APP', $appData);
         } else {
-            $this->mob->ErrorMini("err3003","Application configuration file not found.");
+            $this->mob->ErrorMini("err3003", "Application configuration file not found.");
+            exit;
+        }
+    }
+
+    private function defineLib()
+    {
+        $appConfigPath = 'config/Lib.php';
+
+        // Verifica se o arquivo de configuração da aplicação existe
+        if (file_exists($appConfigPath)) {
+            $appData = require $appConfigPath;
+            define('LIB', $appData);
+                            
+        } else {
+            $this->mob->ErrorMini("err3003", "Library 'config/Lib.php' file not found.");
             exit;
         }
     }
@@ -133,14 +150,14 @@ class Root
     */
     private function defineMailer()
     {
-        $appConfigPath = 'config/Phpmailer.php';
+        $appConfigPath = ROOT . '/config/PhpMailer.php';
 
         // Verifica se o arquivo de configuração da aplicação existe
         if (file_exists($appConfigPath)) {
             $appData = require $appConfigPath;
             define('MAIL', $appData);
         } else {
-            $this->mob->ErrorMini("err3004","Mail sending configuration file not found in 'config/PhpMailer.php'");
+            $this->mob->ErrorMini("err3004", "Mail sending configuration file not found in 'config/PhpMailer.php'");
             exit;
         }
     }
@@ -158,7 +175,7 @@ class Root
             date_default_timezone_set($appData['timezone']);
         } else {
             trigger_error('Item `timezone` was not found or defined in `config/App.php`', E_USER_WARNING);
-            $this->mob->ErrorMini("err3005","Item `timezone` was not found or defined in `config/App.php`");
+            $this->mob->ErrorMini("err3005", "Item `timezone` was not found or defined in `config/App.php`");
             exit;
         }
     }
@@ -178,13 +195,13 @@ class Root
                 require_once $languageFile;
             } else {
                 $msg = "Language file not found in `languages` directory.";
-                $this->mob->ErrorMini("err3006",$msg);
+                $this->mob->ErrorMini("err3006", $msg);
                 trigger_error($msg, E_USER_WARNING);
                 exit;
             }
         } else {
             $msg = "Language not defined in application configuration.";
-            $this->mob->ErrorMini("err3007",$msg);
+            $this->mob->ErrorMini("err3007", $msg);
             trigger_error($msg, E_USER_WARNING);
             exit;
         }
@@ -195,15 +212,17 @@ class Root
         $appData = APP;
 
         if (isset($appData['language'])) {
-            $languageFile = "core/languages/{$appData['language']}.php";
+            $languageFile = ROOT."/core/Languages/{$appData['language']}.php";
             if (file_exists($languageFile)) {
                 require_once $languageFile;
             } else {
-                $languageFile = "core/languages/pt-br.php";
+                $languageFile = ROOT."/core/Languages/pt-br.php";
                 if (file_exists($languageFile)) {
                     require_once $languageFile;
                 } else {
-                    trigger_error('Arquivo de idioma da aplicação não foi encontrado.', E_USER_WARNING);
+                    $msg = "Language not defined in application configuration.";
+                    $this->mob->ErrorMini("err3007", 'Application language file was not found.');
+                    exit;
                 }
             }
         }

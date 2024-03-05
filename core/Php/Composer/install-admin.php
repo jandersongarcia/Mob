@@ -1,6 +1,6 @@
 <?php
 
-require_once('core\class\mobi.php');
+require_once(ROOT.'core\class\mobi.php');
 use Mobi\Mobi;
 
 $mob = new Mobi;

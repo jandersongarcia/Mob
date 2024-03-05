@@ -6,7 +6,7 @@ namespace Core\MClass;
 use Languages\Language;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-use Core\Languages; // IDIOMA DA APLICAÇÃO
+use Core\Languages;
 
 class Mob
 {
@@ -20,30 +20,61 @@ class Mob
         return isset($slicePath[$n]) ? $slicePath[$n] : '';
     }
 
+    public function lib($mode, $array)
+    {
+        $type = ['css' => [], 'js' => []];
+
+        if ($mode == 'css') {
+            $type['css'][] = '<link rel="stylesheet" href="/[local]">' . "\n";
+        } elseif ($mode == 'js') {
+            $type['js'][] = '<script src="/[local]"></script>' . "\n";
+        } else {
+            return '<!-- Library data provided incorrectly or non-existent. -->';
+        }
+
+        $library = LIB;
+        $n = 0;
+        if (is_array($array)) {
+            foreach ($array as $key) {
+                if (isset($library[$mode][$key])) {
+                    $space = ($n > 0 || $mode == 'css') ? '    ' : '';
+                    echo $space . str_replace('[local]', $library[$mode][$key], $type[$mode][0]);
+                    $n++;
+                }
+            }
+        }
+    }
+
+
     public function ErrorMini($error, $msg, $page = true)
     {
-        $file = "templates/Error/MobError.php";
+
+        $file = ROOT . "/templates/Error/MobError.php";
         if (!file_exists($file)) {
             return "<div class='alert alert-danger mx-3' role='alert'>$msg</div>";
         } else {
-            $lang = new \Core\Languages\Language;
-            $erro = $lang->$error;
+            // $langError = new Languages\Language;
+            $erro = [
+                'title' => 'Error',
+                'message' => $msg
+            ];
 
-            $value = (preg_match("/'(.*?)'/", $msg, $matches)) ? $matches[1] : '';
+            // $value = (preg_match("/'(.*?)'/", $msg, $matches)) ? $matches[1] : '';
 
             if ($page) {
+                $value = '';
                 require_once($file);
             } else {
-                $array = [
-                    "error" => [
-                        "number" => "$error",
-                        "message" => "$msg"
-                    ]
-                ];
-                echo json_encode($array,JSON_UNESCAPED_UNICODE);
+                //$array = [
+                //    "error" => [
+                //        "number" => "$error",
+                //        "message" => "$msg"
+                //    ]
+                //];
+                //echo json_encode($array,JSON_UNESCAPED_UNICODE);
             }
 
-            $this->log('error', strip_tags("{$erro['title']} {$erro['message']} $value"));
+            $this->log('error', strip_tags("{$erro['title']} {$erro['message']}"));
         }
 
     }
@@ -72,13 +103,13 @@ class Mob
                 }
 
                 //PESQUISA PARTE 2
-                if($error){
+                if ($error) {
                     $pathComponents = [
                         'modal' => "packages/$cmp/{$cmp}Modal.php",
                         'component' => "packages/$cmp/{$cmp}Controller.php",
                         'view' => "packages/$cmp/{$cmp}View.php"
                     ];
-    
+
                     foreach ($pathComponents as $name => $path) {
                         if (!file_exists($path)) {
                             $error = true;
@@ -229,13 +260,43 @@ class Mob
 
     /*
     |--------------------------------------------------------------------------
+    | Adiciona o script do jQuery
+    |--------------------------------------------------------------------------
+    */
+    public function loadChart()
+    {
+        echo "<script src='https://cdn.jsdelivr.net/npm/chart.js'></script>";
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Carrega arquivo personalizado
+    |--------------------------------------------------------------------------
+    */
+    public function loadMob($type)
+    {
+        switch ($type) {
+            case 'css':
+                $this->loadMobcss();
+                break;
+            case 'js':
+                $this->loadMobjs();
+                break;
+            default:
+
+                break;
+        }
+    }
+
+    /*
+    |--------------------------------------------------------------------------
     | Carrega o estilo CSS personalizado
     |--------------------------------------------------------------------------
     */
     public function loadMobcss()
     {
         $time = (APP['mode'] == 0) ? "?t=" . time() : '';
-        echo "<link rel='stylesheet' href='/public/css/MainStyle.css$time'>";
+        echo "<link rel='stylesheet' href='/public/css/MainStyle.css$time'>\n";
     }
 
     /*
@@ -339,7 +400,7 @@ class Mob
     public function loadMobjs()
     {
         $time = (APP['mode'] == 0) ? "?t=" . time() : '';
-        echo "<script src='/ctrl/mob.min.js$time'></script>";
+        echo "    <script src='/ctrl/mob.min.js$time'></script>\n";
     }
 
     /*

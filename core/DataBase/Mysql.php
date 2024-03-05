@@ -191,17 +191,22 @@ class MySQL extends Root
      * @param int $id O ID do registro a ser excluído.
      * @return string JSON indicando sucesso ou falha na exclusão.
      */
-    public function delete($table, $id)
+    public function delete($table, $condition = null, $params = [])
     {
-        $sql = "DELETE FROM $table WHERE id = ?";
+        $sql = "DELETE FROM $table";
+
+        if ($condition) {
+            $sql .= " WHERE $condition";
+        }
 
         try {
             $statement = $this->pdo->prepare($sql);
-            $statement->execute([$id]);
+            $statement->execute($params);
             return json_encode(['success' => true]);
         } catch (PDOException $e) {
             // Lidar com erros de exclusão
             return json_encode(['success' => false, 'error' => $e->getMessage()]);
         }
     }
+
 }
