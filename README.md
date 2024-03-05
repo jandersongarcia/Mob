@@ -173,7 +173,7 @@ Certifique-se de revisar a documentação oficial de cada biblioteca para obter 
 - Depois de instalados, você pode criar um novo projeto através do comando _create-project_ do Composer:
 
 ```bash
-composer create-project --stability=dev jandersongarcia/mobi-php nome-do-projeto
+composer create-project --stability=dev jandersongarcia/mob nome-do-projeto
 ```
 
 ## Criação de Páginas
@@ -181,7 +181,7 @@ composer create-project --stability=dev jandersongarcia/mobi-php nome-do-projeto
 O MOB simplifica a criação de páginas automaticamente através do Composer.
 
 ```bash
-composer pages create nome-da-pagina nome-da-rota
+composer mob-create-page nome-da-pagina nome-da-rota
 ```
 
 - Isso criará a pasta da página e configurará a rota em core/json/routes.json.
@@ -199,7 +199,7 @@ composer pages create nome-da-pagina nome-da-rota
 - Para **excluir uma página**, utilize o comando.
 
 ```bash
-composer pages remove nome-da-pagina
+composer mob-remove-page nome-da-pagina
 ```
 
 ## Trabalhando com Rotas
@@ -218,12 +218,12 @@ composer pages remove nome-da-pagina
 - **Por exemplo**: Se precisar de uma subrota _empresa/cadastro_, o comando seria
 
 ```bash
-composer pages nome-da-pagina empresa/cadastro
+composer mob-create-page nome-da-pagina empresa/cadastro
 ```
 
 ### Listar Rotas
 
-- Caso precise listar as rotas da sua aplicação, poderá utilizar o comando **composer mobi-list-routes** ou acessá-las diretamente no arquivo json que fica em _core/json/routes.json_.
+- Caso precise listar as rotas da sua aplicação, poderá utilizar o comando **composer mob-list-routes** ou acessá-las diretamente no arquivo json que fica em _core/json/routes.json_.
 
 ```bash
 composer list-routes
@@ -231,8 +231,8 @@ composer list-routes
 
 ### Renomear rota
 
-- Para alterar o nome de uma rota, use o comando **composer mobi-rename-route rota-atual nova-rota**
-- Por exemplo: Supondo que precise alterar a rota _product_ para _register_, o comando ficaria o seguinte: **composer mobi-rename-route product register**
+- Para alterar o nome de uma rota, use o comando **composer mob-rename-route rota-atual nova-rota**
+- Por exemplo: Supondo que precise alterar a rota _product_ para _register_, o comando ficaria o seguinte: **composer mob-rename-route product register**
 
 ```bash
 composer rename-route rota-antiga nova-rota
@@ -244,7 +244,7 @@ A utilização de componentes oferece uma maneira simples e eficiente de reutili
 - Utilize o comando:
 
 ```bash
-composer component create nome-do-componente
+composer mob-create-component nome-do-componente
 ```
 
 - Isso criará o componente automaticamente dentro da pasta **components**.
@@ -260,7 +260,7 @@ composer component create nome-do-componente
 
 - Para excluir um componente, podemos usar o comando remove.
 ```bash
-composer component remove nome-do-componente
+composer mob-remove-component nome-do-componente
 ```
 
 ## Criação de Módulos
@@ -270,7 +270,7 @@ composer component remove nome-do-componente
 - Utilize o comando:
 
 ```bash
-composer module create nome-do-módulo
+composer mob-create-module nome-do-módulo
 ```
 
 ### Estrutura do Módulo Criado

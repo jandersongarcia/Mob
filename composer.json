@@ -40,8 +40,8 @@
         "mob-remove-module": "php core/Php/Composer/Module.Remove.php",
         "mob-create-page": "php core/Php/Composer/Page.Create.php",
         "mob-remove-page": "php core/Php/Composer/Page.Remove.php",        
-        "mob-route-list": "php core/Php/Composer/RouteList.php",
-        "mob-route-rename": "php core/Php/Composer/RouteRename.php",
+        "mob-list-route": "php core/Php/Composer/RouteList.php",
+        "mob-rename-route": "php core/Php/Composer/RouteRename.php",
         "maestro": "php core/Php/Composer/MobGenerator.php"
     },
     "minimum-stability": "dev",
