@@ -6,7 +6,7 @@
     "version": "1.2.0",
     "authors": [
         {
-            "name": "Janerson Garcia",
+            "name": "Janderson Garcia",
             "email": "jganjos.info@gmail.com"
         }
     ],
@@ -31,8 +31,7 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "npm install",
-            "App\\ScriptHandler::movePackage"
+            "npm install"
         ],
         "mob-create-component": "php core/Php/Composer/Componente.Create.php",
         "mob-remove-component": "php core/Php/Composer/Componente.Remove.php",
@@ -41,8 +40,7 @@
         "mob-create-page": "php core/Php/Composer/Page.Create.php",
         "mob-remove-page": "php core/Php/Composer/Page.Remove.php",        
         "mob-list-route": "php core/Php/Composer/RouteList.php",
-        "mob-rename-route": "php core/Php/Composer/RouteRename.php",
-        "maestro": "php core/Php/Composer/MobGenerator.php"
+        "mob-rename-route": "php core/Php/Composer/RouteRename.php"
     },
     "minimum-stability": "stable",
     "prefer-stable": true
