@@ -20,7 +20,7 @@
         "jquery": "^3.6.0",
         "navigo": "^7.1.0"
     },
-    "version": "1.2.0",
+    "version": "1.0.0",
     "require": {
         "php": ">=7.0",
         "matthiasmullie/minify": "^1.3",
