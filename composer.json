@@ -3,6 +3,7 @@
     "description": "Modular Object Builder",
     "type": "project",
     "license": "MIT",
+    "version": "1.0.0",
     "authors": [
         {
             "name": "Janerson Garcia",
