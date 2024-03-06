@@ -44,6 +44,6 @@
         "mob-rename-route": "php core/Php/Composer/RouteRename.php",
         "maestro": "php core/Php/Composer/MobGenerator.php"
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true
 }
