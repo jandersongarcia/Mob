@@ -10,10 +10,10 @@ return [
     | essenciais para o envio de e-mails através da sua aplicação. 
     |
     */
-    'host' => 'mail.codext.com.br', // Substitua pelo endereço do seu servidor SMTP
+    'host' => '', // Substitua pelo endereço do seu servidor SMTP
     'port' => 465, // Escolha entre 587 ou 465 para uma conexão segura usando SSL
-    'username' => 'atendimento@codext.com.br', // Substitua pelo seu endereço de e-mail
-    'password' => 'J4nd3r50n@', // Substitua pela sua senha
+    'username' => '', // Substitua pelo seu endereço de e-mail
+    'password' => '', // Substitua pela sua senha
     'smtp_secure' => 'ssl', // Escolha entre 'tls' ou 'ssl' para uma conexão segura
 
     /*
@@ -25,8 +25,8 @@ return [
     | importantes para o envio de e-mails pela aplicação. 
     |
     */
-    'from_email' => 'noreply@mob.net', // Endereço de e-mail padrão do remetente
-    'from_name' => 'MobiPHP', // Nome padrão do remetente
+    'from_email' => '', // Endereço de e-mail padrão do remetente
+    'from_name' => 'MOB', // Nome padrão do remetente
 
     /*
     |--------------------------------------------------------------------------

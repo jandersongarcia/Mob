@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'app_data_type' => 'mysql',
+    'app_data_type' => '',
 
     /*
     |--------------------------------------------------------------------------
@@ -37,8 +37,8 @@ return [
         'driver' => 'mysql',
         'host' => 'localhost',
         'port' => '3306',
-        'database' => 'eldorado',
-        'username' => 'root',
+        'database' => '',
+        'username' => '',
         'password' => '',
         'charset' => 'utf8mb4',
         'collation' => 'utf8mb4_unicode_ci',
