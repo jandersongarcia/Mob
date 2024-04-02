@@ -38,7 +38,10 @@
         "mob-create-page": "php core/Php/Composer/Page.Create.php",
         "mob-remove-page": "php core/Php/Composer/Page.Remove.php",        
         "mob-list-route": "php core/Php/Composer/RouteList.php",
-        "mob-rename-route": "php core/Php/Composer/RouteRename.php"
+        "mob-rename-route": "php core/Php/Composer/RouteRename.php",
+        "mob-control-install": "php core/Php/Composer/ControlInstall.php",
+        "mob-security" : "php core/Php/Composer/SecurityKey.php",
+        "mob-test-mail": "php core/Php/Composer/TestMail.php"
     },
     "minimum-stability": "stable",
     "prefer-stable": true

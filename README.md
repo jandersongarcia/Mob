@@ -440,15 +440,19 @@ Executa uma consulta SQL personalizada e retorna os resultados em JSON.
 
 Lembre-se de adaptar os exemplos conforme necessário para atender aos requisitos específicos da sua aplicação. Este é apenas um guia inicial para o uso do módulo de CRUD no MOB. Para obter informações detalhadas sobre outros métodos ou personalizações avançadas, consulte a documentação oficial do MOB.
 
-## Temas Prontos
+## Envio de E-mails
 
-- A criação de algumas telas como login e painel administrativo são padrões em todo o sistema. Pensando nestas situações, o MOB tem alguns temas que podem ser instalados em sua aplicação apenas com um comando.
-- Os temas são instalados em componentes e podem ser alterados conforme a necessidade;
+Para enviar e-mails, primeiro, preencha o arquivo *PhpMailer.php* localizado na pasta *Config*. Se estiver testando em um servidor local, verifique se a configuração está correta. Uma vez configurado, execute o seguinte comando para confirmar o envio:
 
-Painel administrativo:
-```bash
-composer mobi-theme-install panel-admin nome-do-componente
+```cmd
+composer mob-test-mail email@teste.com.br
 ```
+
+Substitua **email@teste.com.br** pelo endereço de e-mail para receber a mensagem de teste.
+
+### Envio de e-mail com template
+
+
 
 ## Requisições com JavaScript
 

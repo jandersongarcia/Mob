@@ -59,7 +59,7 @@ class MySQL extends Root
     {
         //$this->mob->ErrorMini();
         $error = "Não foi possível conectar ao banco de dados <strong>{$this->driver}</strong>.<br><strong>Erro: </strong><span>{$e->getMessage()}</span>";
-        require_once("./core/php/error.php"); // Supõe-se que o arquivo error.php esteja no caminho especificado.
+        require_once ("./core/php/error.php"); // Supõe-se que o arquivo error.php esteja no caminho especificado.
         exit();
     }
 
@@ -73,17 +73,24 @@ class MySQL extends Root
     public function query($sql, $params = [])
     {
         try {
-            // Prepara a consulta SQL e a executa com os parâmetros fornecidos.
-            $statement = $this->pdo->prepare($sql);
-            $statement->execute($params);
-            // Retorna os resultados da consulta como um array associativo convertido para JSON.
-            return json_encode($statement->fetchAll(PDO::FETCH_ASSOC));
+            // Verifica se a conexão PDO está estabelecida
+            if ($this->pdo instanceof PDO) {
+                // Prepara a consulta SQL e a executa com os parâmetros fornecidos.
+                $statement = $this->pdo->prepare($sql);
+                $statement->execute($params);
+                // Retorna os resultados da consulta como um array associativo convertido para JSON.
+                return json_encode($statement->fetchAll(PDO::FETCH_ASSOC));
+            } else {
+                // Se a conexão PDO não estiver estabelecida, retorna uma mensagem de erro
+                return json_encode(['error' => 'PDO connection error.'], JSON_UNESCAPED_UNICODE);
+            }
         } catch (PDOException $e) {
             // Se ocorrer um erro durante a consulta, pode-se lidar com ele aqui.
             // Exemplo: logar o erro, lançar exceção personalizada, etc.
             return false;
         }
     }
+
 
     // Método para inserir dados no banco de dados.
     /**
@@ -157,22 +164,30 @@ class MySQL extends Root
         }
     }
 
-    // Método para atualizar um registro em uma tabela.
     /**
-     * Atualiza um registro em uma tabela e retorna um JSON indicando sucesso ou falha.
+     * Atualiza registros em uma tabela com condições dinâmicas e retorna um JSON indicando sucesso ou falha.
      *
      * @param string $table O nome da tabela.
      * @param array $data Os novos dados a serem atualizados na tabela.
-     * @param int $id O ID do registro a ser atualizado.
+     * @param array $conditions Condições para a cláusula WHERE em formato de array associativo.
      * @return string JSON indicando sucesso ou falha na atualização.
      */
-    public function update($table, $data, $columnName, $columnValue)
+    public function update($table, $data, $conditions)
     {
         $setClause = implode('=?, ', array_keys($data)) . '=?';
-        $sql = "UPDATE $table SET $setClause WHERE $columnName = ?";
+        $conditionClauses = [];
+        $conditionValues = [];
+
+        foreach ($conditions as $key => $value) {
+            $conditionClauses[] = "$key = ?";
+            $conditionValues[] = $value;
+        }
+
+        $conditionClause = implode(' AND ', $conditionClauses);
+        $sql = "UPDATE $table SET $setClause WHERE $conditionClause";
 
         try {
-            $values = array_merge(array_values($data), [$columnValue]);
+            $values = array_merge(array_values($data), $conditionValues);
             $statement = $this->pdo->prepare($sql);
             $statement->execute($values);
             return json_encode(['success' => true]);

@@ -101,6 +101,26 @@ class Application
 
     /*
     |--------------------------------------------------------------------------
+    | Trata o valor da variável de valor-teste para valorTeste
+    |--------------------------------------------------------------------------
+    | $app->listRoutes();
+    */
+    public function trataVariavel($valor) {
+        // Transforma a primeira letra em minúscula
+        $valorTratado = lcfirst($valor);
+    
+        // Substitui todos os hífens por espaços
+        $valorTratado = str_replace('-', ' ', $valorTratado);
+    
+        // Remove os espaços e coloca a primeira letra de cada palavra em maiúscula
+        $valorTratado = str_replace(' ', '', ucwords($valorTratado));
+    
+        return $valorTratado;
+    }
+    
+
+    /*
+    |--------------------------------------------------------------------------
     | Lista as rotas do arquivo core/json/routes.json
     |--------------------------------------------------------------------------
     | $app->listRoutes();

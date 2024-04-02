@@ -31,7 +31,7 @@ if (count($divisor) > 1) {
 if (preg_match('/^\d/', $entrada)) {
     $msgErr = "O nome da página não pode começar com um número.\n";
 } else {
-    if (preg_match('/[^a-zA-Z0-9_]/', $entrada)) {
+    if (preg_match('/[^a-zA-Z0-9_-]/', $entrada)) {
         $msgErr = "O nome da página não deve conter caracteres especiais, exceto underline (_).\n";
     }
 }

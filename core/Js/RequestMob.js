@@ -1,4 +1,4 @@
-const mobi = {
+const mob = {
     get: function (url, successCallback, errorCallback) {
         var xhr = new XMLHttpRequest();
         xhr.open('GET', url, true);

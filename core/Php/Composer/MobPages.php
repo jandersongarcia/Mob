@@ -39,7 +39,7 @@ if (preg_match('/^\d/', $component)) {
     $msgErr = "O nome da página não deve começar com um número.\n";
 } else {
     // Remover caracteres especiais, exceto underline
-    $limpa = preg_replace('/[^a-zA-Z0-9_]/', '', $component);
+    $limpa = preg_replace('/[^a-zA-Z0-9_-]/', '', $component);
 
     // Verificar se a string mudou após a remoção dos caracteres especiais
     if ($component !== $limpa) {
@@ -68,7 +68,7 @@ if ($action == 'create') {
     $nomeRota = ($route == '/') ? '/' : $route;
 
     if (preg_match('/[^a-zA-Z0-9_\-\/]/', $nomeRota)) {
-        $msgErr = "O nome da rota não deve conter caracteres especiais, exceto hífen (-) ou underline (_).\n";
+        $msgErr = "O nome da rota não deve conter caracteres especiais, exceto hífen (-), barra(/) ou underline (_).\n";
     }
 
     if (isset($msgErr)) {
@@ -176,14 +176,19 @@ if ($action == 'create') {
     file_put_contents("app/pages/$nomePagina/{$nomePagina}View.php", "<div class='w-100 vh-100 bg-dark text-light d-flex flex-column justify-content-center align-items-center'>\n    <div class='mb-3'><img src='/core/Assets/Images/mob.png' alt='$langTitle'></div>\n    <p class='fs-5'>$langView $nomePagina</p>\n</div>");
     echo "Visualização da página $nomePagina: " . colorizar("[OK]", 32) . "\n";
 
+    $entrada = $nomePagina;
+    $palavras = explode('-', $entrada);
+    $palavrasCapitalizadas = array_map('ucwords', $palavras);
+    $novaString = implode('', $palavrasCapitalizadas);
+
     // Página Modal
-    file_put_contents("app/pages/$nomePagina/{$nomePagina}Modal.php", "<?php\n\nnamespace app\Pages;\n\nclass $nomePagina {\n\n    public " . '$title' . " = '$nomePagina';\n\n    // Declarar os componentes que serão usados na página.\n    public " . '$components' . " = [];\n\n}");
+    file_put_contents("app/pages/$nomePagina/{$nomePagina}Modal.php", "<?php\n\nnamespace app\Pages;\n\nclass $novaString {\n\n    public " . '$title' . " = '$nomePagina';\n\n    // Declarar os componentes que serão usados na página.\n    public " . '$components' . " = [];\n\n}");
     echo "Modal da página $nomePagina: " . colorizar("[OK]", 32) . "\n";
 
-    $arrayName = strtolower($nomePagina);
+    $arrayName = strtolower($novaString);
 
     // Página Controller
-    file_put_contents("app/pages/$nomePagina/{$nomePagina}Controller.php", "<?php\n\nuse app\Pages\\$nomePagina;\n\n$$arrayName = new $nomePagina();\n\n");
+    file_put_contents("app/pages/$nomePagina/{$nomePagina}Controller.php", "<?php\n\nuse app\Pages\\$novaString;\n\n$$arrayName = new $novaString();\n\n");
     echo "Controlador da página $nomePagina: " . colorizar("[OK]", 32) . "\n";
 
     // Folha de estilos CSS

@@ -7,6 +7,53 @@ $type = false;
 $message = '';
 $path = 'app/Modules/';
 
+if(APP['mode'] == 1){
+
+    if (isset($_SERVER['HTTP_ORIGIN'])) {
+        // Extrai o domínio da requisição
+        $origin = $_SERVER['HTTP_ORIGIN'];
+    
+        // Verifica se o domínio da requisição é igual ao domínio permitido
+        $allowedDomain = 'http://www.seudominio.com';
+        if ($origin === $allowedDomain) {
+            // O domínio da requisição é o mesmo que o domínio permitido
+            // Faça o processamento da requisição aqui
+            //echo "Requisição válida. Domínio permitido: $allowedDomain";
+        } else {
+            // O domínio da requisição não é permitido
+            // Retorne um código de status 403 - Acesso Negado
+            http_response_code(403);
+            $type = 'error';
+            $message = "Access denied. Domain not allowed: $origin";
+            // Você também pode encerrar o script aqui, se desejar
+            // exit();
+        }
+    } else {
+        // Se o cabeçalho "Origin" não estiver presente na requisição
+        // Isso pode indicar uma requisição não-CORS ou uma tentativa de acesso direto ao script PHP
+        // Nesse caso, você pode optar por retornar um código de status 403 - Acesso Negado ou executar outras ações conforme necessário
+        http_response_code(403);
+        $type = 'error';
+        $message = "Access denied. Missing 'Origin' header.";
+    }
+
+    if ($type !== false) {
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $errorMessage = "$message";
+        $mob->error($errorMessage);
+    
+        $msg = [
+            'type' => $type,
+            'msg' => $message
+        ];
+    
+        // Retorna a mensagem de erro como JSON
+        echo json_encode($msg, JSON_UNESCAPED_UNICODE);
+        exit();
+    }    
+
+}
+
 // Verifica se é um módulo
 if (file_exists("$path$ctrl")) {
 
@@ -34,32 +81,6 @@ if (file_exists("$path$ctrl")) {
             $message = "An error was encountered when trying to load the $ctrl module.";
         }
 
-        /*
-        // Inclui o arquivo de controller
-        if (file_exists("app/Modules/$ctrl/{$ctrl}modal.php")) {
-            require_once("app/Modules/$ctrl/{$ctrl}modal.php");
-
-            // Verifica se a classe do controller existe
-            if (class_exists("$ctrl")) {
-                $name = "$ctrl";
-                $$name = new $ctrl;
-
-                // Inclui o arquivo modal se existir
-                if (file_exists("app/Modules/$ctrl/{$ctrl}Controller.php")) {
-                    require_once("app/Modules/$ctrl/{$ctrl}Controller.php");
-                }
-            } else {
-                // Log e mensagem de erro se a classe do controller não existir
-                $type = 'error';
-                $message = "The '$ctrl' class does not exist.";
-            }
-
-        } else {
-            // Log e mensagem de erro se o arquivo de controller não existir
-            $type = 'error';
-            $message = "The '$ctrl' controller does not exist in '$path'.";
-        }
-        */
     } else {
         // Bloqueia o acesso ao módulo se o cabeçalho não for válido e o modo de aplicativo não for 0
         $type = 'blocked';

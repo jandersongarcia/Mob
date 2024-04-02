@@ -79,6 +79,10 @@ if ($app->path(0) == 'ctrl') {
     // Página controladora
     $root->get();
     require_once(ROOT . '/core/Php/Controllers/Controller.init.php');
+} else if ($app->path(0) == 'api'){
+    require_once(ROOT . '/core/Php/Api/apiModal.php');
+    require_once(ROOT . '/core/Php/Api/apiController.php');
+    require_once(ROOT . '/core/Php/Api/apiView.php');
 } else if (file_exists($appFilePath)) {
     // Carrega a página prestart
     require_once("config/Startup.php");

@@ -18,7 +18,9 @@ if ($app->checkHeader() || APP['mode'] == 0) {
 
     // Se não houver rotas definidas, retorna a lista de rotas em formato JSON
     if (empty($routes['data']['routes'])) {
+
         echo json_encode($routes, JSON_UNESCAPED_UNICODE);
+
     } else {
 
         $exist = false;
@@ -39,6 +41,7 @@ if ($app->checkHeader() || APP['mode'] == 0) {
             $js = "app/Pages/$controllerPath/$controllerName.js";
             $modal = "app/Pages/$controllerPath/{$controllerName}Modal.php";
             $controller = "app/Pages/$controllerPath/{$controllerName}Controller.php";
+            $className = className($controllerName);
 
             // Verifica se o arquivo da página existe e se a rota corresponde à página atual
             if (file_exists($js) && $route['path'] == strtolower($page)) {
@@ -79,20 +82,61 @@ if ($app->checkHeader() || APP['mode'] == 0) {
                 require_once($modal);
                 require_once($controller);
 
-                // Carrega os componentes declarados no modal
-                $var = strtolower($controllerName);
-                if (isset($$var->components)) {
-                    $scriptJs .= (printJS($$var->components));
+                $fullClassName = "app\Pages\\" . $className;
+
+                if (class_exists($fullClassName)) {
+
+                    $class = new $fullClassName;
+
+                    if (isset($class->packages)) {
+                        $pacotes = $class->packages;
+                        if (is_array($pacotes)) {
+                            $x = 0;
+                            foreach ($pacotes as $pacote => $valor) {
+                                if ($x == 0) {
+                                    $file0 = ROOT . "\packages\\$pacote\\$pacote.js";
+                                    if (file_exists($file0)) {
+                                        $scriptJs .= file_get_contents($file0);
+                                    }
+                                    if (is_array($valor)) {
+                                        foreach ($valor as $key => $value) {
+                                            $fileName = lcfirst(className($valor[$key]));
+                                            $file1 = ROOT . "\packages\\$pacote\\$fileName\\$fileName.js";
+                                            if (file_exists($file1)) {
+                                                $scriptJs .= file_get_contents($file1);
+                                            }
+                                        }
+                                    }
+                                    $x++;
+                                }
+                            }
+                        }
+                    }
+
+                    // Carrega os componentes declarados no modal
+                    if (isset($class->components)) {
+                        $cmp = $class->components;
+                        if (is_array($cmp)) {
+                            foreach ($cmp as $key => $value) {
+                                $cmpName = className($cmp[$key]);
+                                $file1 = ROOT . "\app\\Components\\$cmpName\\$cmpName.js";
+                                if (file_exists($file1)) {
+                                    $scriptJs .= file_get_contents($file1);
+                                }
+                            }
+                        }
+                    }
+
                 }
 
             }
 
-            echo "function $controllerName(){";
+            echo "function $className(){";
             // Utiliza o Minify\CSS para compactar os estilos
             $minifier = new Minify\JS();
             $minifier->add($scriptJs);
             echo $minifier->minify();
-            echo "} $controllerName();";
+            echo "} $className();";
         } else {
             $errorMessage = "$page' page not found in routes file.";
             $mob->error($errorMessage);
@@ -105,41 +149,11 @@ if ($app->checkHeader() || APP['mode'] == 0) {
     echo json_encode($return);
 }
 
-function printJS($array)
+function className($entrada)
 {
-    $jsContent = '';
+    $palavras = explode('-', $entrada);
+    $palavrasCapitalizadas = array_map('ucwords', $palavras);
+    $novaString = implode('', $palavrasCapitalizadas);
 
-    if (is_array($array) && !empty($array)) {
-        header('Content-Type: text/javascript');
-        foreach ($array as $key) {
-            $key = ucfirst($key);
-            $file = "app/Components/$key/$key.js";
-            if (file_exists($file)) {
-                $jsContent .= file_get_contents($file);
-            }
-        }
-
-        // Baixa a lista de pacotes
-        $pack = "core/Json/Packages.json";
-        if (file_exists($pack)) {
-            $json = json_decode(file_get_contents($pack), true);
-            if (isset($json['packages']['components'])) {
-                $packages = $json['packages']['components'];
-            }
-        }
-
-        foreach ($array as $key) {
-            $file = "packages/$key/$key.js";
-            if (isset($packages[$key])) {
-                $package = $packages[$key];
-                if ($package['enabled'] == 1) {
-                    if (file_exists($file)) {
-                        $jsContent .= "\n".trim(file_get_contents($file));
-                    }
-                }
-            }
-        }
-    }
-
-    return $jsContent;
+    return $novaString;
 }

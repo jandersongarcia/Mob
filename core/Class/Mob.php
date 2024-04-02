@@ -181,6 +181,52 @@ class Mob
 
     /*
     |--------------------------------------------------------------------------
+    | Gerador de senhas
+    |--------------------------------------------------------------------------
+     */
+    function createPass($n = 6, $useLowerCase = true, $useUpperCase = true, $useNumbers = true, $useSpecialChars = true) {
+        // Definições dos caracteres
+        $lowerCaseChars = 'abcdefghijklmnopqrstuvwxyz';
+        $upperCaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $numberChars = '0123456789';
+        $specialChars = '!@#$%^&*()-_=+';
+    
+        // Inicializa a variável de senha
+        $password = '';
+    
+        // Constrói o conjunto de caracteres com base nas configurações
+        $chars = '';
+    
+        if ($useLowerCase) {
+            $chars .= $lowerCaseChars;
+        }
+        if ($useUpperCase) {
+            $chars .= $upperCaseChars;
+        }
+        if ($useNumbers) {
+            $chars .= $numberChars;
+        }
+        if ($useSpecialChars) {
+            $chars .= $specialChars;
+        }
+    
+        // Calcula o tamanho do conjunto de caracteres
+        $charLength = strlen($chars);
+    
+        // Gera a senha
+        for ($i = 0; $i < $n; $i++) {
+            // Seleciona um caractere aleatório do conjunto de caracteres
+            $randomChar = $chars[rand(0, $charLength - 1)];
+            // Adiciona o caractere à senha
+            $password .= $randomChar;
+        }
+    
+        // Retorna a senha gerada
+        return $password;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
     | Retorna o título com base na URI
     |--------------------------------------------------------------------------
     */
