@@ -72,6 +72,7 @@ class Root
                         exit;
                     }
                 }
+                
             } else {
                 // Se o tipo de dado estiver vazio, define um array indicando que está desligado
                 $conn = ['data' => 'OFF'];

@@ -4,7 +4,7 @@
 	"keywords": ["mob", "framework"],
     "type": "project",
     "license": "MIT",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "authors": [
         {
             "name": "Janderson Garcia",
@@ -41,7 +41,9 @@
         "mob-rename-route": "php core/Php/Composer/RouteRename.php",
         "mob-control-install": "php core/Php/Composer/ControlInstall.php",
         "mob-security" : "php core/Php/Composer/SecurityKey.php",
-        "mob-test-mail": "php core/Php/Composer/TestMail.php"
+        "mob-test-mail": "php core/Php/Composer/TestMail.php",
+        "mob-package-install": "php core/Php/Composer/PackageInstall.php",
+        "mob-package-remove": "php core/Php/Composer/PackageRemove.php" 
     },
     "minimum-stability": "stable",
     "prefer-stable": true

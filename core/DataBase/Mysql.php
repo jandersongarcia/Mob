@@ -224,4 +224,32 @@ class MySQL extends Root
         }
     }
 
+     /**
+     * Executa múltiplos comandos SQL de uma string.
+     *
+     * @param string $sql A string contendo múltiplos comandos SQL separados por ponto e vírgula.
+     * @return array Retorna um array contendo o sucesso da operação e mensagens de erro, se houver.
+     */
+    public function execMulti($sql)
+    {
+        $queries = explode(';', $sql);
+        $errors = [];
+        $this->pdo->beginTransaction();
+
+        try {
+            foreach ($queries as $query) {
+                $query = trim($query);
+                if (!empty($query)) {
+                    $this->pdo->exec($query);
+                }
+            }
+            $this->pdo->commit();
+            return ['success' => true];
+        } catch (PDOException $e) {
+            $this->pdo->rollBack();
+            $errors[] = $e->getMessage();
+            return ['success' => false, 'errors' => $errors];
+        }
+    }
+
 }

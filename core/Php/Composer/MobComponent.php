@@ -20,7 +20,7 @@ $actions = ['create', 'remove'];
 
 if (!in_array($action, $actions)) {
     echo "\n$separadorLinha";
-    echo colorizar("Erro: ", 31) . "Linha de comando não reconhecida ou incompleta\n\n";
+    echo colorizar(" Erro: ", 31) . "Linha de comando não reconhecida ou incompleta\n\n";
     echo "USO: " . colorizar("composer", 33) . " component " . colorizar("action nameComponent", 33) . "\n\n";
     echo " Lista de " . colorizar("actions \n", 33);
     echo $separadorLinha;
