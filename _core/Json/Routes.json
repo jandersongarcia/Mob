@@ -1,0 +1,34 @@
+{
+    "routes": [
+        {
+            "path": "\/",
+            "controller": "Main",
+            "method": "ALL"
+        },
+        {
+            "path": "\/access",
+            "controller": "Access",
+            "method": "ALL"
+        },
+        {
+            "path": "\/access\/new-account",
+            "controller": "New-account",
+            "method": "ALL"
+        },
+        {
+            "path": "\/access\/forgot-pass",
+            "controller": "Forgot-Password",
+            "method": "ALL"
+        },
+        {
+            "path": "\/access\/new-pass",
+            "controller": "New-Password",
+            "method": "ALL"
+        },
+        {
+            "path": "\/access\/recovery-error",
+            "controller": "New-Password-Error",
+            "method": "ALL"
+        }
+    ]
+}

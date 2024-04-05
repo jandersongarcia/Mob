@@ -29,17 +29,17 @@ $package = @$argv[1];
 
 // Definindo os pacotes e seus respectivos nomes
 $packages = [
-    'access-control' => 'jandersongarcia/mobcontrol'
+    'mobcontrol' => 'jandersongarcia/mobcontrol'
 ];
 
 echo $separadorLinha;
 
-if (!array_key_exists($package, $packages)) {
+if (!array_key_exists(strtolower($package), $packages)) {
     echo "\n$separadorLinha";
     echo colorizar(" Erro: ", $red) . "Nome do pacote desconhecido ou incompleto\n\n";
     echo exibirTabela('Nome do Pacote ', 'Comando');
     echo $separadorLinha;
-    echo exibirTabela('Controle de acesso ', colorizar("access-control", 33));
+    echo exibirTabela('Controle de acesso ', colorizar("mobcontrol", 33));
     echo "$separadorLinha\n";
     echo colorizar(" Exemplo de uso: ", $yellow) . " Composer " . colorizar("mob-package-install", $cyan) . " nome-do-pacote\n\n";
     exit;
@@ -56,62 +56,13 @@ if (!is_dir(ROOT_DIR . "/vendor/$packageName")) {
 
 if ($packageName == 'jandersongarcia/mobcontrol') {
 
-    $directory = ROOT_DIR . "/packages/Mobcontrol/";
+    require_once('PackageMobControll.php');
+    removeMobControl();
 
-    if (is_dir($directory)) {
-        // Função para excluir recursivamente um diretório e seu conteúdo
-        function deleteDirectory($dir)
-        {
-            if (!file_exists($dir))
-                return true;
-            if (!is_dir($dir))
-                return unlink($dir);
-            foreach (scandir($dir) as $item) {
-                if ($item == '.' || $item == '..')
-                    continue;
-                if (!deleteDirectory($dir . DIRECTORY_SEPARATOR . $item))
-                    return false;
-            }
-            return rmdir($dir);
-        }
-
-        // Chamada da função para excluir o diretório e seu conteúdo
-        if (deleteDirectory($directory)) {
-            echo ' Removendo pacote do diretório ' . colorizar("packages/", $cyan) . ' ' . colorizar("[OK]", $green) . "\n";
-        } else {
-            echo ' Removendo pacote do diretório ' . colorizar("packages/", $cyan) . ' ' . colorizar("[ERROR]", $red) . "\n";
-        }
-    } else {
-        echo colorizar(" Erro: ", $red) . "Diretório do pacote não localizado\n";
-    }
-
-    $baseDir = ROOT_DIR . 'vendor\jandersongarcia\mobcontrol\src\email';
-
-    // Verifica se o diretório existe
-    if (is_dir($baseDir)) {
-        // Obtém a lista de arquivos e diretórios no diretório
-        $arquivos = scandir($baseDir);
-
-        // Remove os arquivos de e-mail
-        $arquivos = array_diff($arquivos, array('..', '.'));
-
-        // Exibe os arquivos
-        foreach ($arquivos as $arquivo) {
-            $emailFile = ROOT_DIR . "templates\Email\/$arquivo";
-            if (file_exists($emailFile)) {
-                if (unlink($emailFile)) {
-                    echo ' Excluindo template de e-mail ' . colorizar("$arquivo", $cyan) . ' ' . colorizar("[OK]", $green) . "\n";
-                } else {
-                    echo ' Excluindo template de e-mail ' . colorizar("$arquivo", $cyan) . ' ' . colorizar("[ERROR]", $red) . "\n";
-                }
-            }
-        }
-    } else {
-        echo colorizar(" Erro: ", $red) . "Diretório de templates não localizado.\n";
-        echo $baseDir;
-    }
 }
 
-echo "\n Removendo pacote $packageName\n";
+echo " Removendo pacote $packageName\n";
 
 $output = shell_exec("composer remove $packageName");
+
+echo colorizar(" Exclusão de pacote concluída!\n",$yellow);

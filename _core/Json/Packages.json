@@ -1,0 +1,11 @@
+{
+    "packages": {
+        "preloader": {
+            "name":"",
+            "enabled": false
+        },
+        "components": {
+            
+        }
+    }
+}

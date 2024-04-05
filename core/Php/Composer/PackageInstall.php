@@ -72,15 +72,15 @@ $package = @$argv[1];
 
 // Definindo os pacotes e seus respectivos nomes
 $packages = [
-    'access-control' => 'jandersongarcia/mobcontrol'
+    'mobcontrol' => 'jandersongarcia/mobcontrol'
 ];
 
-if (!array_key_exists($package, $packages)) {
+if (!array_key_exists(strtolower($package), $packages)) {
     echo "\n$separadorLinha";
     echo colorizar(" Erro: ", $red) . "Nome do pacote desconhecido ou incompleto\n\n";
     exibirTabela('Nome do Pacote ', 'Comando');
     echo $separadorLinha;
-    exibirTabela('Controle de acesso ', colorizar("access-control", 33));
+    exibirTabela('Controle de acesso ', colorizar("mobControl", 33));
     echo "$separadorLinha\n";
     echo colorizar(" Exemplo de uso: ", $yellow) . " Composer " . colorizar("mob-package-install", $cyan) . " nome-do-pacote\n\n";
     exit;
@@ -99,89 +99,8 @@ if (is_dir(ROOT_DIR . "/vendor/$packageName")) {
 $output = shell_exec("composer require $packageName");
 
 if ($packageName == 'jandersongarcia/mobcontrol') {
-    $sourceDir = ROOT_DIR . '/vendor/jandersongarcia/mobcontrol/src/mobcontrol';
-    $destinationDir = ROOT_DIR . '/packages/Mobcontrol';
-
-    //Banco de Dados
-    if ($data['app_data_type'] == '') {
-        echo "\n$separadorLinha";
-        echo colorizar(" ATENÇÃO: ", $yellow) . "Configure um banco de dados antes de iniciar.\n";
-        exit;
-    } elseif (isset($data['app_data_type'])) {
-
-        $type = $data['app_data_type'];
-        $config = $data[$type];
-
-        if ($type == 'mysql') {
-            try {
-                $dsn = "{$config['driver']}:host={$config['host']};dbname={$config['database']};charset={$config['charset']};port={$config['port']}";
-                $pdo = new PDO($dsn, $config['username'], $config['password']);
-                echo " Conexão com o MySQL realizada com sucesso!\n";
-
-                // Testa a conexão com o banco de dados
-                $code = file_get_contents(ROOT_DIR . 'vendor/jandersongarcia/mobcontrol/src/mobcontrol.sql');
-                echo execMulti($code, $pdo);
-
-            } catch (PDOException $e) {
-                die("Erro de conexão com o MySQL: " . $e->getMessage() ."\n");
-            }
-        }
-
-        if ($type == 'pgsql') {
-            try {
-                $dsn = "{$config['driver']}:host={$config['host']};dbname={$config['database']};user={$config['username']};password={$config['password']};port={$config['port']}";
-                $pdo = new PDO($dsn);
-                $pdo->exec("set names utf8");
-                echo " Conexão com o PostgreSQL realizada com sucesso!\n";
-            } catch (PDOException $e) {
-                die("Erro de conexão com o PostgreSQL: " . $e->getMessage());
-            }
-        }
-
-    } else {
-        echo colorizar(" ATENÇÃO: ", $yellow) . "Tipo de conexão com o banco de dados desconhecido.\n";
-        exit;
-    }
-
-    // Verifica se o diretório de destino já existe
-    if (!is_dir($destinationDir)) {
-        // Verifica se a pasta vendor/jandersongarcia/mobcontrol existe
-        if (is_dir($sourceDir)) {
-            // Copia a pasta para packages/Mobcontrol
-            if (!copyDirectory($sourceDir, $destinationDir)) {
-                echo colorizar(" Erro: ", $red) . "Não foi possível copiar a pasta Mobcontrol para o diretório packages.\n";
-                exit;
-            } else {
-                echo " Copiando arquivos do pacote: " . colorizar(" [OK] ", $green)."\n";
-            }
-        } else {
-            echo colorizar(" Erro: ", $red) . "A pasta Mobcontrol não existe no diretório vendor.\n";
-            exit;
-        }
-    } else {
-        echo colorizar(" Erro: ", $red) . "A pasta Mobcontrol já existe no diretório packages.\n";
-        exit;
-    }
-
-    $sourceDir = ROOT_DIR . 'vendor/jandersongarcia/mobcontrol/src/email';
-    $destinationDir = ROOT_DIR . '/templates/Email';
-
-    // Copia arquivos de src/email para templates/Email
-    if (is_dir($sourceDir)) {
-        $files = scandir($sourceDir);
-        foreach ($files as $file) {
-            if ($file != '.' && $file != '..') {
-                $sourceFile = $sourceDir . '/' . $file;
-                $destinationFile = $destinationDir . '/' . $file;
-                if (!file_exists($destinationFile)) {
-                    if (!copy($sourceFile, $destinationFile)) {
-                        echo colorizar(" Erro: ", $red) . "Não foi possível copiar o arquivo $file para o diretório templates/Email.\n";
-                    }
-                }
-            }
-        }
-        echo " Copiando arquivos de e-mail: " . colorizar(" [OK] ", $green) ."\n";
-    } else {
-        echo colorizar(" Erro: ", $red) . "O diretório src/email não existe no pacote.\n";
-    }
+    require_once('PackageMobControll.php');
+    InstallMobControl($data);
 }
+
+echo colorizar(" Instalação de pacote concluída!\n",$yellow);
