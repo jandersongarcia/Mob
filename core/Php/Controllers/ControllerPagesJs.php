@@ -79,8 +79,8 @@ if ($app->checkHeader() || APP['mode'] == 0) {
             // Verifica se existem componentes com scripts
             if (file_exists($modal) && file_exists($controller)) {
 
-                require_once($modal);
-                require_once($controller);
+                require_once ($modal);
+                require_once ($controller);
 
                 $fullClassName = "app\Pages\\" . $className;
 
@@ -90,14 +90,20 @@ if ($app->checkHeader() || APP['mode'] == 0) {
 
                     if (isset($class->packages)) {
                         $pacotes = $class->packages;
+
                         if (is_array($pacotes)) {
                             $x = 0;
                             foreach ($pacotes as $pacote => $valor) {
+
+                                $pacote = ucfirst($pacote);
+
                                 if ($x == 0) {
-                                    $file0 = ROOT . "\packages\\$pacote\\$pacote.js";
+                                    $file0 = ROOT . "\packages\\$pacote\\js\\$pacote.js";
+
                                     if (file_exists($file0)) {
                                         $scriptJs .= file_get_contents($file0);
                                     }
+
                                     if (is_array($valor)) {
                                         foreach ($valor as $key => $value) {
                                             $fileName = lcfirst(className($valor[$key]));
@@ -108,6 +114,22 @@ if ($app->checkHeader() || APP['mode'] == 0) {
                                         }
                                     }
                                     $x++;
+                                }
+
+                                $filePack = ROOT . "\packages\\$pacote\\$valor\\$valor.js";
+                                
+                                if (file_exists($filePack)) {
+                                    $scriptJs .= file_get_contents($filePack);
+                                }
+                                
+                                if (is_array($valor)) {
+                                    foreach ($valor as $key => $value) {
+                                        $fileName = lcfirst(className($valor[$key]));
+                                        $file1 = ROOT . "\packages\\$pacote\\$fileName\\$fileName.js";
+                                        if (file_exists($file1)) {
+                                            $scriptJs .= file_get_contents($file1);
+                                        }
+                                    }
                                 }
                             }
                         }

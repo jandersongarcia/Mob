@@ -15,7 +15,7 @@ function Security($value = true)
     }
 
     if (strpos($fileContents, 'mobControl()') === false) {
-        $modifiedContents = "$fileContents\n// Ativar segurança de sessions\n".'function mobControl(){ $security = true; if($security){$uri=$_SERVER["REQUEST_URI"];$keyword="accounts";if(strpos($uri,$keyword)!==false&&isset($_SESSION["STATE_USER"])){unset($_SESSION["STATE_USER"]);}if(empty($_SESSION["STATE_USER"])){if(strpos($uri,"/$keyword/")!==0){if(substr($uri,-1)!=="/"){header("Location: ".$uri."/");exit;}else{header("Location: /$keyword/");exit;}}}}} mobControl();';
+        $modifiedContents = "$fileContents\n// Ativar segurança de sessions\n" . 'function mobControl(){ $security = true; if($security){$uri=$_SERVER["REQUEST_URI"];$keyword="accounts";if(strpos($uri,$keyword)!==false&&isset($_SESSION["STATE_USER"])){unset($_SESSION["STATE_USER"]);}if(empty($_SESSION["STATE_USER"])){if(strpos($uri,"/$keyword/")!==0){if(substr($uri,-1)!=="/"){header("Location: ".$uri."/");exit;}else{header("Location: /$keyword/");exit;}}}}} mobControl();';
     } else {
         $modifiedContents = str_replace('$security = true;', '$security = false;', $fileContents);
     }
@@ -70,6 +70,32 @@ function trataUrlPack($value)
     }, $originalString);
 
     return $camelCaseString;
+
+}
+
+function EditModal($page,$pack)
+{
+
+    $ctrl = trataUrlPack($page);
+
+    // Caminho do arquivo
+    $filePath = ROOT_DIR . "app/Pages/$page/$page" . "Modal.php";
+
+    // Carregar o conteúdo do arquivo em uma string
+    $fileContents = file_get_contents($filePath);
+
+    // Encontra a posição da última chave fechada }
+    $lastBracePosition = strrpos($fileContents, '}');
+
+    $code = "    //Declara os pacotes que serão utilizados na página\n" . '    public $packages = ["mobcontrol"=>';
+    $code .= '"'.$pack.'"';
+    $code .= "];\n";
+
+    if ($lastBracePosition !== false) {
+        $fileContents = substr_replace($fileContents, $code, $lastBracePosition, 0);
+        // Salvar a string modificada de volta no arquivo
+        file_put_contents($filePath, $fileContents);
+    }
 
 }
 
@@ -208,6 +234,12 @@ function InstallMobControl($data)
     clean('accounts-forgot-pass');
     clean('accounts-new-pass');
     clean('accounts-recovery-error');
+
+    EditModal('accounts-login','login');
+    EditModal('accounts-new-account','newAccount');
+    EditModal('accounts-forgot-pass','forgotPass');
+    EditModal('accounts-new-pass','newPass');
+    EditModal('accounts-recovery-error','recoveryError');
 
     Security(true);
 }
