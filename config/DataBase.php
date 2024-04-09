@@ -32,16 +32,28 @@ return [
     | 'charset'   => O conjunto de caracteres usado na comunicação com o MySQL.
     | 'collation' => A configuração de colação usada pelo MySQL.
     |
-    */    
+    */
     'mysql' => [
-        'driver' => 'mysql',
-        'host' => 'localhost',
-        'port' => '3306',
-        'database' => '',
-        'username' => '',
-        'password' => '',
-        'charset' => 'utf8mb4',
-        'collation' => 'utf8mb4_unicode_ci',
+        'local' => [
+            'driver' => 'mysql',
+            'host' => 'localhost',
+            'port' => '3306',
+            'database' => '',
+            'username' => '',
+            'password' => '',
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci'
+        ],
+        'host' => [
+            'driver' => 'mysql',
+            'host' => 'localhost',
+            'port' => '3306',
+            'database' => '',
+            'username' => '',
+            'password' => '',
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci'
+        ]
     ],
 
     /*
@@ -60,16 +72,28 @@ return [
     | 'charset'  => O conjunto de caracteres usado na comunicação com o PostgreSQL.
     | 'schema'   => O nome do esquema no PostgreSQL.
     |
-    */    
+    */
     'pgsql' => [
-        'driver' => 'pgsql',
-        'host' => 'localhost',
-        'port' => '5432',
-        'database' => '',
-        'username' => '',
-        'password' => '',
-        'charset' => 'utf8',
-        'schema' => 'public',
+        'local' => [
+            'driver' => 'pgsql',
+            'host' => 'localhost',
+            'port' => '5432',
+            'database' => '',
+            'username' => '',
+            'password' => '',
+            'charset' => 'utf8',
+            'schema' => 'public'
+        ],
+        'host' => [
+            'driver' => 'pgsql',
+            'host' => 'localhost',
+            'port' => '5432',
+            'database' => '',
+            'username' => '',
+            'password' => '',
+            'charset' => 'utf8',
+            'schema' => 'public'
+        ]
     ],
 
 ];

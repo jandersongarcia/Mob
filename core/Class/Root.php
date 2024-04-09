@@ -39,6 +39,31 @@ class Root
 
     /*
     |--------------------------------------------------------------------------
+    | Verifica se o servidor é local.
+    |--------------------------------------------------------------------------
+    | 
+    */
+    private function isLocalhost()
+    {
+        // Lista de IPs locais comuns
+        $local_ips = array(
+            '127.0.0.1', // IPv4 do localhost
+            '::1'        // IPv6 do localhost
+        );
+
+        // Obtém o endereço IP do cliente
+        $remote_ip = $_SERVER['REMOTE_ADDR'];
+
+        // Verifica se o IP do cliente está na lista de IPs locais
+        if (in_array($remote_ip, $local_ips)) {
+            return true; // É localhost
+        } else {
+            return false; // Não é localhost (internet)
+        }
+    }
+
+    /*
+    |--------------------------------------------------------------------------
     | Define a conexão como constante CONN.
     |--------------------------------------------------------------------------
     | Exemplo de uso: $conn = CONN['mysql'];
@@ -61,7 +86,13 @@ class Root
                 // Verifica se o tipo de dado existe nas configurações
                 if (isset($dbConnect[$data])) {
                     // Se existir, utiliza as configurações correspondentes
-                    $conn = $dbConnect[$data];
+                    if ($this->isLocalhost()) {
+                        // Carrega dados da conexão local
+                        $conn = $dbConnect[$data]['local'];
+                    } else {
+                        // Carrega dados da conexão web
+                        $conn = $dbConnect[$data]['host'];
+                    }
                 } else {
                     $e = explode('/', $_SERVER['REQUEST_URI']);
                     // Se não existir, define um array com a mensagem de erro
@@ -72,7 +103,7 @@ class Root
                         exit;
                     }
                 }
-                
+
             } else {
                 // Se o tipo de dado estiver vazio, define um array indicando que está desligado
                 $conn = ['data' => 'OFF'];
@@ -136,7 +167,7 @@ class Root
         if (file_exists($appConfigPath)) {
             $appData = require $appConfigPath;
             define('LIB', $appData);
-                            
+
         } else {
             $this->mob->ErrorMini("err3003", "Library 'config/Lib.php' file not found.");
             exit;
@@ -213,11 +244,11 @@ class Root
         $appData = APP;
 
         if (isset($appData['language'])) {
-            $languageFile = ROOT."/core/Languages/{$appData['language']}.php";
+            $languageFile = ROOT . "/core/Languages/{$appData['language']}.php";
             if (file_exists($languageFile)) {
                 require_once $languageFile;
             } else {
-                $languageFile = ROOT."/core/Languages/pt-br.php";
+                $languageFile = ROOT . "/core/Languages/pt-br.php";
                 if (file_exists($languageFile)) {
                     require_once $languageFile;
                 } else {
