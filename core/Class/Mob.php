@@ -86,7 +86,7 @@ class Mob
         if (is_array($components)) {
             // Itera sobre os componentes fornecidos
             foreach ($components as $component) {
-                $cmp = $component;
+                $cmp = ucfirst($component);
 
                 // PESQUISA PARTE 1
                 $pathComponents = [

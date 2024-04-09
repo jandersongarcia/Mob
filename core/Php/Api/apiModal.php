@@ -25,7 +25,7 @@ class Api
             $parts = explode('api/', $_SERVER['REQUEST_URI']);
 
             // O caminho após '/api/' estará na segunda parte do array
-            $module = isset($parts[1]) ? $parts[1] : '';
+            $module = isset($parts[1]) ? ucfirst($parts[1]) : '';
 
             // Diretório base para os módulos
             $modulePath = "app/Modules/";

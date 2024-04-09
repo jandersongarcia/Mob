@@ -59,7 +59,7 @@ class MySQL extends Root
     {
         //$this->mob->ErrorMini();
         $error = "Não foi possível conectar ao banco de dados <strong>{$this->driver}</strong>.<br><strong>Erro: </strong><span>{$e->getMessage()}</span>";
-        require_once ("./core/php/error.php"); // Supõe-se que o arquivo error.php esteja no caminho especificado.
+        require_once ("./core/Php/Error.php"); // Supõe-se que o arquivo error.php esteja no caminho especificado.
         exit();
     }
 

@@ -48,15 +48,19 @@ $mob = new Mob;
 
 $data = CONN;
 
+$driver = ucfirst(@$data['driver']);
+
 // Cria a instancia do banco de dados
-switch (@$data['driver']) {
+switch ($driver) {
     case 'mysql':
-        require_once "./core/DataBase/{$data['driver']}.php";
+        
+        require_once "./core/DataBase/$driver}.php";
         $sql = new Database\MySQL\MySQL;
         break;
 
     case 'pgsql':
-        require_once "./core/DataBase/{$data['driver']}.php";
+        
+        require_once "./core/DataBase/$driver}.php";
         $sql = new Database\Postgre\PostgreSQL;
         break;
     default:

@@ -41,7 +41,7 @@ class PostgreSQL {
             $error = "Não foi possível conectar ao banco de dados <strong>{$this->driver}</strong>.<br><strong>Erro: </strong><span>{$e->getMessage()}</span>";
 
             // Exibindo uma página de erro ou redirecionando para uma página de erro
-            require_once("./core/php/error.php");
+            require_once("./core/Php/Error.php");
 
             exit();
         }

@@ -23,4 +23,4 @@ session_start();
 */
 DEFINE('ROOT',__DIR__);
 
-require_once('core/php/start.php');
+require_once('core/Php/Start.php');
