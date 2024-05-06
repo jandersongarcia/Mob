@@ -8,7 +8,7 @@ if (isset($headers['Authorization'])) {
 
     // Obtém o valor do cabeçalho 'Authorization'
     $authorizationHeader = $headers['Authorization'];
-    $client = $headers['Client'];
+    $client = isset($headers['Client']) ? $headers['Client'] : @$headers['client'];
 
     // Verifica se a string 'Bearer' está presente no cabeçalho
     if (strpos($authorizationHeader, 'Bearer') !== false) {

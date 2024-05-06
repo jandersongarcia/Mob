@@ -135,31 +135,31 @@ if ($config['app_data_type'] === 'mysql') {
     exit();
 }
 
-exec('composer require jandersongarcia/mobcontrol');
+exec('composer require jandersongarcia/userflow');
 
-// Verificar se o diretório 'mobcontrol' não existe em 'templates'
-$templatesDir = $dir . '/packages/MobControl';
+// Verificar se o diretório 'userflow' não existe em 'templates'
+$templatesDir = $dir . '/packages/userflow';
 if (!is_dir($templatesDir)) {
-    // Copiar o diretório 'src' para 'templates/mobcontrol'
-    $sourceDir = $dir . '/vendor/jandersongarcia/mobcontrol/pages';
+    // Copiar o diretório 'src' para 'templates/userflow'
+    $sourceDir = $dir . '/vendor/jandersongarcia/userflow/pages';
     rename($sourceDir, $templatesDir);
     echo " Carregamento do pacote: " . colorizar("[OK]", 'green') . "\n";
 } else {
     echo " Carregamento do pacote: " . colorizar("[CANCEL]", 'red') . "\n";
-    echo " O diretório " . colorizar("mobcontrol", 'green') . " já existe em templates.\n";
+    echo " O diretório " . colorizar("userflow", 'green') . " já existe em templates.\n";
     exit;
 }
 
-// Verificar se o diretório 'mobcontrol' não existe em 'templates'
+// Verificar se o diretório 'userflow' não existe em 'templates'
 $templatesDir = $dir . '/templates/Email';
 if (!is_dir($templatesDir)) {
-    // Copiar o diretório 'src' para 'templates/mobcontrol'
-    $sourceDir = $dir . '/vendor/jandersongarcia/mobcontrol/email';
+    // Copiar o diretório 'src' para 'templates/userflow'
+    $sourceDir = $dir . '/vendor/jandersongarcia/userflow/email';
     rename($sourceDir, $templatesDir);
     echo " Carregamento de modelos de e-mail: " . colorizar("[OK]", 'green') . "\n";
 } else {
     echo " Carregamento de modelos de e-mail: " . colorizar("[CANCEL]", 'red') . "\n";
-    echo " O diretório " . colorizar("mobcontrol", 'green') . " já existe em templates.\n";
+    echo " O diretório " . colorizar("userflow", 'green') . " já existe em templates.\n";
     exit;
 }
 

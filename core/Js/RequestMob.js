@@ -22,9 +22,18 @@ const mob = {
         xhr.send();
     },
 
-    post: function (url, formData, successCallback, errorCallback) {
+    post: function (url, formData, successCallback, errorCallback, progressCallback) {
         var xhr = new XMLHttpRequest();
         xhr.open('POST', url, true);
+
+        xhr.upload.onprogress = function(event) {
+            if (event.lengthComputable) {
+                var percentComplete = (event.loaded / event.total) * 100;
+                if (progressCallback) {
+                    progressCallback(percentComplete);  // Chama o callback de progresso
+                }
+            }
+        };
 
         xhr.onload = function () {
             if (xhr.status >= 200 && xhr.status < 300) {

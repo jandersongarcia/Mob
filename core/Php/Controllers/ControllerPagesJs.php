@@ -11,7 +11,7 @@ $page = "/" . strtolower($app->path(2));
 
 $query = explode('pagesjs/', $_SERVER['QUERY_STRING']);
 
-$page = (substr($query[1], -1) == "/") ? "/" . substr($query[1], 0, -1) : "/" . $query[1];
+$page = (substr($query[1], -1) == "/") ? "/" . substr(@$query[1], 0, -1) : "/" . @$query[1];
 
 // Verifica se o cabeçalho está presente ou se o modo do aplicativo é 0
 if ($app->checkHeader() || APP['mode'] == 0) {
@@ -52,7 +52,8 @@ if ($app->checkHeader() || APP['mode'] == 0) {
         }
 
         //Procura pelo pacote preloader
-        $packages = "core/Json/Packages.json";
+        $packages = ROOT . "core/Json/Packages.json";
+
         if (file_exists($packages)) {
             $packages = json_decode(file_get_contents($packages), true);
             $preloader = $packages['packages']['preloader'];
@@ -60,7 +61,7 @@ if ($app->checkHeader() || APP['mode'] == 0) {
             $prePackages = "";
             $load = isset($preloader['enabled']) ? $preloader['enabled'] : false;
             if (isset($preloader['files']) && $load === true) {
-                $local = "packages/$preName/{$preloader['files']['js']}";
+                $local = ROOT . "packages/$preName/{$preloader['files']['js']}";
                 if (file_exists($local)) {
                     $prePackages = file_get_contents($local);
                 }
@@ -90,24 +91,20 @@ if ($app->checkHeader() || APP['mode'] == 0) {
 
                     if (isset($class->packages)) {
                         $pacotes = $class->packages;
-
                         if (is_array($pacotes)) {
                             $x = 0;
                             foreach ($pacotes as $pacote => $valor) {
 
-                                $pacote = ucfirst($pacote);
-
                                 if ($x == 0) {
-                                    $file0 = ROOT . "\packages\\$pacote\\js\\$pacote.js";
+                                    $file0 = ROOT . "packages/$pacote/$pacote.js";
 
                                     if (file_exists($file0)) {
                                         $scriptJs .= file_get_contents($file0);
                                     }
-
                                     if (is_array($valor)) {
                                         foreach ($valor as $key => $value) {
                                             $fileName = lcfirst(className($valor[$key]));
-                                            $file1 = ROOT . "\packages\\$pacote\\$fileName\\$fileName.js";
+                                            $file1 = ROOT . "packages/$pacote/$fileName/$fileName.js";
                                             if (file_exists($file1)) {
                                                 $scriptJs .= file_get_contents($file1);
                                             }
@@ -116,21 +113,14 @@ if ($app->checkHeader() || APP['mode'] == 0) {
                                     $x++;
                                 }
 
-                                $filePack = ROOT . "\packages\\$pacote\\$valor\\$valor.js";
-                                
-                                if (file_exists($filePack)) {
-                                    $scriptJs .= file_get_contents($filePack);
+                                $valor = ucfirst($valor);
+
+                                $file = ROOT . "packages/$pacote/$valor/$valor.js";
+
+                                if(file_exists($file)){
+                                    $scriptJs .= file_get_contents($file);
                                 }
                                 
-                                if (is_array($valor)) {
-                                    foreach ($valor as $key => $value) {
-                                        $fileName = lcfirst(className($valor[$key]));
-                                        $file1 = ROOT . "\packages\\$pacote\\$fileName\\$fileName.js";
-                                        if (file_exists($file1)) {
-                                            $scriptJs .= file_get_contents($file1);
-                                        }
-                                    }
-                                }
                             }
                         }
                     }
@@ -141,9 +131,14 @@ if ($app->checkHeader() || APP['mode'] == 0) {
                         if (is_array($cmp)) {
                             foreach ($cmp as $key => $value) {
                                 $cmpName = className($cmp[$key]);
-                                $file1 = ROOT . "\app\\Components\\$cmpName\\$cmpName.js";
+                                $file1 = ROOT . "app/Components/$cmpName/$cmpName.js";
                                 if (file_exists($file1)) {
                                     $scriptJs .= file_get_contents($file1);
+                                } else {
+                                    $file1 = ROOT . "packages/$cmpName/$cmpName.js";
+                                    if (file_exists($file1)) {
+                                        $scriptJs .= file_get_contents($file1);
+                                    }
                                 }
                             }
                         }

@@ -20,14 +20,14 @@ class Mob
         return isset($slicePath[$n]) ? $slicePath[$n] : '';
     }
 
-    public function lib($mode, $array)
+    public function lib($mode, $array = false)
     {
         $type = ['css' => [], 'js' => []];
 
         if ($mode == 'css') {
-            $type['css'][] = '<link rel="stylesheet" href="/[local]">' . "\n";
+            $type['css'][] = '<link rel="stylesheet" href="[local]">' . "\n";
         } elseif ($mode == 'js') {
-            $type['js'][] = '<script src="/[local]"></script>' . "\n";
+            $type['js'][] = '<script src="[local]"></script>' . "\n";
         } else {
             return '<!-- Library data provided incorrectly or non-existent. -->';
         }
@@ -37,9 +37,20 @@ class Mob
         if (is_array($array)) {
             foreach ($array as $key) {
                 if (isset($library[$mode][$key])) {
+                    $barra = (strpos($library[$mode][$key], 'http') !== 0) ? '/' : '';
                     $space = ($n > 0 || $mode == 'css') ? '    ' : '';
-                    echo $space . str_replace('[local]', $library[$mode][$key], $type[$mode][0]);
+                    echo $space . str_replace('[local]', $barra . $library[$mode][$key], $type[$mode][0]);
                     $n++;
+                }
+            }
+        } else {
+            $library = isset($library[$mode]) ? $library[$mode] : null;
+            if (is_array($library)) {
+                foreach ($library as $key => $value) {
+                    $barra = (strpos($library[$key], 'http') !== 0) ? '/' : '';
+                    $space = ($n > 0 || $mode == 'css') ? '    ' : '';
+                    echo $space . str_replace('[local]', $barra . $library[$key], $type[$mode][0]);
+                    // $n++;
                 }
             }
         }
@@ -59,19 +70,9 @@ class Mob
                 'message' => $msg
             ];
 
-            // $value = (preg_match("/'(.*?)'/", $msg, $matches)) ? $matches[1] : '';
-
             if ($page) {
                 $value = '';
-                require_once($file);
-            } else {
-                //$array = [
-                //    "error" => [
-                //        "number" => "$error",
-                //        "message" => "$msg"
-                //    ]
-                //];
-                //echo json_encode($array,JSON_UNESCAPED_UNICODE);
+                require_once ($file);
             }
 
             $this->log('error', strip_tags("{$erro['title']} {$erro['message']}"));
@@ -121,9 +122,9 @@ class Mob
                 }
 
                 echo "<div mb-component='$cmp' id='{$cmp}Component'>";
-                require_once($pathComponents['modal']);
-                require_once($pathComponents['component']);
-                require_once($pathComponents['view']);
+                require_once ($pathComponents['modal']);
+                require_once ($pathComponents['component']);
+                require_once ($pathComponents['view']);
                 echo "</div>";
             }
         } else {
@@ -184,19 +185,20 @@ class Mob
     | Gerador de senhas
     |--------------------------------------------------------------------------
      */
-    function createPass($n = 6, $useLowerCase = true, $useUpperCase = true, $useNumbers = true, $useSpecialChars = true) {
+    function createPass($n = 6, $useLowerCase = true, $useUpperCase = true, $useNumbers = true, $useSpecialChars = true)
+    {
         // Definições dos caracteres
         $lowerCaseChars = 'abcdefghijklmnopqrstuvwxyz';
         $upperCaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $numberChars = '0123456789';
         $specialChars = '!@#$%^&*()-_=+';
-    
+
         // Inicializa a variável de senha
         $password = '';
-    
+
         // Constrói o conjunto de caracteres com base nas configurações
         $chars = '';
-    
+
         if ($useLowerCase) {
             $chars .= $lowerCaseChars;
         }
@@ -209,10 +211,10 @@ class Mob
         if ($useSpecialChars) {
             $chars .= $specialChars;
         }
-    
+
         // Calcula o tamanho do conjunto de caracteres
         $charLength = strlen($chars);
-    
+
         // Gera a senha
         for ($i = 0; $i < $n; $i++) {
             // Seleciona um caractere aleatório do conjunto de caracteres
@@ -220,7 +222,7 @@ class Mob
             // Adiciona o caractere à senha
             $password .= $randomChar;
         }
-    
+
         // Retorna a senha gerada
         return $password;
     }
@@ -266,7 +268,7 @@ class Mob
                     // Verifica se o arquivo do controlador existe
                     if (file_exists($fileController)) {
                         // Inclui o arquivo do controlador
-                        require_once($fileController);
+                        require_once ($fileController);
 
                         // Cria uma instância do controlador
                         $$route = new $route;
@@ -454,20 +456,32 @@ class Mob
     | Registra mensagens de erro no arquivo de log
     |--------------------------------------------------------------------------
     */
-    public function error($message)
+    public function error($message,$type = 'ERROR')
     {
+        // Obter o endereço IP do cliente
         $ipAddress = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '0.0.0.0';
+
+        // Obter a URI da solicitação (filtrada para evitar XSS)
         $uri = filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
-        $errorMessage = date('Y-m-d H:i:s') . ";error;{$ipAddress};{$uri};$message\n";
-        error_log($errorMessage, 3, 'var/logs/mob.log');
+
+        // Construir a mensagem de erro no formato desejado
+        $errorMessage = date('Y-m-d H:i:s') . " - $type: $message, ";
+
+        // Adicionar informações adicionais ao registro de erro
+        $errorMessage .= "IP ADRESS: $ipAddress, ";
+        $errorMessage .= "URL: $uri\n";
+
+        // Escrever a mensagem de erro no log
+        error_log($errorMessage, 3, 'var/Logs/Mob.log'); 
     }
+
 
     public function log($type = 'error', $message)
     {
         $ipAddress = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '0.0.0.0';
         $uri = filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
         $errorMessage = date('Y-m-d H:i:s') . ";$type;{$ipAddress};{$uri};$message\n";
-        error_log($errorMessage, 3, 'var/logs/mob.log');
+        error_log($errorMessage, 3, 'var/Logs/Mob.log');
     }
 
     /**
@@ -480,7 +494,7 @@ class Mob
      * @param string|null $fromName Nome do remetente (se null, usa o configurado)
      *
      * @return bool Retorna true se o e-mail for enviado com sucesso, false caso contrário.
-     */
+     */ 
     public function sendMail($to, $subject, $body, $fromEmail = null, $fromName = null)
     {
         // Verifica se a constante MAIL foi definida
@@ -573,7 +587,7 @@ class Mob
         $file = "templates/others/registration_for_new_users.php";
         if (@MADMIN['registration_for_new_users']) {
             if (file_exists($file)) {
-                require_once($file);
+                require_once ($file);
             }
         }
     }

@@ -117,6 +117,10 @@ if ($app->checkHeader() || APP['mode'] == 0) {
                     $minifier->add(printCss($$var->components));
                 }
 
+                if (isset($$var->packages)) {
+                    $minifier->add(printCss($$var->packages));
+                }
+
                 // Imprime o estilo minificado
                 echo "<style>{$minifier->minify()}</style>";
                 if (isset($prePackagesPage))
@@ -147,8 +151,15 @@ function printCss($array)
             $file = "app/Components/$key/$key.css";
 
             if (file_exists($file)) {
-                //$idName = "#{$key}Component";
-                //$lines = file($file);
+                $css .= encapsulaCSS($key,$file);
+            }
+        }
+
+        foreach ($array as $key) {
+            $key = ucfirst($key);
+            $file = "packages/$key/$key.css";
+
+            if (file_exists($file)) {
                 $css .= encapsulaCSS($key,$file);
             }
         }

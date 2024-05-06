@@ -33,8 +33,6 @@ class Root
         $this->defineMobLanguage();
 
         $this->defineLib();
-
-
     }
 
     /*
@@ -91,7 +89,7 @@ class Root
                         $conn = $dbConnect[$data]['local'];
                     } else {
                         // Carrega dados da conexão web
-                        $conn = $dbConnect[$data]['host'];
+                        $conn = $dbConnect[$data]['web'];
                     }
                 } else {
                     $e = explode('/', $_SERVER['REQUEST_URI']);

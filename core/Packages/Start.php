@@ -7,9 +7,10 @@ require_once ROOT . 'vendor/autoload.php';
 use Core\MClass\Root as RootAlias;
 use Core\MClass\Application;
 use Core\MClass\Mob;
-use Core\MClass\Packages;
 use MatthiasMullie\Minify;
 use languages\Language;
+
+require_once 'core/Packages/PanelControl.php';
 
 /*
 |----------------------------------------------------------------
@@ -55,24 +56,16 @@ $driver = ucfirst(@$data['driver']);
 switch ($driver) {
     case 'Mysql':
         require_once ROOT."/core/DataBase/$driver.php";
-        $sql = Database\MySQL\MySQL::getInstance();
+        $sql = new Database\MySQL\MySQL;
         break;
+
     case 'Pgsql':
+        
         require_once ROOT."/core/DataBase/$driver}.php";
         $sql = new Database\Postgre\PostgreSQL;
         break;
     default:
 }
-
-// Carrega script dos pacotes
-if(isset(APP['packages'])){
-    foreach(APP['packages'] as $key => $value){
-        // UserFlow
-        if($key == 'UserFlow' && $value == 1){
-            require_once ROOT."core/Packages/UserFlow.php";
-        }
-    }
-};
 
 /*
 |----------------------------------------------------------------

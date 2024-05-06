@@ -7,7 +7,7 @@ class Api
 
     public function verify($client, $token)
     {
-        $file = "core\\Php\\Api\\apiKey.php";
+        $file = ROOT . "core/Php/Api/ApiKey.php";
 
         if (file_exists($file)) {
             $config = include $file;
@@ -19,10 +19,10 @@ class Api
     public function module()
     {
         // Verifica se a URI contém '/api/'
-        if (strpos($_SERVER['REQUEST_URI'], '/api/') !== false) {
+        if (strpos($_SERVER['REQUEST_URI'], '/Api/') !== false) {
 
             // Divide a URI para obter o caminho após '/api/'
-            $parts = explode('api/', $_SERVER['REQUEST_URI']);
+            $parts = explode('Api/', $_SERVER['REQUEST_URI']);
 
             // O caminho após '/api/' estará na segunda parte do array
             $module = isset($parts[1]) ? ucfirst($parts[1]) : '';

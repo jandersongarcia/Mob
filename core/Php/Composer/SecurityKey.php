@@ -14,12 +14,17 @@ if ($argc > 1) {
     if ($argv[1] == 'create') {
         echo $separadorLinha;
         generate();
-        echo $separadorLinha."\n";
+        echo $separadorLinha . "\n";
 
-    } else if ($argv[1] == 'key') {
+    } else if ($argv[1] == 'print') {
         echo $separadorLinha;
         printKey();
-        echo $separadorLinha."\n";
+        echo $separadorLinha . "\n";
+
+    } else if ($argv[1] == 'reset') {
+        echo "\n";
+        resetKey();
+        echo "\n\n";
 
     } else {
         $error = true;
@@ -32,7 +37,8 @@ if ($error) {
     $mensagemAtencao = colorizar("Atenção: ", 31) . "Comando usado de forma incorreta.\n";
     $uso = "----------------------------------------------------------------------\n";
     $uso .= " | Criar uma nova chave de segurança   | composer mob-security " . colorizar("create", 36) . " |\n";
-    $uso .= " | Imprimir a chave de segurança atual | composer mob-security " . colorizar("key", 36) . "    |\n";
+    $uso .= " | Imprimir a chave de segurança atual | composer mob-security " . colorizar("print", 36) . "  |\n";
+    $uso .= " | Limpar todas as chaves              | composer mob-security " . colorizar("reset", 36) . "  |\n";
     $uso .= " ----------------------------------------------------------------------";
     echo "\n $mensagemAtencao $uso\n";
     exit;
@@ -41,7 +47,7 @@ if ($error) {
 function generate()
 {
 
-    $file = "core\\Php\\Api\\apiKey.php";
+    $file = "core/Php/Api/ApiKey.php";
 
     if (file_exists($file)) {
 
@@ -53,15 +59,35 @@ function generate()
         $newContent = "<?php\n\nreturn [\n    'client' => '$client',\n    'secret' => '$secret'\n];\n";
 
         file_put_contents($file, $newContent);
+        echo colorizar("Código do cliente: ", 32) . "$client\n";
         echo colorizar("Chave de segurança: ", 32) . "$key";
 
     }
 
 }
 
+function resetKey()
+{
+
+    $arquivo = "core/Php/Api/ApiKey.php";
+
+    if (file_exists($arquivo)) {
+
+        // Substituir as informações de client e secret
+        $conteudoNovo = "<?php\n\nreturn [\n    'client' => null,\n    'secret' => null\n];\n";
+
+        if (file_put_contents($arquivo, $conteudoNovo)) {
+            echo "- Limpeza das chaves de segurança. " . colorizar("[OK]", "32"); // 32 é o código para verde
+        } else {
+            echo "- Limpeza das chaves de segurança. " . colorizar("[ERROR]", "31"); // 31 é o código para vermelho
+        }
+    }
+
+}
+
 function printKey()
 {
-    $file = "core\\Php\\Api\\apiKey.php";
+    $file = "core/Php/Api/apiKey.php";
 
     if (file_exists($file)) {
         $config = include $file;
@@ -72,7 +98,8 @@ function printKey()
         $newContent = "<?php\n\nreturn [\n    'client' => '$client',\n    'secret' => '$secret'\n];\n";
 
         file_put_contents($file, $newContent);
-        echo colorizar("Chave de segurança: ", 32) . "$key";
+        echo colorizar(" Código do cliente: ", 32) . "$client\n";
+        echo colorizar(" Chave de segurança: ", 32) . "$key";
     }
 }
 
@@ -132,5 +159,5 @@ function verifyKey($key, $client, $secret)
     );
 
     // Verifica se a chave gerada é igual à esperada
-    return($key === $expectedKey);
+    return ($key === $expectedKey);
 }

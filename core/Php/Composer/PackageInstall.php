@@ -72,7 +72,7 @@ $package = @$argv[1];
 
 // Definindo os pacotes e seus respectivos nomes
 $packages = [
-    'mobcontrol' => 'jandersongarcia/mobcontrol'
+    'userflow' => 'jandersongarcia/userflow'
 ];
 
 if (!array_key_exists(strtolower($package), $packages)) {

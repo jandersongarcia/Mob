@@ -4,8 +4,55 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4c866aed3d0ddd12a4a921db926f2191",
+    "content-hash": "b11ac10837655a136d714a57687fc2ec",
     "packages": [
+        {
+            "name": "jandersongarcia/mobcontrol",
+            "version": "1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jandersongarcia/mobControl.git",
+                "reference": "a3e133b6f965c759609d683b604212a6a754853c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jandersongarcia/mobControl/zipball/a3e133b6f965c759609d683b604212a6a754853c",
+                "reference": "a3e133b6f965c759609d683b604212a6a754853c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "jandersongarcia\\mobcontrol\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Janderson Garcia",
+                    "email": "jganjos.info@gmail.com",
+                    "role": "creator and developer"
+                }
+            ],
+            "description": "Dashboard MOB",
+            "keywords": [
+                "dashboard",
+                "instalador",
+                "mob",
+                "painel de controle"
+            ],
+            "support": {
+                "issues": "https://github.com/jandersongarcia/mobControl/issues",
+                "source": "https://github.com/jandersongarcia/mobControl/tree/1.0.4"
+            },
+            "time": "2024-04-02T20:51:33+00:00"
+        },
         {
             "name": "matthiasmullie/minify",
             "version": "1.3.73",

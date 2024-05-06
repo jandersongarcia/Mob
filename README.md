@@ -38,7 +38,8 @@ Esta documentação fornece informações cruciais para começar o desenvolvimen
     - [`update($table, $data, $id)`](#updatetable-data-id)
     - [`delete($table, $id)`](#deletetable-id)
     - [`query($sql, $params)`](#querysql-params)
-  - [Temas Prontos](#temas-prontos)
+  - [Envio de E-mails](#envio-de-e-mails)
+    - [Envio de e-mail com template](#envio-de-e-mail-com-template)
   - [Requisições com JavaScript](#requisições-com-javascript)
   - [Contribuição](#contribuição)
   - [Licença](#licença)
@@ -286,29 +287,41 @@ O CRUD (Create, Read, Update, Delete) do MOB facilita a manipulação de dados e
 
 ### Configuração do Banco de Dados
 
-Antes de utilizar o módulo de CRUD, é necessário configurar as informações do banco de dados no arquivo `database.php` dentro da pasta `config`. Certifique-se de fornecer as informações corretas de acordo com o banco de dados que você está utilizando (MySQL ou PostgreSQL).
+Antes de utilizar o módulo de CRUD, é necessário configurar as informações do banco de dados no arquivo `database.php` dentro da pasta `config`. Certifique-se de fornecer as informações corretas de acordo com o banco de dados que você está utilizando (MySQL ou PostgreSQL). *O PostgreSQL atualmente está inoperante Inoperante*.
+
+Para a seção mysql, preencha os campos "local" com os dados da sua conexão local e "web" com os dados do banco de dados do seu servidor web. Dessa maneira, a configuração precisa ser realizada apenas uma vez, proporcionando uma experiência mais eficiente.
 
 ```php
 // Exemplo de configuração para MySQL
 'app_data_type' => 'mysql',
 'mysql' => [
-    'driver' => 'mysql',
-    'host' => 'localhost',
-    'port' => '3306',
-    'database' => 'mobidb',
-    'username' => 'root',
-    'password' => '',
-    'charset' => 'utf8mb4',
-    'collation' => 'utf8mb4_unicode_ci',
+  'local' => [
+      'driver' => 'mysql',
+      'host' => 'localhost',
+      'port' => '3306',
+      'database' => '',
+      'username' => '',
+      'password' => '',
+      'charset' => 'utf8mb4',
+      'collation' => 'utf8mb4_unicode_ci'
+  ],
+  'web' => [
+      'driver' => 'mysql',
+      'host' => 'localhost',
+      'port' => '3306',
+      'database' => '',
+      'username' => '',
+      'password' => '',
+      'charset' => 'utf8mb4',
+      'collation' => 'utf8mb4_unicode_ci'
+  ]
 ],
 
 // Exemplo de configuração para PostgreSQL
 'app_data_type' => 'pgsql',
 'pgsql' => [
     'driver' => 'pgsql',
-    'host'
-
- => 'localhost',
+    'host' => 'localhost',
     'port' => '5432',
     'database' => '',
     'username' => '',

@@ -44,7 +44,7 @@ return [
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci'
         ],
-        'host' => [
+        'web' => [
             'driver' => 'mysql',
             'host' => 'localhost',
             'port' => '3306',
@@ -84,7 +84,7 @@ return [
             'charset' => 'utf8',
             'schema' => 'public'
         ],
-        'host' => [
+        'web' => [
             'driver' => 'pgsql',
             'host' => 'localhost',
             'port' => '5432',
